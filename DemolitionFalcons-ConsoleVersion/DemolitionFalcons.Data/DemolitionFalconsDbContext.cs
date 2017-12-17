@@ -11,11 +11,13 @@
         {
         }
 
-        protected DemolitionFalconsDbContext()
+        public DemolitionFalconsDbContext()
         {
         }
 
-        public DbSet<Character> Characters { get; set; }
+        public DbSet<Player> Players { get; set; }
+        public DbSet<Weapon> Weapons { get; set; }
+        public DbSet<PlayerWeapon> PlayerWeapons { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -27,7 +29,9 @@
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new CharacterConfig());
+            modelBuilder.ApplyConfiguration(new PlayerConfig());
+            modelBuilder.ApplyConfiguration(new WeaponConfig());
+            modelBuilder.ApplyConfiguration(new PlayerWeaponConfig());
         }
     }
 }

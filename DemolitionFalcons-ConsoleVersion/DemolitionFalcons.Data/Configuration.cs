@@ -1,8 +1,8 @@
 ﻿namespace DemolitionFalcons.Data
 {
-    public class Configuration
+    public static class Configuration
     {
         //Enter your connection string here
-        public static string ConnectionString = "";
+        public const string ConnectionString = @"";
     }
 }
