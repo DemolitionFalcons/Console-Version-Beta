@@ -6,7 +6,7 @@
     {
         public MapSection[][] GenerateMap()
         {
-            //fill a basic level with different square
+            //fill a basic level with different squares
             int mapHeight = 10;
             int mapLength = mapHeight;
             var map = new MapSection[10][];

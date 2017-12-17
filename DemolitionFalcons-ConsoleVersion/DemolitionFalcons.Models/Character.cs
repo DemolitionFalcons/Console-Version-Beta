@@ -8,6 +8,8 @@
         public Character()
         {
             this.Games = new List<GameCharacter>();
+            this.Hp = 100;
+            this.Armour = 100;
         }
 
         public int Id { get; set; }

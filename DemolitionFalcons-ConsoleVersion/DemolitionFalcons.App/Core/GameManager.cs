@@ -1,6 +1,8 @@
 ﻿namespace DemolitionFalcons.App.Core
 {
     using DemolitionFalcons.App.Interfaces;
+    using DemolitionFalcons.Data;
+    using DemolitionFalcons.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -11,10 +13,27 @@
     {
         // Most of the methods that WILL be added here later must work with the database or with DTO (Data Transfer Objects)
         public int charactersCreated;
+        private DemolitionFalconsDbContext context;
 
-        public string AddRoom(IList<string> arguments)
+        public GameManager(DemolitionFalconsDbContext context)
         {
-            throw new NotImplementedException();
+            this.context = context;
+        }
+
+        public string AddRoom(IList<string> arguments)// or AddGame
+        {
+            var gameName = arguments[0];
+
+            var game = new Game
+            {
+                Name = gameName,
+                Money = 200,//by default
+                Xp = 50
+            };
+
+            context.Games.Add(game);
+            context.SaveChanges();
+            return "Room created";
         }
 
         public string CreateCharacter(IList<string> arguments)
@@ -34,7 +53,7 @@
             sb.AppendLine("The game here is completed by typing commands in the console.");
             sb.AppendLine("Here are the basic commands:");
             sb.AppendLine(">Create {Name} -> you will be send further to edit the info of the character you're up to create with the given name");
-            sb.AppendLine(">Add Room -> you will be send further to create a playing room");
+            sb.AppendLine(">AddRoom {Name} -> you will be send further to create a playing room");
             sb.AppendLine(">Join Room -> choose from a list of all currently available rooms");
             sb.AppendLine(">Inspect Character -> get overall info about your character");
             sb.AppendLine(">Delete Character -> delete a specified character ");

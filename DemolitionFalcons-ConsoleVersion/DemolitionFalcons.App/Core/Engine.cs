@@ -15,12 +15,12 @@
 
         public Engine()
         {
-            this.gameManager = new GameManager();
             //connects to the db
             this.context = new DemolitionFalconsDbContext();
             SetUpDatabase();
             //tries to connect to the db
             Seed(context);
+            this.gameManager = new GameManager(context);
         }
 
         private void Seed(DemolitionFalconsDbContext context)
@@ -209,10 +209,10 @@
             {
                 return ResetDatabase(context);
             }
-            if (command != "Create" && gameManager.charactersCreated == 0 && command != "Help" && command != "Quit")
-            {
-                return "In order to proceed further in the features of the game, you must first create a character!";
-            }
+            //if (command != "Create" && gameManager.charactersCreated == 0 && command != "Help" && command != "Quit")
+            //{
+            //    return "In order to proceed further in the features of the game, you must first create a character!";
+            //}
             Type commandType = Type.GetType("DemolitionFalcons.App.Commands" + "." + command + "Command");
             var constructor = commandType.GetConstructor(new Type[] { typeof(IList<string>), typeof(IManager) });
             ICommand cmd = (ICommand)constructor.Invoke(new object[] { arguments, this.gameManager });
@@ -263,7 +263,7 @@
             sb.AppendLine("So, in order to play the game you should know some basic commands:");
             sb.AppendLine("In order to begin you professional experience in the fighting environment, you must first create a characcter!");
             sb.AppendLine(">Create {Name} -> you will be send further to edit the info of the character you're up to create with the given name");
-            sb.AppendLine(">Add Room -> you will be send further to create a playing room");
+            sb.AppendLine(">AddRoom {Name} -> you will be send further to create a playing room");
             sb.AppendLine(">Join Room -> choose from a list of all currently available rooms");
             sb.AppendLine(">Inspect Character -> get overall info about your character");
             sb.AppendLine(">Delete Character -> delete a specified character ");
