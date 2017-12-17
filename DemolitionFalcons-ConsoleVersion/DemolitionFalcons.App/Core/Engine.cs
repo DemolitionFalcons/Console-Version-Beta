@@ -14,7 +14,7 @@
         private DemolitionFalconsDbContext context;
 
         public Engine()
-        {
+        {            
             //connects to the db
             this.context = new DemolitionFalconsDbContext();
             SetUpDatabase();
@@ -49,6 +49,16 @@
                 };
 
                 weapons.Add(m4a1s);
+
+                var glock = new Weapon
+                {
+                    Name = "Glock",
+                    ClipSize = 15,
+                    TotalCapacity = 90,
+                    Damage = 10
+                };
+
+                weapons.Add(glock);
 
                 context.Weapons.AddRange(weapons);
                 context.SaveChanges();
@@ -209,10 +219,10 @@
             {
                 return ResetDatabase(context);
             }
-            //if (command != "Create" && gameManager.charactersCreated == 0 && command != "Help" && command != "Quit")
-            //{
-            //    return "In order to proceed further in the features of the game, you must first create a character!";
-            //}
+            if (command != "Register" && gameManager.Players.Count == 1 && command != "Help" && command != "Quit")
+            {
+                return "In order to proceed further in the features of the game, you must first create a character!";
+            }
             Type commandType = Type.GetType("DemolitionFalcons.App.Commands" + "." + command + "Command");
             var constructor = commandType.GetConstructor(new Type[] { typeof(IList<string>), typeof(IManager) });
             ICommand cmd = (ICommand)constructor.Invoke(new object[] { arguments, this.gameManager });
@@ -262,8 +272,9 @@
             sb.AppendLine("The game here will be completed by typing commands in the console.");
             sb.AppendLine("So, in order to play the game you should know some basic commands:");
             sb.AppendLine("In order to begin you professional experience in the fighting environment, you must first create a characcter!");
+            sb.AppendLine(">Register -> go on to register a user");
             sb.AppendLine(">Create {Name} -> you will be send further to edit the info of the character you're up to create with the given name");
-            sb.AppendLine(">AddRoom {Name} -> you will be send further to create a playing room");
+            sb.AppendLine(">Add Room -> you will be send further to create a playing room");
             sb.AppendLine(">Join Room -> choose from a list of all currently available rooms");
             sb.AppendLine(">Inspect Character -> get overall info about your character");
             sb.AppendLine(">Delete Character -> delete a specified character ");

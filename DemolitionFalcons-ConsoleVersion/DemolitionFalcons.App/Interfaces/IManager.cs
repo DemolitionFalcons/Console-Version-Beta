@@ -16,6 +16,8 @@
 
         string JoinRoom(IList<string> arguments);
 
+        string RegisterUser(IList<string> arguments);
+
         string Help(IList<string> arguments);
     }
 }
