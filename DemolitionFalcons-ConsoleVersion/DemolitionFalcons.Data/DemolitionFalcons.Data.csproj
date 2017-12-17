@@ -5,7 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="EntityConfigurations\" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DemolitionFalcons.Models\DemolitionFalcons.Models.csproj" />
   </ItemGroup>
 
 </Project>
