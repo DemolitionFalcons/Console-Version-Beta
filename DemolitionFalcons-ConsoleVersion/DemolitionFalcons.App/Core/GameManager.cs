@@ -13,13 +13,16 @@
     public class GameManager : IManager
     {
         // Most of the methods that WILL be added here later must work with the database or with DTO (Data Transfer Objects)
-        public int playerCreated;
+        public int playersCreated;
         private DemolitionFalconsDbContext context;
 
         public GameManager(DemolitionFalconsDbContext context)
         {
             this.context = context;
+            this.Players = context.Players.ToList();
         }
+
+        public List<Player> Players;
 
         public string AddRoom(IList<string> arguments)// or AddGame
         {
@@ -85,7 +88,16 @@
 
         public string CreateCharacter(IList<string> arguments)
         {
-            throw new NotImplementedException();
+            var characterName = arguments[0];
+
+            var character = new Character
+            {
+                Name = characterName
+            };
+
+            context.Characters.Add(character);
+            context.SaveChanges();
+            return "Character created";
         }
 
         public string DeleteCharacter(IList<string> arguments)
@@ -99,9 +111,11 @@
             //We can make option to add consumables too
             sb.AppendLine("The game here is completed by typing commands in the console.");
             sb.AppendLine("Here are the basic commands:");
+            sb.AppendLine(">Register -> go on to register a user");
             sb.AppendLine(">Create {Name} -> you will be send further to edit the info of the character you're up to create with the given name");
             sb.AppendLine(">AddRoom {Name} -> you will be send further to create a playing room");
             sb.AppendLine(">Join Room -> choose from a list of all currently available rooms");
+            sb.AppendLine(">CreateCharacter -> adds a character");
             sb.AppendLine(">Inspect Character -> get overall info about your character");
             sb.AppendLine(">Delete Character -> delete a specified character ");
             sb.AppendLine(">Help -> you'll be shown the list with commands once again");
