@@ -3,7 +3,6 @@ A console version of the game. It's main purpose is to test the main logic of th
 
 # Environment 
 - EntityFrameworkCore
-- ONLY .NetCore
  
  # List of goals that this project has:
 - Test the main logic of the game and get an overall idea how some of the aspects of the game should act
