@@ -2,10 +2,11 @@
 {
     using DemolitionFalcons.Models;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
     public class PlayerConfig : IEntityTypeConfiguration<Player>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Player> builder)
+        public void Configure(EntityTypeBuilder<Player> builder)
         {
             builder.HasKey(p => p.Id);
 

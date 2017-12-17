@@ -30,21 +30,23 @@
             if (!context.Weapons.Any())
             {
                 var weapons = new List<Weapon>();
-                var akModel = new Weapon();
-
-                akModel.Name = "AK-47";
-                akModel.ClipSize = 30;
-                akModel.TotalCapacity = 150;
-                akModel.Damage = 50;
+                var akModel = new Weapon
+                {
+                    Name = "AK-47",
+                    ClipSize = 30,
+                    TotalCapacity = 150,
+                    Damage = 50
+                };
 
                 weapons.Add(akModel);
 
-                var m4a1s = new Weapon();
-
-                m4a1s.Name = "M4A1-S";
-                m4a1s.ClipSize = 30;
-                m4a1s.TotalCapacity = 150;
-                m4a1s.Damage = 50;
+                var m4a1s = new Weapon
+                {
+                    Name = "M4A1-S",
+                    ClipSize = 30,
+                    TotalCapacity = 150,
+                    Damage = 50
+                };
 
                 weapons.Add(m4a1s);
 
@@ -53,7 +55,7 @@
             }
 
             //Add a bot player in order to test if all is correct
-            //Add weapons to him 
+            //Add weapons to him
             //Add  a playerWeapon connection
             if (!context.Players.Any())
             {
@@ -75,15 +77,105 @@
                 };
                 foreach (var weapon in weapons)
                 {
-                    var playerWeapon = new PlayerWeapon();
-                    playerWeapon.Player = bot;
-                    playerWeapon.PlayerId = bot.Id;
-                    playerWeapon.Weapon = weapon;
-                    playerWeapon.WeaponId = weapon.Id;
+                    var playerWeapon = new PlayerWeapon
+                    {
+                        Player = bot,
+                        PlayerId = bot.Id,
+                        Weapon = weapon,
+                        WeaponId = weapon.Id
+                    };
                     context.PlayerWeapons.Add(playerWeapon);
                     context.SaveChanges();
                 }
 
+            }
+
+            if (!context.Games.Any())
+            {
+                var game = new Game()
+                {
+                    Name = "FirstGameEver",
+                    Xp = 50,
+                    Money = 250,
+                };
+
+                context.Games.Add(game);
+                context.SaveChanges();
+            }
+
+            if (!context.Characters.Any())
+            {
+                var characters = new List<Character>();
+
+                var ilian = new Character
+                {
+                    Name = "Ilian",
+                    Hp = 100,
+                    Armour = 100,
+                    X = 0,
+                    Y = 6
+                };
+
+                var alex = new Character
+                {
+                    Name = "Alex",
+                    Hp = 100,
+                    Armour = 100,
+                    X = 0,
+                    Y = 5
+                };
+
+                var dimitar = new Character
+                {
+                    Name = "Dimitar",
+                    Hp = 70,
+                    Armour = 0,
+                    X = 0,
+                    Y = 2
+                };
+
+                var zlatyo = new Character
+                {
+                    Name = "Zlatyo",
+                    Hp = 100,
+                    Armour = 25,
+                    X = 0,
+                    Y = 1
+                };
+
+                var stoyan = new Character
+                {
+                    Name = "Stoyan",
+                    Hp = 100,
+                    Armour = 50,
+                    X = 0,
+                    Y = 4
+                };
+
+                characters.Add(ilian);
+                characters.Add(alex);
+                characters.Add(dimitar);
+                characters.Add(zlatyo);
+                characters.Add(stoyan);
+
+                context.AddRange(characters);
+                context.SaveChanges();
+
+                var game = context.Games.FirstOrDefault(x => x.Name == "FirstGameEver");
+
+                foreach (var character in characters)
+                {
+                    var gameCharacter = new GameCharacter
+                    {
+                        Character = character,
+                        CharacterId = character.Id,
+                        Game = game,
+                        GameId = game.Id
+                    };
+
+                    context.GameCharacters.Add(gameCharacter);
+                    context.SaveChanges();
+                }
             }
         }
 
