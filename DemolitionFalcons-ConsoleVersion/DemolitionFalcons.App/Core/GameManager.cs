@@ -1,6 +1,9 @@
 ﻿namespace DemolitionFalcons.App.Core
 {
+    using DemolitionFalcons.App.Core.DTOs;
     using DemolitionFalcons.App.Interfaces;
+    using DemolitionFalcons.Data;
+    using DemolitionFalcons.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -10,11 +13,65 @@
     public class GameManager : IManager
     {
         // Most of the methods that WILL be added here later must work with the database or with DTO (Data Transfer Objects)
-        public int charactersCreated;
+        public int playerCreated;
+        private DemolitionFalconsDbContext context;
 
+        public GameManager(DemolitionFalconsDbContext context)
+        {
+            this.context = context;
+            this.Players = context.Players.ToList();
+        }
+
+        public List<Player> Players;
         public string AddRoom(IList<string> arguments)
         {
             throw new NotImplementedException();
+        }
+
+        public string RegisterUser(IList<string> arguments)
+        {
+            StringBuilder sb = new StringBuilder();
+            try
+            {
+                var player = new PlayerDto();
+                Console.WriteLine($"Enter player's username:");
+                player.Username = Console.ReadLine();
+                Console.WriteLine($"Enter player's password");
+                player.Password = Console.ReadLine();
+
+                var pistol = context.Weapons.FirstOrDefault(w => w.Name == "Glock");
+
+                var dbPlayer = new Player
+                {
+                    Username = player.Username,
+                    Password = player.Password,
+                    GamesPlayed = player.GamesPlayed,
+                    Wins = player.Wins
+                };
+
+                context.Players.Add(dbPlayer);
+
+                var playerWeapon = new PlayerWeapon
+                {
+                    Player = dbPlayer,
+                    PlayerId = dbPlayer.Id,
+                    Weapon = pistol,
+                    WeaponId = pistol.Id
+                };
+
+                context.PlayerWeapons.Add(playerWeapon);
+
+                context.SaveChanges();
+
+                sb.AppendLine($"Successfully created player {player.Username}");
+
+                Players.Add(dbPlayer);
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            return sb.ToString();
         }
 
         public string CreateCharacter(IList<string> arguments)
