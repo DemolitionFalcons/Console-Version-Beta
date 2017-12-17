@@ -90,8 +90,9 @@
             //We can make option to add consumables too
             sb.AppendLine("The game here is completed by typing commands in the console.");
             sb.AppendLine("Here are the basic commands:");
+            sb.AppendLine(">Register -> go on to register a user");
             sb.AppendLine(">Create {Name} -> you will be send further to edit the info of the character you're up to create with the given name");
-            sb.AppendLine(">Add Room -> you will be send further to create a playing room");
+            sb.AppendLine(">AddRoom -> you will be send further to create a playing room");
             sb.AppendLine(">Join Room -> choose from a list of all currently available rooms");
             sb.AppendLine(">Inspect Character -> get overall info about your character");
             sb.AppendLine(">Delete Character -> delete a specified character ");
