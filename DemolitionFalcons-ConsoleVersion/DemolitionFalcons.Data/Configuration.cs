@@ -3,6 +3,6 @@
     public static class Configuration
     {
         //Enter your connection string here
-        public const string ConnectionString = @"Server=PROPC\SQLEXPRESS;Database=DemolitionFalconsInitial;Integrated Security=True";
+        public const string ConnectionString = @"Server=DESKTOP-AHR69VI\SQLEXPRESS;Database=DemolitionFalconsInitial;Integrated Security=True";
     }
 }

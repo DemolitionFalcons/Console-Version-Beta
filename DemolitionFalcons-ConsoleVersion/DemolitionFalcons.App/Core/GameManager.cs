@@ -28,16 +28,28 @@
         {
             var gameName = arguments[0];
 
-            var game = new Game
+            try
             {
-                Name = gameName,
-                Money = 200,//by default
-                Xp = 50
-            };
+                var gameDto = new GameDto
+                {
+                    Name = gameName,
+                };
 
-            context.Games.Add(game);
-            context.SaveChanges();
-            return "Room created";
+                var dbGame = new Game
+                {
+                    Name = gameDto.Name,
+                    Xp = 50,
+                    Money = 200
+                };
+
+                context.Games.Add(dbGame);
+                context.SaveChanges();
+                return "Room created";
+            }
+            catch (ArgumentException ex)
+            {
+                return ex.Message;
+            }
         }
 
         public string RegisterUser(IList<string> arguments)
@@ -79,7 +91,7 @@
 
                 Players.Add(dbPlayer);
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
                 return ex.Message;
             }
@@ -92,7 +104,10 @@
 
             try
             {
-                var characterDto = new CharacterDto(characterName);
+                var characterDto = new CharacterDto
+                {
+                    Name = characterName
+                };
 
                 var dbCharacter = new Character
                 {
@@ -103,7 +118,7 @@
                 context.SaveChanges();
                 return "Character created";
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
                 return ex.Message;
             }
@@ -122,8 +137,8 @@
             sb.AppendLine("Here are the basic commands:");
             sb.AppendLine(">Register -> go on to register a user");
             sb.AppendLine(">Create {Name} -> you will be send further to edit the info of the character you're up to create with the given name");
-            sb.AppendLine(">Add Room -> you will be send further to create a playing room");
-            sb.AppendLine(">Join Room -> choose from a list of all currently available rooms");
+            sb.AppendLine(">AddRoom {Name} -> you will be send further to create a playing room");
+            sb.AppendLine(">JoinRoom -> choose from a list of all currently available rooms");
             sb.AppendLine(">CreateCharacter {Name} -> adds a character");
             sb.AppendLine(">Inspect Character -> get overall info about your character");
             sb.AppendLine(">Delete Character -> delete a specified character ");

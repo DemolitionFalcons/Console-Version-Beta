@@ -2,11 +2,11 @@
 {
     using System;
 
-    public class CharacterDto
+    public class GameDto
     {
         private string name;
 
-        public CharacterDto()
+        public GameDto()
         {
         }
 
@@ -15,9 +15,9 @@
             get => this.name;
             set
             {
-                if (value.Length < 3 || value.Length > 12)
+                if (value.Length < 4 || value.Length > 30)
                 {
-                    throw new ArgumentException("Character name must be between 3 and 12 symbols!");
+                    throw new ArgumentException("Game name must be between 4 and 30 symbols!");
                 }
 
                 this.name = value;
@@ -25,3 +25,4 @@
         }
     }
 }
+

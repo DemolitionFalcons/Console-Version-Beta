@@ -10,6 +10,8 @@
         {
             builder.HasKey(g => g.Id);
 
+            builder.HasAlternateKey(g => g.Name);
+
             builder.Property(g => g.Name)
                 .HasMaxLength(30)
                 .IsRequired();
