@@ -1,12 +1,10 @@
 ﻿namespace DemolitionFalcons.App.MapSections
 {
-
     using DemolitionFalcons.App.Maps;
 
-    public class BonusSquare : MapSection
+    public class GoBackSquare : MapSection
     {
-        //gain ammunition and maybe HP and armour
-        public BonusSquare(int x, int y) 
+        public GoBackSquare(int x, int y)
             : base(x, y)
         {
         }
