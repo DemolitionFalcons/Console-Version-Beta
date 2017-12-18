@@ -15,7 +15,7 @@ namespace DemolitionFalcons.App.Core.DTOs
             this.GamesPlayed = 0;
             this.Wins = 0;
         }
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         //public byte Picture { get; set; }
 
