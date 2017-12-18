@@ -17,6 +17,7 @@
         {            
             //connects to the db
             this.context = new DemolitionFalconsDbContext();
+            context.Database.EnsureDeleted();
             SetUpDatabase();
             //tries to connect to the db
             Seed(context);
