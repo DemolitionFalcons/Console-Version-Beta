@@ -122,7 +122,7 @@
             sb.AppendLine("Here are the basic commands:");
             sb.AppendLine(">Register -> go on to register a user");
             sb.AppendLine(">Create {Name} -> you will be send further to edit the info of the character you're up to create with the given name");
-            sb.AppendLine(">AddRoom {Name} -> you will be send further to create a playing room");
+            sb.AppendLine(">Add Room -> you will be send further to create a playing room");
             sb.AppendLine(">Join Room -> choose from a list of all currently available rooms");
             sb.AppendLine(">CreateCharacter {Name} -> adds a character");
             sb.AppendLine(">Inspect Character -> get overall info about your character");

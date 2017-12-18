@@ -18,6 +18,8 @@
                 .HasMaxLength(20)
                 .IsRequired();
 
+            builder.HasAlternateKey(p => p.Username);
+
             //builder.HasMany(p => p.Characters);
         }
     }
