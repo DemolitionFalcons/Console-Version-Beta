@@ -36,6 +36,7 @@
             SetUpDatabase.CreateDataBase(context);
 
             //SetUpDatabase.ResetDB(context);
+           // Console.WriteLine("Test");
 
             ShowCommandsExample();
             ProcessCommandFromUser();
