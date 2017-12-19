@@ -1,15 +1,15 @@
 ﻿namespace DemolitionFalcons.App.Commands
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using DemolitionFalcons.App.Interfaces;
     using DemolitionFalcons.Data.DataInterfaces;
+    using System.Linq;
+    using System.Collections.Generic;
 
-    public class RegisterCommand : Command
+    public class InspectCharacterCommand : Command
     {
         public override void Execute(IManager gameManager, IOutputWriter writer, IList<string> data)
         {
-            writer.WriteLine(gameManager.RegisterUser());
+            writer.WriteLine(gameManager.InspectCharacter(data.Skip(1).ToList()));
         }
     }
 }

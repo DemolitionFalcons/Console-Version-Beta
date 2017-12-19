@@ -1,44 +1,44 @@
 ﻿namespace DemolitionFalcons.App.Core
 {
-  
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text; 
+    using System.Text;
+    using DemolitionFalcons.Data.Support;
     using DemolitionFalcons.Data.DataInterfaces;
-    using DemolitionFalcons.Data.IO;
     using DemolitionFalcons.App.Interfaces;
     using DemolitionFalcons.Data;
 
     public class Engine : IEngine
     {
-        private IManager gameManager;
-        private DemolitionFalconsDbContext context;
-        private ICommandEngine<ICommand> commandEngine;
-        private IInputReader reader;
-        private IOutputWriter writer;
+        private readonly IManager gameManager;
+        private readonly DemolitionFalconsDbContext context;
+        private readonly ICommandEngine<ICommand> commandEngine;
+        private readonly IInputReader reader;
+        private readonly IOutputWriter writer;
 
 
-        public Engine(IInputReader reader, IOutputWriter writer, ICommandEngine<ICommand> commandEngine)
+        public Engine(IInputReader reader, IOutputWriter writer, ICommandEngine<ICommand> commandEngine, IManager gameManager, DemolitionFalconsDbContext context)
         {
-            //connects to the db
-            this.context = new DemolitionFalconsDbContext();
 
-            this.gameManager = new GameManager(context);
-            this.commandEngine = new CommandEngine<ICommand>();
-            this.reader = new InputReader();
-            this.writer = new OutputWriter();
+            this.context = context;
+            this.gameManager = gameManager;
+            this.commandEngine = commandEngine;
+            this.reader = reader;
+            this.writer = writer;
         }
 
 
         public void Run()
         {
 
+            SetUpDatabase.CreateDataBase(context);
 
-            //SetUpDatabase.CreateDataBase(context);
+            //SetUpDatabase.ResetDB(context);
 
             ShowCommandsExample();
-            ProcessCommandFromUser();       
+            ProcessCommandFromUser();
         }
 
         private void ProcessCommandFromUser()
@@ -57,16 +57,16 @@
 
                     ICommand command = this.commandEngine.ExecuteCommand(commandInput);
 
-                    command.Execute(gameManager,writer, commandInput);
+                    command.Execute(gameManager, writer, commandInput);
 
                 }
                 catch (Exception e)
                 {
                     writer.WriteLine(e.Message);
-                    
+
                 }
             }
-          
+
         }
 
         private void ShowCommandsExample()

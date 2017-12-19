@@ -1,25 +1,31 @@
 ﻿namespace DemolitionFalcons.App.Core
 {
-    using DemolitionFalcons.App.Core.DTOs;
-    using DemolitionFalcons.App.Interfaces;
-    using DemolitionFalcons.Data;
-    using DemolitionFalcons.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using DemolitionFalcons.App.Core.DTOs;
+    using DemolitionFalcons.App.Interfaces;
+    using DemolitionFalcons.Data;
+    using DemolitionFalcons.Models; 
     using System.Threading.Tasks;
+    using DemolitionFalcons.Data.DataInterfaces;
+    using DemolitionFalcons.Data.ExeptionsMessages;
 
     public class GameManager : IManager
     {
         // Most of the methods that WILL be added here later must work with the database or with DTO (Data Transfer Objects)
         public int playersCreated;
         private DemolitionFalconsDbContext context;
+        private IOutputWriter writer;
+        private IInputReader reader;
 
-        public GameManager(DemolitionFalconsDbContext context)
+        public GameManager(DemolitionFalconsDbContext context, IOutputWriter writer, IInputReader reader)
         {
             this.context = context;
             this.Players = context.Players.ToList();
+            this.writer = writer;
+            this.reader = reader;
         }
 
         public List<Player> Players;
@@ -52,15 +58,15 @@
             }
         }
 
-        public string RegisterUser(IList<string> arguments)
+        public string RegisterUser()
         {
             StringBuilder sb = new StringBuilder();
             try
             {
                 var player = new PlayerDto();
-                Console.WriteLine($"Enter player's username:");
+                writer.WriteLine($"Enter player's username:");
                 player.Username = Console.ReadLine();
-                Console.WriteLine($"Enter player's password");
+                writer.WriteLine($"Enter player's password");
                 player.Password = Console.ReadLine();
 
                 var pistol = context.Weapons.FirstOrDefault(w => w.Name == "Glock");
@@ -126,11 +132,22 @@
 
         public string DeleteCharacter(IList<string> arguments)
         {
-            throw new NotImplementedException();
+            string characterName = arguments[0];
+
+            Character character = context.Characters.SingleOrDefault(c => c.Name == characterName);
+
+            if (character == null)
+            {
+                throw new ArgumentException(string.Format(ExceptionMessages.InvalidCharakterMsg, characterName));
+            }
+
+            context.Characters.Remove(character);
+            context.SaveChanges();
+            return $"Character {characterName} was successfully deleted";
         }
 
         public string Help()
-        { 
+        {
             StringBuilder sb = new StringBuilder();
             //We can make option to add consumables too
             sb.AppendLine("The game here is completed by typing commands in the console.");
@@ -145,17 +162,38 @@
             sb.AppendLine(">Help -> you'll be shown the list with commands once again");
             sb.AppendLine(">Quit -> quit the game / and lose everything simply because we don't have DB yet :D /");
 
-            return sb.ToString();
+            return sb.ToString().Trim();
         }
 
         public string InspectCharacter(IList<string> arguments)
         {
-            throw new NotImplementedException();
+            string characterName = arguments[0];
+
+            Character character = context.Characters.SingleOrDefault(c => c.Name == characterName);
+
+            if (character == null)
+            {
+                throw new ArgumentException(string.Format(ExceptionMessages.InvalidCharakterMsg, characterName));
+            }
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine($"Character Name {character.Name}");
+            sb.AppendLine($"Armor {character.Armour}");
+            sb.AppendLine($"HP {character.Hp}");
+
+            return sb.ToString().Trim();
         }
 
         public string JoinRoom(IList<string> arguments)
         {
-            throw new NotImplementedException();
+            //gameName
+            string roomName = arguments[0];
+
+            //TO DO
+
+
+            return $"Successfully";
         }
 
         public string Quit()
@@ -164,7 +202,7 @@
             sb.AppendLine($"Thanks for playing Demolition Falcons " + "\u00a9");
             sb.AppendLine($"See you soon.");
 
-            return sb.ToString();
+            return sb.ToString().Trim();
         }
     }
 }

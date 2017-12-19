@@ -4,5 +4,7 @@
     {
         public const string InvalidCommandExceptionMessage = "Error: invalid command";      
         public const string InvalidAbstractionTypeExceptionMessage = "Provided class {0} is neither Abstract or Interface";
+
+        public const string InvalidCharakterMsg = "Charakter {0} does not exist";
     }
 }

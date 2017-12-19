@@ -1,4 +1,6 @@
-﻿namespace DemolitionFalcons.App.Core
+﻿using System.Linq;
+
+namespace DemolitionFalcons.App.Core
 {
     using System;
     using System.Collections.Generic;
@@ -15,7 +17,7 @@
 
             string cmdName = args[0];
 
-            Type commandType = Type.GetType("DemolitionFalcons.App.Commands" + "." + cmdName + "Command");
+            Type commandType = Type.GetType("DemolitionFalcons.App.Commands." + cmdName + "Command");
 
             if (commandType == null)
             {
