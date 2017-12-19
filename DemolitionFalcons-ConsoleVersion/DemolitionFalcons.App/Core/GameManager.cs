@@ -23,9 +23,14 @@
         public GameManager(DemolitionFalconsDbContext context, IOutputWriter writer, IInputReader reader)
         {
             this.context = context;
-            this.Players = context.Players.ToList();
+           
             this.writer = writer;
             this.reader = reader;
+        }
+
+        public GameManager()
+        {
+            this.Players = this.context.Players.ToList();
         }
 
         public List<Player> Players;
