@@ -1,7 +1,11 @@
-﻿namespace DemolitionFalcons.App.Interfaces
+﻿using System.Collections.Generic;
+using DemolitionFalcons.Data.DataInterfaces;
+
+namespace DemolitionFalcons.App.Interfaces
 {
     public interface ICommand
     {
-        string Execute();
+        
+        void Execute(IManager gameManager, IOutputWriter writer, IList<string> data);
     }
 }

@@ -1,17 +1,15 @@
 ﻿namespace DemolitionFalcons.App.Commands
 {
     using System.Collections.Generic;
+    using System.Linq;
     using DemolitionFalcons.App.Interfaces;
+    using DemolitionFalcons.Data.DataInterfaces;
 
-    public class HelpCommand : AbstractCommand
+    public class HelpCommand : Command
     {
-        public HelpCommand(IList<string> args, IManager manager) : base(args, manager)
+        public override void Execute(IManager gameManager, IOutputWriter writer, IList<string> data)
         {
-        }
-
-        public override string Execute()
-        {
-            return base.Manager.Help(Args);
+            writer.WriteLine(gameManager.Help());
         }
     }
 }

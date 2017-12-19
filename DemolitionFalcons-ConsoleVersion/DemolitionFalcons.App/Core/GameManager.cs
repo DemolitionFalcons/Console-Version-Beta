@@ -129,8 +129,8 @@
             throw new NotImplementedException();
         }
 
-        public string Help(IList<string> arguments)
-        {
+        public string Help()
+        { 
             StringBuilder sb = new StringBuilder();
             //We can make option to add consumables too
             sb.AppendLine("The game here is completed by typing commands in the console.");
@@ -158,7 +158,7 @@
             throw new NotImplementedException();
         }
 
-        public string Quit(IList<string> arguments)
+        public string Quit()
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($"Thanks for playing Demolition Falcons " + "\u00a9");

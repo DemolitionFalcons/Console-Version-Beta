@@ -1,17 +1,15 @@
 ﻿namespace DemolitionFalcons.App.Commands
 {
-    using DemolitionFalcons.App.Interfaces;
     using System.Collections.Generic;
+    using System.Linq;
+    using DemolitionFalcons.App.Interfaces;
+    using DemolitionFalcons.Data.DataInterfaces;
 
-    public class CreateCharacterCommand : AbstractCommand
+    public class CreateCharacterCommand : Command
     {
-        public CreateCharacterCommand(IList<string> args, IManager manager) : base(args, manager)
+        public override void Execute(IManager gameManager, IOutputWriter writer, IList<string> data)
         {
-        }
-
-        public override string Execute()
-        {
-            return base.Manager.CreateCharacter(Args);
+            writer.WriteLine(gameManager.CreateCharacter(data.Skip(1).ToList()));
         }
     }
 }

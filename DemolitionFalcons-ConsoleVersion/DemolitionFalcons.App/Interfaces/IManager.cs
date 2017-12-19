@@ -4,7 +4,7 @@
 
     public interface IManager
     {
-        string Quit(IList<string> arguments);
+        string Quit();
 
         string CreateCharacter(IList<string> arguments);
 
@@ -18,6 +18,6 @@
 
         string RegisterUser(IList<string> arguments);
 
-        string Help(IList<string> arguments);
+        string Help();
     }
 }

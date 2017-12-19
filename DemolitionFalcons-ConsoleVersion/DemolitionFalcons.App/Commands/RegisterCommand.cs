@@ -1,17 +1,15 @@
 ﻿namespace DemolitionFalcons.App.Commands
 {
-    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using DemolitionFalcons.App.Interfaces;
-    public class RegisterCommand : AbstractCommand
-    {
-        public RegisterCommand(IList<string> args, IManager manager) : base(args, manager)
-        {
-        }
+    using DemolitionFalcons.Data.DataInterfaces;
 
-        public override string Execute()
+    public class RegisterCommand : Command
+    {
+        public override void Execute(IManager gameManager, IOutputWriter writer, IList<string> data)
         {
-            return base.Manager.RegisterUser(Args);
+            writer.WriteLine(gameManager.RegisterUser(data.Skip(1).ToList()));
         }
     }
 }
