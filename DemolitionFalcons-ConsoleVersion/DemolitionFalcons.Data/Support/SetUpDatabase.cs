@@ -10,7 +10,7 @@ namespace DemolitionFalcons.Data.Support
        
         public static void CreateDataBase(DemolitionFalconsDbContext context)
         {
-            //context.Database.EnsureDeleted();
+            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
             Seed(context);

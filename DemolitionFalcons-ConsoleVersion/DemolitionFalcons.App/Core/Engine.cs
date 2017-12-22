@@ -33,10 +33,8 @@
         public void Run()
         {
 
-            SetUpDatabase.CreateDataBase(context);
 
             //SetUpDatabase.ResetDB(context);
-         
 
             ShowCommandsExample();
             ProcessCommandFromUser();

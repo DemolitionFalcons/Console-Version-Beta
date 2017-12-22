@@ -7,7 +7,7 @@
     using DemolitionFalcons.App.Core.DTOs;
     using DemolitionFalcons.App.Interfaces;
     using DemolitionFalcons.Data;
-    using DemolitionFalcons.Models; 
+    using DemolitionFalcons.Models;
     using System.Threading.Tasks;
     using DemolitionFalcons.Data.DataInterfaces;
     using DemolitionFalcons.Data.ExeptionsMessages;
@@ -23,15 +23,12 @@
         public GameManager(DemolitionFalconsDbContext context, IOutputWriter writer, IInputReader reader)
         {
             this.context = context;
-           
+            this.Players = this.context.Players.ToList();
             this.writer = writer;
             this.reader = reader;
         }
 
-        public GameManager()
-        {
-            this.Players = this.context.Players.ToList();
-        }
+
 
         public List<Player> Players;
 

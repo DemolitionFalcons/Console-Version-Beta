@@ -2,6 +2,7 @@
 using DemolitionFalcons.Data;
 using DemolitionFalcons.Data.DataInterfaces;
 using DemolitionFalcons.Data.IO;
+using DemolitionFalcons.Data.Support;
 
 namespace DemolitionFalcons.App
 {
@@ -16,11 +17,12 @@ namespace DemolitionFalcons.App
 
             IInputReader reader = new InputReader();
             IOutputWriter writer = new OutputWriter();
-            IManager gameManager  =new GameManager(context,writer,reader);
-                   
-            CommandEngine<ICommand> commandEngine = new CommandEngine<ICommand>();
+            SetUpDatabase.CreateDataBase(context);
+            IManager gameManager = new GameManager(context, writer, reader);        
 
-            Engine engine = new Engine(reader,writer,commandEngine,gameManager,context);
+           CommandEngine<ICommand> commandEngine = new CommandEngine<ICommand>();
+
+            Engine engine = new Engine(reader, writer, commandEngine, gameManager, context);
             engine.Run();
         }
     }
