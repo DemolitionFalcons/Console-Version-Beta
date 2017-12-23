@@ -7,7 +7,7 @@ using DemolitionFalcons.Data.DataInterfaces;
 
 namespace DemolitionFalcons.App.Commands
 {
-   public class DeleteCharacterCommand : Command
+   public class DeleteCharacterCommand : AbstractCommand
     {
         public override void Execute(IManager gameManager, IOutputWriter writer, IList<string> data)
         {

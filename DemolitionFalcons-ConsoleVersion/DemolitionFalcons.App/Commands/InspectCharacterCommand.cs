@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Collections.Generic;
 
-    public class InspectCharacterCommand : Command
+    public class InspectCharacterCommand : AbstractCommand
     {
         public override void Execute(IManager gameManager, IOutputWriter writer, IList<string> data)
         {

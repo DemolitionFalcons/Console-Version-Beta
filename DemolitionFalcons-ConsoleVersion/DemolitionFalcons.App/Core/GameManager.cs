@@ -11,6 +11,7 @@
     using System.Threading.Tasks;
     using DemolitionFalcons.Data.DataInterfaces;
     using DemolitionFalcons.Data.ExeptionsMessages;
+    using DemolitionFalcons.Data.Support;
 
     public class GameManager : IManager
     {
@@ -190,12 +191,65 @@
         public string JoinRoom(IList<string> arguments)
         {
             //gameName
-            string roomName = arguments[0];
+            //string roomName = arguments[0];
+            StringBuilder sb = new StringBuilder();
+            try
+            {
+                var rooms = context.Games.ToList();
 
-            //TO DO
+                Console.WriteLine($"Here is a list of all available rooms:");
+                for (int i = 0; i < rooms.Count; i++)
+                {
+                    var num = i + 1;
+                    var room = rooms[i];
+                    Console.WriteLine($"{num}. {room.Name} {room.Characters.Count}");
+                }
+                Console.WriteLine($"Choose which one you would like to join.");
+                var roomNumber = int.Parse(Console.ReadLine());
 
+                while (rooms[roomNumber - 1].Characters.Count == 6)
+                {
+                    Console.WriteLine($"{rooms[roomNumber - 1].Name} is full, please choose another room.");
+                    roomNumber = int.Parse(Console.ReadLine());
+                }
 
-            return $"Successfully";
+                Console.WriteLine($"Successfully Joined Room {rooms[roomNumber - 1].Name}");
+                Console.WriteLine($"Please choose a character from the list below:");
+
+                var characters = context.Characters.ToList();
+
+                for (int i = 0; i < characters.Count; i++)
+                {
+                    var num = i + 1;
+                    var character = characters[i];
+                    Console.WriteLine($"{num}. {character.Name} - {character.Hp}HP and {character.Armour}Armour");
+                }
+
+                Console.WriteLine($"Choose which one you would like to use.");
+                var characterNumber = int.Parse(Console.ReadLine());
+                var gameCharacter = context.GameCharacters.Where(g => g.GameId == rooms[roomNumber - 1].Id).ToList();
+                while (gameCharacter.Where(g => g.GameId == rooms[roomNumber - 1].Id).Any(g => g.CharacterId == characters[characterNumber - 1].Id))
+                {
+                    Console.WriteLine($"{characters[characterNumber - 1]} is already taken, please choose another one.");
+                    characterNumber = int.Parse(Console.ReadLine());
+                }
+                GameCharacter gc = new GameCharacter
+                {
+                    Character = characters[characterNumber - 1],
+                    CharacterId = characters[characterNumber - 1].Id,
+                    Game = rooms[roomNumber - 1],
+                    GameId = rooms[roomNumber - 1].Id
+                };
+                context.GameCharacters.Add(gc);
+                context.SaveChanges();
+                sb.AppendLine($"Successfully joined room {rooms[roomNumber - 1].Name}. You will use {characters[characterNumber - 1].Name} as your character for this game!");
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            
+            return sb.ToString().TrimEnd();
         }
 
         public string Quit()
@@ -205,6 +259,23 @@
             sb.AppendLine($"See you soon.");
 
             return sb.ToString().Trim();
+        }
+
+        public string ResetDatabase()
+        {
+            StringBuilder sb = new StringBuilder();
+            try
+            {
+                SetUpDatabase.ResetDB(context);
+
+                sb.AppendLine("Reset Database - successful");
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+            return sb.ToString().TrimEnd();
         }
     }
 }

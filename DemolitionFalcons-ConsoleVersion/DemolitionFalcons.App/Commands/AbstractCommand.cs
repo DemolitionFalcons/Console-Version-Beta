@@ -4,7 +4,7 @@
     using DemolitionFalcons.App.Interfaces;
     using DemolitionFalcons.Data.DataInterfaces;
 
-    public abstract class Command : ICommand
+    public abstract class AbstractCommand : ICommand
     {
 
 

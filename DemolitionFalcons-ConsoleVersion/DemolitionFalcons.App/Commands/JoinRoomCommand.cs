@@ -5,7 +5,7 @@
     using DemolitionFalcons.App.Interfaces;
     using DemolitionFalcons.Data.DataInterfaces;
 
-    public class JoinRoomCommand : Command
+    public class JoinRoomCommand : AbstractCommand
     {
         public override void Execute(IManager gameManager, IOutputWriter writer, IList<string> data)
         {

@@ -5,7 +5,7 @@
     using DemolitionFalcons.Data.DataInterfaces;
     using System.Linq;
 
-    public class AddRoomCommand : Command
+    public class AddRoomCommand : AbstractCommand
     {
         public override void Execute(IManager gameManager, IOutputWriter writer, IList<string> data)
         {

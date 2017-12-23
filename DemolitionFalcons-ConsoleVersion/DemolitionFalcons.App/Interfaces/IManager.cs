@@ -19,5 +19,7 @@
         string RegisterUser();
 
         string Help();
+
+        string ResetDatabase();
     }
 }
