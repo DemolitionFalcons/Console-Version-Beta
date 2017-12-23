@@ -13,5 +13,7 @@
         }
 
         public ICollection<Character> Characters { get; set; }
+
+        public override int Number { get; set; }
     }
 }

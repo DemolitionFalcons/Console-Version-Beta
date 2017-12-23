@@ -1,20 +1,19 @@
 ﻿namespace DemolitionFalcons.App.MapSections
 {
-
     using DemolitionFalcons.App.Maps;
     using DemolitionFalcons.Models;
     using System.Collections.Generic;
 
-    public class FinishSquare : MapSection
+    public class GoForwardSquare : MapSection
     {
-        public FinishSquare(int x, int y) 
+        public GoForwardSquare(int x, int y) 
             : base(x, y)
         {
         }
 
-        public Character Winner { get; set; }
-
         public override int Number { get; set; }
-        
+
+
+        public ICollection<Character> Characters { get; set; }
     }
 }

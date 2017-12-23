@@ -10,5 +10,7 @@
             : base(x, y)
         {
         }
+
+        public override int Number { get ; set ; }
     }
 }
