@@ -12,6 +12,7 @@
             this.Armour = 100;
             this.X = 0;
             this.Y = 0;
+            this.mapSectionNumber = 0;
         }
 
         public int Id { get; set; }
@@ -32,6 +33,8 @@
         //matrix coordinates/current position
         public int X { get; set; }
         public int Y { get; set; }
+
+        public int mapSectionNumber { get; set; }
 
         public ICollection<GameCharacter> Games { get; set; }
     }

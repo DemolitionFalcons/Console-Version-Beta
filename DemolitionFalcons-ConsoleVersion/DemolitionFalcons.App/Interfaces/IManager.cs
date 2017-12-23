@@ -21,5 +21,7 @@
         string Help();
 
         string ResetDatabase();
+
+        string StartGame();
     }
 }

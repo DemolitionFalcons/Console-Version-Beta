@@ -11,10 +11,11 @@ namespace DemolitionFalcons.App.Core
     public class CommandEngine<T> : ICommandEngine<T>
         where T : class
     {
+        private bool inGame = false;
 
         public T ExecuteCommand(List<string> args)
         {
-
+            
             string cmdName = args[0];
 
             Type commandType = Type.GetType("DemolitionFalcons.App.Commands." + cmdName + "Command");
@@ -24,7 +25,7 @@ namespace DemolitionFalcons.App.Core
                 throw new ArgumentException(ExceptionMessages.InvalidCommandExceptionMessage);
             }
             // Create Instance
-
+            
             var cmd = (T)Activator.CreateInstance(commandType);
 
             return cmd;

@@ -12,6 +12,8 @@
     using DemolitionFalcons.Data.DataInterfaces;
     using DemolitionFalcons.Data.ExeptionsMessages;
     using DemolitionFalcons.Data.Support;
+    using DemolitionFalcons.App.Maps;
+    using DemolitionFalcons.App.MapSections;
 
     public class GameManager : IManager
     {
@@ -231,6 +233,7 @@
                 while (gameCharacter.Where(g => g.GameId == rooms[roomNumber - 1].Id).Any(g => g.CharacterId == characters[characterNumber - 1].Id))
                 {
                     Console.WriteLine($"{characters[characterNumber - 1]} is already taken, please choose another one.");
+                    Console.WriteLine($"Or if you want to exit JoinRoom, type Exit");
                     characterNumber = int.Parse(Console.ReadLine());
                 }
                 GameCharacter gc = new GameCharacter
@@ -276,6 +279,141 @@
             }
 
             return sb.ToString().TrimEnd();
+        }
+
+        public string StartGame()
+        {
+            StringBuilder sb = new StringBuilder();
+            try
+            {
+                Console.WriteLine($"Choose from the rooms below that could begin:");
+                var roomsReady = context.Games.Where(g => g.Characters.Count >= 2).ToList();
+
+                for (int i = 0; i < roomsReady.Count; i++)
+                {
+                    var numToDisplay = i + 1;
+                    Console.WriteLine($"{numToDisplay}. {roomsReady[i].Name} - {roomsReady[i].Characters.Count} players");
+                }
+                var roomNum = int.Parse(Console.ReadLine());
+
+                var room = roomsReady[roomNum - 1];
+
+                HaveFun(room,sb);
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return ex.Message;
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+
+        private void HaveFun(Game room, StringBuilder sb)
+        {
+            var map = new DemoMap();
+            var playableMap = map.GenerateMap();
+
+            //Set all characters on the start
+            for (int i = 0; i < playableMap.Length; i++)
+            {
+                for (int j = 0; j < playableMap[playableMap.Length].Length; j++)
+                {
+                    if (playableMap[i][j].Number == 1)
+                    {
+                        var positionNumber = playableMap[i][j].Number;
+                        foreach (var chare in room.Characters)
+                        {
+                            var character = chare.Character;
+                            UpdateCharacterPositionInDb(character, i, j, positionNumber);
+
+                            //sb.AppendLine($"Characters set on the Start");
+                            Console.WriteLine($"Characters set on the Start");
+                        }
+                        break;
+                    }
+
+                }
+            }
+
+            DiceDto dice = new DiceDto();
+
+            bool hasReachedFinalSpot = false;
+
+            var playerInTurn = 1;
+
+            var game = context.Games.FirstOrDefault(g => g.Id == room.Id);
+            var characters = new List<Character>();
+            foreach (var gc in game.Characters)
+            {
+                var character = gc.Character;
+                characters.Add(character);
+            }
+            while (!hasReachedFinalSpot)
+            {
+                Console.WriteLine($"Type R in order to roll the dice!");
+                var input = Console.ReadLine();
+                while (input != "R")
+                {
+                    Console.WriteLine("Invalid input, please try again:");
+                    input = Console.ReadLine();
+                }
+
+                var diceResult = dice.RollDice();
+
+                var character = characters[playerInTurn - 1];
+                var chNum = character.mapSectionNumber;
+                var chNewPos = chNum + diceResult;
+
+                for (int i = 0; i < playableMap.Length; i++)
+                {
+                    for (int j = 0; j < playableMap[playableMap.Length].Length; j++)
+                    {
+                        if (playableMap[i][j].Number == chNewPos)
+                        {
+                            var positionNumber = playableMap[i][j].Number;
+                            UpdateCharacterPositionInDb(character, i, j, positionNumber);
+                            //TODO - add clauses to check if it is a special square and what actions should
+                            //be taken in that case
+
+                            Console.WriteLine($"{character.Name} successfully moved to square number {chNewPos}");
+                        }
+                        else if ( i == playableMap.Length &&j == playableMap[playableMap.Length].Length)
+                        {
+                            sb.AppendLine($"{character.Name} wins the game by reaching the final first!");
+
+                            hasReachedFinalSpot = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Better luck next time, you can't go further than the final :)");
+                        }
+                    }
+                }
+
+                if (playerInTurn != characters.Count)
+                {
+                    playerInTurn++;
+                }
+                else
+                {
+                    playerInTurn = 1;
+                }
+            }
+        }
+
+        private void UpdateCharacterPositionInDb(Character character, int i, int j, int positionNumber)
+        {
+            var dbChar = context.GameCharacters
+                .FirstOrDefault(c => c.CharacterId == character.Id)
+                .Character;
+            dbChar.X = i;
+            dbChar.Y = j;
+            dbChar.mapSectionNumber = positionNumber;
+            context.Characters.Update(dbChar);
+            context.SaveChanges();
         }
     }
 }
