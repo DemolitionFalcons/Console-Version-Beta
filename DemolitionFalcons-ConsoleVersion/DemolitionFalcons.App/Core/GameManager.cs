@@ -251,7 +251,7 @@
             {
                 return ex.Message;
             }
-            
+
             return sb.ToString().TrimEnd();
         }
 
@@ -298,7 +298,7 @@
 
                 var room = roomsReady[roomNum - 1];
 
-                HaveFun(room,sb);
+                HaveFun(room, sb);
 
 
             }
@@ -380,10 +380,23 @@
 
                             Console.WriteLine($"{character.Name} successfully moved to square number {chNewPos}");
                         }
-                        else if ( i == playableMap.Length &&j == playableMap[playableMap.Length].Length)
+                        else if (i == playableMap.Length && j == playableMap[playableMap.Length].Length)
                         {
                             sb.AppendLine($"{character.Name} wins the game by reaching the final first!");
+                            //THIS WILL WORK WHEN WE CONNECT THE CHARACTER WITH THE PLAYER WHO CONTROLS IT
+                            //foreach (var cha in characters)
+                            //{
+                            //    var player = context.Players.FirstOrDefault(c => c.Username == cha.Player.Username);
+                            //    if (cha.Name == character.Name)
+                            //    {
+                            //        player.Wins++;
+                            //    }
 
+                            //    player.GamesPlayed++;
+                            //    context.Update(player);
+                            //    context.SaveChanges();
+
+                            //}
                             hasReachedFinalSpot = true;
                         }
                         else
