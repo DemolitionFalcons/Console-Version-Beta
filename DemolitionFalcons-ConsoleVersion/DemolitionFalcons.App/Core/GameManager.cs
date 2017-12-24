@@ -206,7 +206,7 @@
                     var room = rooms[i];
                     Console.WriteLine($"{num}. {room.Name} {room.Characters.Count}");
                 }
-                Console.WriteLine($"Choose which one you would like to join.");
+                Console.WriteLine($"Choose which one you would like to join.(integer)");
                 var roomNumber = int.Parse(Console.ReadLine());
 
                 while (rooms[roomNumber - 1].Characters.Count == 6)
@@ -317,9 +317,10 @@
             var playableMap = map.GenerateMap();
 
             //Set all characters on the start
+            var toBreak = false;
             for (int i = 0; i < playableMap.Length; i++)
             {
-                for (int j = 0; j < playableMap[playableMap.Length].Length; j++)
+                for (int j = 0; j < playableMap[i].Length; j++)
                 {
                     if (playableMap[i][j].Number == 1)
                     {
@@ -332,9 +333,14 @@
                             //sb.AppendLine($"Characters set on the Start");
                             Console.WriteLine($"Characters set on the Start");
                         }
+                        toBreak = true;
                         break;
                     }
+                }
 
+                if (toBreak)
+                {
+                    break;
                 }
             }
 
@@ -366,43 +372,41 @@
                 var character = characters[playerInTurn - 1];
                 var chNum = character.mapSectionNumber;
                 var chNewPos = chNum + diceResult;
+                var charMoved = false;
 
                 for (int i = 0; i < playableMap.Length; i++)
                 {
-                    for (int j = 0; j < playableMap[playableMap.Length].Length; j++)
+                    for (int j = 0; j < playableMap[i].Length; j++)
                     {
                         if (playableMap[i][j].Number == chNewPos)
                         {
+                            if (i == playableMap.Length - 1 && j == playableMap[i].Length - 1)
+                            {
+                                sb.AppendLine($"{character.Name} wins the game by reaching the final first!");
+                                UpdateCharacterPositionInDb(character, playableMap.Length - 1, playableMap.Length - 1, playableMap[i][j].Number);
+                                hasReachedFinalSpot = true;
+                                charMoved = true;
+                                break;
+                            }
+
                             var positionNumber = playableMap[i][j].Number;
                             UpdateCharacterPositionInDb(character, i, j, positionNumber);
                             //TODO - add clauses to check if it is a special square and what actions should
                             //be taken in that case
 
                             Console.WriteLine($"{character.Name} successfully moved to square number {chNewPos}");
+                            charMoved = true;
                         }
-                        else if (i == playableMap.Length && j == playableMap[playableMap.Length].Length)
-                        {
-                            sb.AppendLine($"{character.Name} wins the game by reaching the final first!");
-                            //THIS WILL WORK WHEN WE CONNECT THE CHARACTER WITH THE PLAYER WHO CONTROLS IT
-                            //foreach (var cha in characters)
-                            //{
-                            //    var player = context.Players.FirstOrDefault(c => c.Username == cha.Player.Username);
-                            //    if (cha.Name == character.Name)
-                            //    {
-                            //        player.Wins++;
-                            //    }
-
-                            //    player.GamesPlayed++;
-                            //    context.Update(player);
-                            //    context.SaveChanges();
-
-                            //}
-                            hasReachedFinalSpot = true;
-                        }
-                        else
+                        else if (chNewPos > playableMap[playableMap.Length-1][playableMap.Length-1].Number)
                         {
                             Console.WriteLine("Better luck next time, you can't go further than the final :)");
+                            charMoved = true;
                         }
+                    }
+
+                    if (charMoved)
+                    {
+                        break;
                     }
                 }
 

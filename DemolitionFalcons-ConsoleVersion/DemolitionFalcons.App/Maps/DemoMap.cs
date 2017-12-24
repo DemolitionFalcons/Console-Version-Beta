@@ -13,13 +13,13 @@
             var map = new MapSection[10][];
 
 
-            var squareNumber = 2;
+            var squareNumber = 1;
             //The start square and end square will be added right under the for's
             var counter = 0;
-            for (int i = 1; i < mapHeight - 2; i++)
+            for (int i = 0; i < mapHeight; i++)
             {
-                map[mapHeight] = new MapSection[10];
-                for (int j = 1; j < mapLength - 2; j++)
+                map[i] = new MapSection[10];
+                for (int j = 0; j < mapLength; j++)
                 {
                     if (counter == 5)
                     {
@@ -51,8 +51,8 @@
             map[0][0] = new StartSquare(0, 0);
             map[0][0].Number = 1;
             //this is the final square, who goes there first wins the game -> again depends on the map
-            map[mapHeight][mapLength] = new FinishSquare(mapHeight, mapLength);
-            map[mapHeight][mapLength].Number = 100; 
+            map[mapHeight - 1][mapLength - 1] = new FinishSquare(mapHeight - 1, mapLength - 1);
+            map[mapHeight - 1][mapLength - 1].Number = 100; 
 
             return map;
         }
