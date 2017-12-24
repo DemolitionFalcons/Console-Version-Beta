@@ -370,7 +370,8 @@
                 var diceResult = dice.RollDice();
 
                 var character = characters[playerInTurn - 1];
-                var chNum = character.mapSectionNumber;
+                var chNum = context.GameCharacters.FirstOrDefault(c => c.CharacterId == character.Id)
+                    .MapSectionNumber;
                 var chNewPos = chNum + diceResult;
                 var charMoved = false;
 
@@ -401,6 +402,7 @@
                         {
                             Console.WriteLine("Better luck next time, you can't go further than the final :)");
                             charMoved = true;
+                            break;
                         }
                     }
 
@@ -424,12 +426,11 @@
         private void UpdateCharacterPositionInDb(Character character, int i, int j, int positionNumber)
         {
             var dbChar = context.GameCharacters
-                .FirstOrDefault(c => c.CharacterId == character.Id)
-                .Character;
-            dbChar.X = i;
-            dbChar.Y = j;
-            dbChar.mapSectionNumber = positionNumber;
-            context.Characters.Update(dbChar);
+                .FirstOrDefault(c => c.CharacterId == character.Id);
+            dbChar.CharacterPositionX = i;
+            dbChar.CharacterPositionY = j;
+            dbChar.MapSectionNumber = positionNumber;
+            context.GameCharacters.Update(dbChar);
             context.SaveChanges();
         }
     }

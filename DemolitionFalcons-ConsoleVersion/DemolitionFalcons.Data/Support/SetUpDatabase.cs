@@ -115,8 +115,7 @@ namespace DemolitionFalcons.Data.Support
                     Name = "Ilian",
                     Hp = 100,
                     Armour = 100,
-                    X = 0,
-                    Y = 6
+                    
                 };
 
                 var alex = new Character
@@ -124,8 +123,7 @@ namespace DemolitionFalcons.Data.Support
                     Name = "Alex",
                     Hp = 100,
                     Armour = 100,
-                    X = 0,
-                    Y = 5
+                    
                 };
 
                 var dimitar = new Character
@@ -133,8 +131,7 @@ namespace DemolitionFalcons.Data.Support
                     Name = "Dimitar",
                     Hp = 70,
                     Armour = 0,
-                    X = 0,
-                    Y = 2
+                    
                 };
 
                 var zlatyo = new Character
@@ -142,8 +139,7 @@ namespace DemolitionFalcons.Data.Support
                     Name = "Zlatyo",
                     Hp = 100,
                     Armour = 25,
-                    X = 0,
-                    Y = 1
+                    
                 };
 
                 var stoyan = new Character
@@ -151,8 +147,7 @@ namespace DemolitionFalcons.Data.Support
                     Name = "Stoyan",
                     Hp = 100,
                     Armour = 50,
-                    X = 0,
-                    Y = 4
+                   
                 };
 
                 characters.Add(ilian);

@@ -10,9 +10,9 @@
             this.Games = new List<GameCharacter>();
             this.Hp = 100;
             this.Armour = 100;
-            this.X = 0;
-            this.Y = 0;
-            this.mapSectionNumber = 0;
+            //this.X = 0;
+            //this.Y = 0;
+            //this.mapSectionNumber = 0;
         }
 
         public int Id { get; set; }
@@ -31,10 +31,10 @@
         public Game Game { get; set; }
 
         //matrix coordinates/current position
-        public int X { get; set; }
-        public int Y { get; set; }
+        //public int X { get; set; }
+        //public int Y { get; set; }
 
-        public int mapSectionNumber { get; set; }
+        //public int mapSectionNumber { get; set; }
 
         public ICollection<GameCharacter> Games { get; set; }
     }
