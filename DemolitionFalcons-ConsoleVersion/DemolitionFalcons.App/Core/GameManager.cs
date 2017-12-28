@@ -313,6 +313,7 @@
 
         private void HaveFun(Game room, StringBuilder sb)
         {
+            int roomId = room.Id;
             var map = new DemoMap();
             var playableMap = map.GenerateMap();
 
@@ -328,7 +329,7 @@
                         foreach (var chare in room.Characters)
                         {
                             var character = chare.Character;
-                            UpdateCharacterPositionInDb(character, i, j, positionNumber);
+                            UpdateCharacterPositionInDb(character, i, j, positionNumber, roomId);
 
                             //sb.AppendLine($"Characters set on the Start");
                             Console.WriteLine($"Characters set on the Start");
@@ -370,7 +371,7 @@
                 var diceResult = dice.RollDice();
 
                 var character = characters[playerInTurn - 1];
-                var chNum = context.GameCharacters.FirstOrDefault(c => c.CharacterId == character.Id)
+                var chNum = context.GameCharacters.FirstOrDefault(c => c.CharacterId == character.Id && c.GameId == roomId)
                     .MapSectionNumber;
                 var chNewPos = chNum + diceResult;
                 var charMoved = false;
@@ -384,14 +385,14 @@
                             if (i == playableMap.Length - 1 && j == playableMap[i].Length - 1)
                             {
                                 sb.AppendLine($"{character.Name} wins the game by reaching the final first!");
-                                UpdateCharacterPositionInDb(character, playableMap.Length - 1, playableMap.Length - 1, playableMap[i][j].Number);
+                                UpdateCharacterPositionInDb(character, playableMap.Length - 1, playableMap.Length - 1, playableMap[i][j].Number, roomId);
                                 hasReachedFinalSpot = true;
                                 charMoved = true;
                                 break;
                             }
 
                             var positionNumber = playableMap[i][j].Number;
-                            UpdateCharacterPositionInDb(character, i, j, positionNumber);
+                            UpdateCharacterPositionInDb(character, i, j, positionNumber, roomId);
                             //TODO - add clauses to check if it is a special square and what actions should
                             //be taken in that case
 
@@ -423,10 +424,10 @@
             }
         }
 
-        private void UpdateCharacterPositionInDb(Character character, int i, int j, int positionNumber)
+        private void UpdateCharacterPositionInDb(Character character, int i, int j, int positionNumber, int roomId)
         {
             var dbChar = context.GameCharacters
-                .FirstOrDefault(c => c.CharacterId == character.Id);
+                .FirstOrDefault(c => c.CharacterId == character.Id && c.GameId == roomId);
             dbChar.CharacterPositionX = i;
             dbChar.CharacterPositionY = j;
             dbChar.MapSectionNumber = positionNumber;
