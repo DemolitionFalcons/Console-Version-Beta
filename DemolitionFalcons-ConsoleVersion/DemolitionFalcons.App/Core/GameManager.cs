@@ -236,12 +236,14 @@
                     Console.WriteLine($"Or if you want to exit JoinRoom, type Exit");
                     characterNumber = int.Parse(Console.ReadLine());
                 }
+                var player = context.Players.LastOrDefault();
                 GameCharacter gc = new GameCharacter
                 {
                     Character = characters[characterNumber - 1],
                     CharacterId = characters[characterNumber - 1].Id,
                     Game = rooms[roomNumber - 1],
-                    GameId = rooms[roomNumber - 1].Id
+                    GameId = rooms[roomNumber - 1].Id,
+                    PlayerId = player.Id
                 };
                 context.GameCharacters.Add(gc);
                 context.SaveChanges();

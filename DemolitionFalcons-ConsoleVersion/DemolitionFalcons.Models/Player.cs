@@ -27,5 +27,7 @@
         public ICollection<PlayerWeapon> Weapons { get; set; }
 
         //public ICollection<Character> Characters { get; set; }
+
+        //public GameCharacter GameCharacter { get; set; }
     }
 }

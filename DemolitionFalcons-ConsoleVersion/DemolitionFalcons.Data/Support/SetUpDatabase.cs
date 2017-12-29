@@ -168,7 +168,8 @@ namespace DemolitionFalcons.Data.Support
                         Character = character,
                         CharacterId = character.Id,
                         Game = game,
-                        GameId = game.Id
+                        GameId = game.Id,
+                        PlayerId = 1
                     };
 
                     context.GameCharacters.Add(gameCharacter);

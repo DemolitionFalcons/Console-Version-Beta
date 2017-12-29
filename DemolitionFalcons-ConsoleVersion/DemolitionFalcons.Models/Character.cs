@@ -20,15 +20,17 @@
         [MinLength(3)]
         public string Name { get; set; }
 
+        public string Label { get; set; }
+
         public int Hp { get; set; }
 
         public int Armour { get; set; }
 
-        public int? PlayerId { get; set; }
-        public Player Player { get; set; }
+        //public int? PlayerId { get; set; }
+        //public Player Player { get; set; }
 
-        public int? GameId { get; set; }
-        public Game Game { get; set; }
+        //public int? GameId { get; set; }
+        //public Game Game { get; set; }
 
         //matrix coordinates/current position
         //public int X { get; set; }
