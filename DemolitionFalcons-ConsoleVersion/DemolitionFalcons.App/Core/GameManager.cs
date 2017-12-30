@@ -387,7 +387,27 @@
                             if (i == playableMap.Length - 1 && j == playableMap[i].Length - 1)
                             {
                                 sb.AppendLine($"{character.Name} wins the game by reaching the final first!");
+
+                                //add money, xp and winrate for winner
+                                var playerChar = context.GameCharacters.FirstOrDefault(gc => gc.GameId == roomId && gc.CharacterId == character.Id);
+                                var player = context.Players.FirstOrDefault(x => x.Id == playerChar.PlayerId);
+                                player.Money += game.Money;
+                                player.Wins++;
+                                player.Xp += game.Xp;
+
+                                var gameCharPlayers = context.GameCharacters.Where(gc => gc.GameId == roomId).ToList();
+                                var players = context.Players.ToList();
+
+                                foreach (var playerInGame in players)
+                                {
+                                    if (gameCharPlayers.Any(p => p.PlayerId == playerInGame.Id))
+                                    {
+                                        playerInGame.GamesPlayed++;
+                                    }
+                                }
+
                                 UpdateCharacterPositionInDb(character, playableMap.Length - 1, playableMap.Length - 1, playableMap[i][j].Number, roomId);
+
                                 hasReachedFinalSpot = true;
                                 charMoved = true;
                                 break;

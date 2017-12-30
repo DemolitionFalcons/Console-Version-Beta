@@ -24,6 +24,11 @@
 
         public int Wins { get; set; }
 
+        public int Xp { get; set; }
+
+        [Range(typeof(decimal), "0", "79228162514264337593543950335")]
+        public decimal Money { get; set; }
+
         public ICollection<PlayerWeapon> Weapons { get; set; }
 
         //public ICollection<Character> Characters { get; set; }
