@@ -272,6 +272,7 @@ namespace DemolitionFalcons.Data.Support
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
             //context.Database.Migrate();
+            context = new DemolitionFalconsDbContext();
             Seed(context);
         }
     }

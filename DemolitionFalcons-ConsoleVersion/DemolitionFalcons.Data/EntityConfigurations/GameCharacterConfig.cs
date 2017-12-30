@@ -12,11 +12,13 @@
 
             builder.HasOne(g => g.Game)
                 .WithMany(ch => ch.Characters)
-                .HasForeignKey(g => g.GameId);
+                .HasForeignKey(g => g.GameId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(ch => ch.Character)
                 .WithMany(g => g.Games)
-                .HasForeignKey(ch => ch.CharacterId);
+                .HasForeignKey(ch => ch.CharacterId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
