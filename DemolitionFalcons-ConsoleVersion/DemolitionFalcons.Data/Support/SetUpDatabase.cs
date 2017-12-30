@@ -7,7 +7,7 @@ namespace DemolitionFalcons.Data.Support
 {
     public static class SetUpDatabase
     {
-       
+
         public static void CreateDataBase(DemolitionFalconsDbContext context)
         {
             //context.Database.EnsureDeleted();
@@ -60,8 +60,10 @@ namespace DemolitionFalcons.Data.Support
             //Add a bot player in order to test if all is correct
             //Add weapons to him
             //Add  a playerWeapon connection
-            if (!context.Players.Any())
+            if (!context.Players.Any() || context.Players.Count() < 5)
             {
+                var players = new List<Player>();
+
                 var bot = new Player
                 {
                     Username = "Bot",
@@ -70,7 +72,49 @@ namespace DemolitionFalcons.Data.Support
                     Wins = 0
                 };
 
-                context.Players.Add(bot);
+                players.Add(bot);
+
+                var kellyane = new Player
+                {
+                    Username = "Kellyane",
+                    Password = "kelikeli",
+                    GamesPlayed = 0,
+                    Wins = 0
+                };
+
+                players.Add(kellyane);
+
+                var ricardo = new Player
+                {
+                    Username = "Ricardo",
+                    Password = "Bonicelli",
+                    GamesPlayed = 0,
+                    Wins = 0
+                };
+
+                players.Add(ricardo);
+
+                var claire = new Player
+                {
+                    Username = "Claire",
+                    Password = "Buttss",
+                    GamesPlayed = 0,
+                    Wins = 0
+                };
+
+                players.Add(claire);
+
+                var rango = new Player
+                {
+                    Username = "Rango",
+                    Password = "ChainZ",
+                    GamesPlayed = 0,
+                    Wins = 0
+                };
+
+                players.Add(rango);
+
+                context.Players.AddRange(players);
                 context.SaveChanges();
 
                 var weapons = new List<Weapon>
@@ -115,7 +159,7 @@ namespace DemolitionFalcons.Data.Support
                     Name = "Ilian",
                     Hp = 100,
                     Armour = 100,
-                    
+
                 };
 
                 var alex = new Character
@@ -123,7 +167,7 @@ namespace DemolitionFalcons.Data.Support
                     Name = "Alex",
                     Hp = 100,
                     Armour = 100,
-                    
+
                 };
 
                 var dimitar = new Character
@@ -131,7 +175,7 @@ namespace DemolitionFalcons.Data.Support
                     Name = "Dimitar",
                     Hp = 70,
                     Armour = 0,
-                    
+
                 };
 
                 var zlatyo = new Character
@@ -139,7 +183,7 @@ namespace DemolitionFalcons.Data.Support
                     Name = "Zlatyo",
                     Hp = 100,
                     Armour = 25,
-                    
+
                 };
 
                 var stoyan = new Character
@@ -147,7 +191,7 @@ namespace DemolitionFalcons.Data.Support
                     Name = "Stoyan",
                     Hp = 100,
                     Armour = 50,
-                   
+
                 };
 
                 characters.Add(ilian);
@@ -160,21 +204,66 @@ namespace DemolitionFalcons.Data.Support
                 context.SaveChanges();
 
                 var game = context.Games.FirstOrDefault(x => x.Name == "FirstGameEver");
+                var gameChars = new List<GameCharacter>();
 
-                foreach (var character in characters)
+                var gameCharacterOne = new GameCharacter
                 {
-                    var gameCharacter = new GameCharacter
-                    {
-                        Character = character,
-                        CharacterId = character.Id,
-                        Game = game,
-                        GameId = game.Id,
-                        PlayerId = 1
-                    };
+                    Character = characters[0],
+                    CharacterId = characters[0].Id,
+                    Game = game,
+                    GameId = game.Id,
+                    PlayerId = 1
+                };
 
-                    context.GameCharacters.Add(gameCharacter);
-                    context.SaveChanges();
-                }
+                gameChars.Add(gameCharacterOne);
+
+                var gameCharacterTwo = new GameCharacter
+                {
+                    Character = characters[1],
+                    CharacterId = characters[1].Id,
+                    Game = game,
+                    GameId = game.Id,
+                    PlayerId = 2
+                };
+
+                gameChars.Add(gameCharacterTwo);
+
+                var gameCharacterThree = new GameCharacter
+                {
+                    Character = characters[2],
+                    CharacterId = characters[2].Id,
+                    Game = game,
+                    GameId = game.Id,
+                    PlayerId = 3
+                };
+
+                gameChars.Add(gameCharacterThree);
+
+                var gameCharacterFour = new GameCharacter
+                {
+                    Character = characters[3],
+                    CharacterId = characters[3].Id,
+                    Game = game,
+                    GameId = game.Id,
+                    PlayerId = 4
+                };
+
+                gameChars.Add(gameCharacterFour);
+
+                var gameCharacterFive = new GameCharacter
+                {
+                    Character = characters[4],
+                    CharacterId = characters[4].Id,
+                    Game = game,
+                    GameId = game.Id,
+                    PlayerId = 5
+                };
+
+                gameChars.Add(gameCharacterFive);
+
+                context.GameCharacters.AddRange(gameChars);
+                context.SaveChanges();
+
             }
         }
 
