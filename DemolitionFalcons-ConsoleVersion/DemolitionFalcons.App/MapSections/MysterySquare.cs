@@ -1,8 +1,8 @@
 ﻿namespace DemolitionFalcons.App.MapSections
 {
 
-    using DemolitionFalcons.App.Maps;
-    using DemolitionFalcons.Models;
+    using Maps;
+    using Models;
     using System.Collections.Generic;
 
     public class MysterySquare : MapSection

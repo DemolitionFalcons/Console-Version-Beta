@@ -1,6 +1,6 @@
 ﻿namespace DemolitionFalcons.App.Maps
 {
-    using DemolitionFalcons.App.MapSections;
+    using MapSections;
     using System;
 
     public class DemoMap
@@ -8,9 +8,9 @@
         public MapSection[][] GenerateMap()
         {
             //fill a basic level with different squares
-            int mapHeight = 10;
-            int mapLength = mapHeight;
-            var map = new MapSection[10][];
+            const int mapHeight = 10;
+            const int mapLength = mapHeight;
+            var map = new MapSection[mapHeight][];
 
 
             var squareNumber = 1;
@@ -18,7 +18,7 @@
             var counter = 0;
             for (int i = 0; i < mapHeight; i++)
             {
-                map[i] = new MapSection[10];
+                map[i] = new MapSection[mapLength];
                 for (int j = 0; j < mapLength; j++)
                 {
                     if (counter == 5)
@@ -50,6 +50,7 @@
             //this is the start square, can be different then 0,0 -> depends on the map
             map[0][0] = new StartSquare(0, 0);
             map[0][0].Number = 1;
+
             //this is the final square, who goes there first wins the game -> again depends on the map
             map[mapHeight - 1][mapLength - 1] = new FinishSquare(mapHeight - 1, mapLength - 1);
             map[mapHeight - 1][mapLength - 1].Number = 100; 

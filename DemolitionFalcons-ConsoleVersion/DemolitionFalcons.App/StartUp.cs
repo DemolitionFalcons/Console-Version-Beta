@@ -10,6 +10,7 @@ namespace DemolitionFalcons.App
     using DemolitionFalcons.App.Core;
     using System;
     using System.IO;
+    using Core;
 
     public class StartUp
     {

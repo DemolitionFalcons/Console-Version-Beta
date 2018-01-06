@@ -1,7 +1,6 @@
 ﻿namespace DemolitionFalcons.App.MapSections
 {
-
-    using DemolitionFalcons.App.Maps;
+    using Maps;
 
     public class BonusSquare : MapSection
     {

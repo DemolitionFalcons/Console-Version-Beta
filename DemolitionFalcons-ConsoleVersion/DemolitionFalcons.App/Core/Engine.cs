@@ -77,16 +77,16 @@
             sb.AppendLine("The game here will be completed by typing commands in the console.");
             sb.AppendLine("So, in order to play the game you should know some basic commands:");
             sb.AppendLine("In order to begin you professional experience in the fighting environment, you must first create a characcter!");
-            sb.AppendLine(">Register -> go on to register a user");
-            sb.AppendLine(">Create {Name} -> you will be send further to edit the info of the character you're up to create with the given name");
-            sb.AppendLine(">AddRoom {Name} -> you will be send further to create a playing room");
-            sb.AppendLine(">JoinRoom -> choose from a list of all currently available rooms");
-            sb.AppendLine(">CreateCharacter {Name} -> adds a character");
-            sb.AppendLine(">Inspect Character -> get overall info about your character");
-            sb.AppendLine(">Delete Character -> delete a specified character ");
-            sb.AppendLine(">Reset Database -> (FOR TESTING PURPOSE)resets the database");
-            sb.AppendLine(">Help -> you'll be shown the list with commands once again");
-            sb.AppendLine(">Quit -> quit the game / and lose everything simply because we don't have DB yet :D /");
+            sb.AppendLine(">register -> go on to register a user");
+            sb.AppendLine(">create {Name} -> you will be send further to edit the info of the character you're up to create with the given name");
+            sb.AppendLine(">addRoom {Name} -> you will be send further to create a playing room");
+            sb.AppendLine(">joinRoom -> choose from a list of all currently available rooms");
+            sb.AppendLine(">createCharacter {Name} -> adds a character");
+            sb.AppendLine(">inspect Character -> get overall info about your character");
+            sb.AppendLine(">delete Character -> delete a specified character ");
+            sb.AppendLine(">reset Database -> (FOR TESTING PURPOSE)resets the database");
+            sb.AppendLine(">help -> you'll be shown the list with commands once again");
+            sb.AppendLine(">quit -> quit the game / and lose everything simply because we don't have DB yet :D /");
 
             writer.WriteLine(sb.ToString());
         }
