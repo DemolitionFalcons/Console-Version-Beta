@@ -8,9 +8,9 @@
         public MapSection[][] GenerateMap()
         {
             //fill a basic level with different squares
-            int mapHeight = 10;
+            const int mapHeight = 10;
             int mapLength = mapHeight;
-            var map = new MapSection[10][];
+            var map = new MapSection[mapHeight][];
 
 
             var squareNumber = 1;
@@ -18,7 +18,7 @@
             var counter = 0;
             for (int i = 0; i < mapHeight; i++)
             {
-                map[i] = new MapSection[10];
+                map[i] = new MapSection[mapLength];
                 for (int j = 0; j < mapLength; j++)
                 {
                     if (counter == 5)
