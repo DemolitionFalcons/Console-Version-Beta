@@ -6,8 +6,7 @@ using DemolitionFalcons.Data.Support;
 
 namespace DemolitionFalcons.App
 {
-    using DemolitionFalcons.App.Core;
-    using System;
+    using Core;
 
     public class StartUp
     {

@@ -1,9 +1,8 @@
 ﻿namespace DemolitionFalcons.App.Commands
 {
     using System.Collections.Generic;
-    using System.Linq;
-    using DemolitionFalcons.App.Interfaces;
-    using DemolitionFalcons.Data.DataInterfaces;
+    using Interfaces;
+    using Data.DataInterfaces;
 
     public class StartGameCommand : AbstractCommand
     {
