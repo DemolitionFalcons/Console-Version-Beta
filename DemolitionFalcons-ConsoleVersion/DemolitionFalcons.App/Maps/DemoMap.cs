@@ -9,7 +9,7 @@
         {
             //fill a basic level with different squares
             const int mapHeight = 10;
-            int mapLength = mapHeight;
+            const int mapLength = mapHeight;
             var map = new MapSection[mapHeight][];
 
 
@@ -50,6 +50,7 @@
             //this is the start square, can be different then 0,0 -> depends on the map
             map[0][0] = new StartSquare(0, 0);
             map[0][0].Number = 1;
+
             //this is the final square, who goes there first wins the game -> again depends on the map
             map[mapHeight - 1][mapLength - 1] = new FinishSquare(mapHeight - 1, mapLength - 1);
             map[mapHeight - 1][mapLength - 1].Number = 100; 
