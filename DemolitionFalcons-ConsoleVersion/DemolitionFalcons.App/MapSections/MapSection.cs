@@ -1,6 +1,6 @@
 ﻿namespace DemolitionFalcons.App.Maps
 {
-    using DemolitionFalcons.App.Interfaces;
+    using Interfaces;
 
     public abstract class MapSection : IMapSection
     {

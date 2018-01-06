@@ -1,6 +1,6 @@
 ﻿namespace DemolitionFalcons.App.Maps
 {
-    using DemolitionFalcons.App.MapSections;
+    using MapSections;
     using System;
 
     public class DemoMap

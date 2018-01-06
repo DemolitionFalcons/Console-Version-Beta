@@ -1,9 +1,8 @@
 ﻿namespace DemolitionFalcons.App.MapSections
 {
 
-    using DemolitionFalcons.App.Maps;
-    using DemolitionFalcons.Models;
-    using System.Collections.Generic;
+    using Maps;
+    using Models;
 
     public class FinishSquare : MapSection
     {
