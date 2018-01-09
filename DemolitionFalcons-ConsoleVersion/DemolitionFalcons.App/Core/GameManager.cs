@@ -232,7 +232,7 @@
                 var gameCharacter = context.GameCharacters.Where(g => g.GameId == rooms[roomNumber - 1].Id).ToList();
                 while (gameCharacter.Where(g => g.GameId == rooms[roomNumber - 1].Id).Any(g => g.CharacterId == characters[characterNumber - 1].Id))
                 {
-                    Console.WriteLine($"{characters[characterNumber - 1]} is already taken, please choose another one.");
+                    Console.WriteLine($"{characters[characterNumber - 1].Name} is already taken, please choose another one.");
                     Console.WriteLine($"Or if you want to exit JoinRoom, type Exit");
                     characterNumber = int.Parse(Console.ReadLine());
                 }

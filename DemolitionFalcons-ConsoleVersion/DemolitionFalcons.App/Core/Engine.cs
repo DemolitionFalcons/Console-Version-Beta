@@ -64,6 +64,7 @@
                     writer.WriteLine(e.Message);
 
                 }
+                Console.WriteLine();
             }
 
         }
