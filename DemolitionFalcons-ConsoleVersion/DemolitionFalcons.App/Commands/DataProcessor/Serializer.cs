@@ -1,4 +1,5 @@
-﻿using DemolitionFalcons.Data;
+﻿using DemolitionFalcons.App.Maps;
+using DemolitionFalcons.Data;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -9,17 +10,18 @@ namespace DemolitionFalcons.App.Commands.DataProcessor
     {
         public static string ExportCharacterStatistics(DemolitionFalconsDbContext context)
         {
-            var characters = context.Characters
+            var map = new DemoMap("map1");
+
+            var characters = context.GameCharacters
                 .Select(c => new
                 {
-                    c.Name,
-                    Health = c.Hp,
-                    c.Armour,
-                    GamesPlayed = c.Games,
+                    name = c.Game.Name,
+                    map = map.Name,
+                    numberOfOpponents = c.Game.Characters.Count()
                 })
-                .ToArray();
+                .FirstOrDefault();
 
-            var json = JsonConvert.SerializeObject(characters, Formatting.Indented,
+            var json = JsonConvert.SerializeObject(characters, Formatting.None,
             new JsonSerializerSettings()
             {
                 ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore

@@ -316,7 +316,7 @@
         private void HaveFun(Game room, StringBuilder sb)
         {
             int roomId = room.Id;
-            var map = new DemoMap();
+            var map = new DemoMap("map1");
             var playableMap = map.GenerateMap();
 
             //Set all characters on the start
