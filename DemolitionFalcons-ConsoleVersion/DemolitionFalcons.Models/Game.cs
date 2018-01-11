@@ -30,5 +30,7 @@
         //public Map Map { get; set; }
 
         public ICollection<GameCharacter> Characters { get; set; }
+
+        public int GameSize { get; set; }
     }
 }

@@ -12,6 +12,8 @@
         }
         public int Id { get; set; }
 
+        public string Type { get; set; }
+
         //public byte Picture { get; set; }
 
         [MinLength(3)]
