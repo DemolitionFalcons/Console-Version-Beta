@@ -38,6 +38,7 @@
             modelBuilder.ApplyConfiguration(new GameConfig());
             modelBuilder.ApplyConfiguration(new CharacterConfig());
             modelBuilder.ApplyConfiguration(new GameCharacterConfig());
+            modelBuilder.ApplyConfiguration(new SpellConfig());
         }
     }
 }
