@@ -22,12 +22,31 @@
         var squareNumber = 1;
             //The start square and end square will be added right under the for's
             var counter = 0;
+            var bonusCounter = 0;
             for (int i = 0; i < mapHeight; i++)
             {
                 map[i] = new MapSection[mapLength];
                 for (int j = 0; j < mapLength; j++)
                 {
-                    if (counter == 5)
+                    if (bonusCounter == 7 && counter != 5)
+                    {
+                        var rnd = new Random();
+                        if (rnd.Next(0, 10) % 2 == 0)
+                        {
+                            map[i][j] = new MysterySquare(i, j);
+
+                            bonusCounter++;
+                        }
+                        else
+                        {
+                            map[i][j] = new BonusSquare(i, j);
+                            bonusCounter++;
+                        }
+                        map[i][j].Number = squareNumber; squareNumber++;
+                        bonusCounter = 0;
+                        counter++;
+                    }
+                    else if (counter == 5)
                     {
                         var rnd = new Random();
                         if (rnd.Next(0,4) % 2 == 0)
@@ -48,8 +67,11 @@
                     {
                         map[i][j] = new NormalSquare(i, j);
                         map[i][j].Number = squareNumber; squareNumber++;
-                        counter++; 
+                        counter++;
+                        bonusCounter++;
                     }
+
+                    
                 }
             }
 

@@ -283,6 +283,8 @@
             return sb.ToString().TrimEnd();
         }
 
+        //All the methods below feature in-game activity
+
         public string StartGame()
         {
             StringBuilder sb = new StringBuilder();
@@ -400,10 +402,18 @@
 
                             var positionNumber = playableMap[i][j].Number;
                             UpdateCharacterPositionInDb(character, i, j, positionNumber, roomId);
+                            Console.WriteLine($"{character.Name} successfully moved to square number {chNewPos}");
                             //TODO - add clauses to check if it is a special square and what actions should
                             //be taken in that case
-
-                            Console.WriteLine($"{character.Name} successfully moved to square number {chNewPos}");
+                            try
+                            {
+                                CheckIfSpecialSquare(playableMap, i, j, positionNumber, character, roomId);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+                            
                             charMoved = true;
                         }
                         else if (chNewPos > playableMap[playableMap.Length - 1][playableMap.Length - 1].Number)
@@ -428,6 +438,82 @@
                 {
                     playerInTurn = 1;
                 }
+            }
+        }
+
+        private void CheckIfSpecialSquare(MapSection[][] map,int i, int j, int positionNumber, Character character, int roomId)
+        {
+            //Character moves back by 3 positions if he is on GoBackSquare
+            if (map[i][j].isGoBackSquare)
+            {
+                Console.WriteLine("Oops, it seems you stopped on a special square...");
+                positionNumber -= 3;
+                if (j >= 3)
+                {
+                    j = 0;
+                }
+                else
+                {
+                    var toTakeDown = 3 - j;
+                    if (i == 0)
+                    {
+                        throw new ArgumentException($"Cannot move back from {i}{j}");
+                    }
+                    else
+                    {
+                        i -= 1;
+                        j = 9;
+                        j -= toTakeDown;
+                    }
+                }
+                positionNumber = map[i][j].Number;
+                UpdateCharacterPositionInDb(character, i, j, positionNumber, roomId);
+                Console.WriteLine($"{character.Name} moves back by 3 positions to square number {positionNumber} :)");
+                CheckIfSpecialSquare(map, i, j, positionNumber, character, roomId);
+            }
+            //Character goes forward by 3 positions if he is on GoBackSquare
+            else if (map[i][j].isGoForwardSquare)
+            {
+
+                Console.WriteLine("Oops, it seems you stopped on a special square...");
+                positionNumber += 3;
+                if (j <= 6)
+                {
+                    j += 3;
+                }
+                else //if(j != 9)
+                {
+                    var thisRowAdd = 9 - j;
+                    var nextRowAdd = 3 - thisRowAdd;
+                    if (i == 9)
+                    {
+                        throw new ArgumentException($"Cannot move forward from {i}{j}");
+                    }
+                    else
+                    {
+                        i += 1;
+                        j = 0;
+                        j += nextRowAdd;
+                    }
+
+                }
+                positionNumber = map[i][j].Number;
+                UpdateCharacterPositionInDb(character, i, j, positionNumber, roomId);
+                Console.WriteLine($"{character.Name} moves forward with 3 positions to square number {positionNumber} ^.^");
+                CheckIfSpecialSquare(map, i, j, positionNumber, character, roomId);
+            }
+            //ToDo
+            else if (map[i][j].isMysterySquare)
+            {
+                Console.WriteLine("Oops, it seems you stopped on a special square...");
+                Console.WriteLine($"{character.Name} is on a mystery square which logic is due to be implemented soon :)");
+            }
+            //ToDo
+            else if (map[i][j].isBonusSquare)
+            {
+
+                Console.WriteLine("Oops, it seems you stopped on a special square...");
+                Console.WriteLine($"{character.Name} is on a bonus square which logic is due to be implemented soon :)");
             }
         }
 
@@ -479,10 +565,17 @@
 
                             var positionNumber = firstMap[i][j].Number;
                             UpdateCharacterPositionInDbFirstMap(character, firstMap[i][j].X, firstMap[i][j].Y, positionNumber, roomId);
+                            Console.WriteLine($"{character.Name} successfully moved to square number {chNewPos}");
                             //TODO - add clauses to check if it is a special square and what actions should
                             //be taken in that case
-
-                            Console.WriteLine($"{character.Name} successfully moved to square number {chNewPos}");
+                            try
+                            {
+                                CheckIfSpecialSquare(firstMap, i, j, positionNumber, character, roomId);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
                             charMoved = true;
                         }
                         else if (chNewPos > firstMap[firstMap.Length - 1][firstMap[0].Length - 1].Number)
