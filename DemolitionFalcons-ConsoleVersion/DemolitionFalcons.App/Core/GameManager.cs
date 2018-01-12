@@ -451,7 +451,14 @@
                 positionNumber -= 3;
                 if (j >= 3)
                 {
-                    j = 0;
+                    if (j == 3)
+                    {
+                        j = 0;
+                    }
+                    else
+                    {
+                        j -= positionNumber;
+                    }
                 }
                 else
                 {
@@ -464,7 +471,11 @@
                     {
                         i -= 1;
                         j = 9;
-                        j -= toTakeDown;
+                        if (toTakeDown == 2)
+                        {
+                            toTakeDown--;
+                        }
+                        j -= toTakeDown - 1;
                     }
                 }
                 positionNumber = map[i][j].Number;
