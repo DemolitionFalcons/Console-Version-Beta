@@ -10,6 +10,7 @@
         public MysterySquare(int x, int y) 
             : base(x, y)
         {
+            base.isMysterySquare = true;
         }
 
         public override int Number { get; set; }

@@ -9,6 +9,7 @@
         public GoBackSquare(int x, int y)
             : base(x, y)
         {
+            base.isGoBackSquare = true;
         }
 
         public override int Number { get; set; }
