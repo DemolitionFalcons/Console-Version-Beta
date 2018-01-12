@@ -24,5 +24,8 @@
         public int DamageBonus {get; set;} // adds a bonus dmg to the dmg that the char already possesses
 
         public int SpellRange { get; set; }
+
+        public string Description { get; set; }
+
     }
 }
