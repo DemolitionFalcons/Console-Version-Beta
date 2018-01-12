@@ -20,5 +20,7 @@
         public int? MapSectionNumber { get; set; }
 
         public int? PlayerId { get; set; }
+
+        public string Type { get; set; }
     }
 }

@@ -22,6 +22,8 @@
 
         public string Label { get; set; }
 
+        public string Description { get; set; }
+
         public int Hp { get; set; }
 
         public int Armour { get; set; }

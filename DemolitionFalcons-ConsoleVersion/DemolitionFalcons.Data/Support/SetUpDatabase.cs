@@ -154,51 +154,61 @@ namespace DemolitionFalcons.Data.Support
             {
                 var characters = new List<Character>();
 
-                var ilian = new Character
+                var eagle = new Character
                 {
-                    Name = "Ilian",
+                    Name = "Eagle",
+                    Label = "The Flying Demon",
+                    Description = "It comes from a distant unknown land. It has a weak defence but is very weak and subtle.",
                     Hp = 100,
                     Armour = 100,
 
                 };
 
-                var alex = new Character
+                var cloudy = new Character
                 {
-                    Name = "Alex",
+                    Name = "Cloudy",
+                    Label = "The Cloud Potato",
+                    Description = "It comes from a Cloudysland, drives a skateboard and has a strange hairstyle.",
                     Hp = 100,
                     Armour = 100,
 
                 };
 
-                var dimitar = new Character
+                var edward = new Character
                 {
-                    Name = "Dimitar",
+                    Name = "Edward",
+                    Label = "The Raccoon's Special Troop",
+                    Description = "Has developed great military skills over time. Has very strong defence but is usually unfortunate.",
                     Hp = 70,
                     Armour = 0,
 
                 };
 
-                var zlatyo = new Character
+                var stephano = new Character
                 {
-                    Name = "Zlatyo",
+                    Name = "Stephano",
+                    Label = "The Mad Scientist",
+                    Description = "Has worked for different non-governmental projects with an unknown role. Notably known for his bloody scientific experiments on people.",
                     Hp = 100,
                     Armour = 25,
 
                 };
 
-                var stoyan = new Character
+                var botche = new Character
                 {
-                    Name = "Stoyan",
+                    Name = "botche",
+                    Label = "bottttt",
+                    Description = "bot kat si znae kvo mu e samo bot si znae kvo mi e",
                     Hp = 100,
                     Armour = 50,
 
                 };
 
-                characters.Add(ilian);
-                characters.Add(alex);
-                characters.Add(dimitar);
-                characters.Add(zlatyo);
-                characters.Add(stoyan);
+                characters.Add(eagle);
+                characters.Add(cloudy);
+                characters.Add(edward);
+                characters.Add(stephano);
+                characters.Add(botche);
 
                 context.AddRange(characters);
                 context.SaveChanges();
@@ -212,7 +222,8 @@ namespace DemolitionFalcons.Data.Support
                     CharacterId = characters[0].Id,
                     Game = game,
                     GameId = game.Id,
-                    PlayerId = 1
+                    PlayerId = 1,
+                    Type = "computer"
                 };
 
                 gameChars.Add(gameCharacterOne);
@@ -223,7 +234,8 @@ namespace DemolitionFalcons.Data.Support
                     CharacterId = characters[1].Id,
                     Game = game,
                     GameId = game.Id,
-                    PlayerId = 2
+                    PlayerId = 2,
+                    Type = "computer"
                 };
 
                 gameChars.Add(gameCharacterTwo);
@@ -234,7 +246,8 @@ namespace DemolitionFalcons.Data.Support
                     CharacterId = characters[2].Id,
                     Game = game,
                     GameId = game.Id,
-                    PlayerId = 3
+                    PlayerId = 3,
+                    Type = "computer"
                 };
 
                 gameChars.Add(gameCharacterThree);
@@ -245,7 +258,8 @@ namespace DemolitionFalcons.Data.Support
                     CharacterId = characters[3].Id,
                     Game = game,
                     GameId = game.Id,
-                    PlayerId = 4
+                    PlayerId = 4,
+                    Type = "computer"
                 };
 
                 gameChars.Add(gameCharacterFour);
@@ -256,7 +270,8 @@ namespace DemolitionFalcons.Data.Support
                     CharacterId = characters[4].Id,
                     Game = game,
                     GameId = game.Id,
-                    PlayerId = 5
+                    PlayerId = 5,
+                    Type = "computer"
                 };
 
                 gameChars.Add(gameCharacterFive);
