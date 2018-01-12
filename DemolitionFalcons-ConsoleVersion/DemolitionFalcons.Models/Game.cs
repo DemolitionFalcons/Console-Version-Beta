@@ -31,6 +31,6 @@
 
         public ICollection<GameCharacter> Characters { get; set; }
 
-        public int GameSize { get; set; }
+        //public int GameSize { get; set; }
     }
 }

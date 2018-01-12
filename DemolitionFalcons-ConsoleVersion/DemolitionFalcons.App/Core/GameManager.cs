@@ -320,39 +320,13 @@
             var playableMap = map.GenerateMap();
 
             //Set all characters on the start
-            var toBreak = false;
-            for (int i = 0; i < playableMap.Length; i++)
-            {
-                for (int j = 0; j < playableMap[i].Length; j++)
-                {
-                    if (playableMap[i][j].Number == 1)
-                    {
-                        var positionNumber = playableMap[i][j].Number;
-                        foreach (var chare in room.Characters)
-                        {
-                            var character = chare.Character;
-                            UpdateCharacterPositionInDb(character, i, j, positionNumber, roomId);
 
-                            //sb.AppendLine($"Characters set on the Start");
-                            Console.WriteLine($"Characters set on the Start");
-                        }
-                        toBreak = true;
-                        break;
-                    }
-                }
+            SetOnStart(room, playableMap, roomId);
 
-                if (toBreak)
-                {
-                    break;
-                }
-            }
-
+            //Create dice
             DiceDto dice = new DiceDto();
 
-            bool hasReachedFinalSpot = false;
-
-            var playerInTurn = 1;
-
+            //Add Characters to the room
             var game = context.Games.FirstOrDefault(g => g.Id == room.Id);
             var characters = new List<Character>();
             foreach (var gc in game.Characters)
@@ -360,6 +334,19 @@
                 var character = gc.Character;
                 characters.Add(character);
             }
+
+            //The real game begins
+            ProceedGame(game, sb, playableMap, characters, dice, roomId);
+
+
+        }
+
+        private void ProceedGame(Game game,StringBuilder sb,MapSection[][] playableMap, List<Character> characters, DiceDto dice, int roomId)
+        {
+            bool hasReachedFinalSpot = false;
+
+            var playerInTurn = 1;
+
             while (!hasReachedFinalSpot)
             {
                 Console.WriteLine($"Type R in order to roll the dice!");
@@ -421,7 +408,7 @@
                             Console.WriteLine($"{character.Name} successfully moved to square number {chNewPos}");
                             charMoved = true;
                         }
-                        else if (chNewPos > playableMap[playableMap.Length-1][playableMap.Length-1].Number)
+                        else if (chNewPos > playableMap[playableMap.Length - 1][playableMap.Length - 1].Number)
                         {
                             Console.WriteLine("Better luck next time, you can't go further than the final :)");
                             charMoved = true;
@@ -444,6 +431,37 @@
                     playerInTurn = 1;
                 }
             }
+        }
+
+        private void SetOnStart(Game room, MapSection[][] playableMap, int roomId)
+        {
+            var toBreak = false;
+            for (int i = 0; i < playableMap.Length; i++)
+            {
+                for (int j = 0; j < playableMap[i].Length; j++)
+                {
+                    if (playableMap[i][j].Number == 1)
+                    {
+                        var positionNumber = playableMap[i][j].Number;
+                        foreach (var chare in room.Characters)
+                        {
+                            var character = chare.Character;
+                            UpdateCharacterPositionInDb(character, i, j, positionNumber, roomId);
+
+                            //sb.AppendLine($"Characters set on the Start");
+                            Console.WriteLine($"Characters set on the Start");
+                        }
+                        toBreak = true;
+                        break;
+                    }
+                }
+
+                if (toBreak)
+                {
+                    break;
+                }
+            }
+
         }
 
         private void UpdateCharacterPositionInDb(Character character, int i, int j, int positionNumber, int roomId)
