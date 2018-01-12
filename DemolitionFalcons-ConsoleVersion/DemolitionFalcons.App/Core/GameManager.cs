@@ -300,8 +300,15 @@
 
                 var room = roomsReady[roomNum - 1];
 
-                HaveFun(room, sb);
+                Console.WriteLine("Which map would you like to use?(Type in 'FirstMap' or 'DemoMap'");
+                var preferredMap = Console.ReadLine().ToLower();
+                while (preferredMap != "firstmap" && preferredMap != "demomap")
+                {
+                    Console.WriteLine("That was incorrect! Type the map again.");
+                    preferredMap = Console.ReadLine().ToLower();
+                }
 
+                HaveFun(room, sb, preferredMap);
 
             }
             catch (Exception ex)
@@ -313,15 +320,9 @@
             return sb.ToString().TrimEnd();
         }
 
-        private void HaveFun(Game room, StringBuilder sb)
+        private void HaveFun(Game room, StringBuilder sb, string preferredMap)
         {
             int roomId = room.Id;
-            var map = new DemoMap("map1");
-            var playableMap = map.GenerateMap();
-
-            //Set all characters on the start
-
-            SetOnStart(room, playableMap, roomId);
 
             //Create dice
             DiceDto dice = new DiceDto();
@@ -335,9 +336,21 @@
                 characters.Add(character);
             }
 
-            //The real game begins
-            ProceedGame(game, sb, playableMap, characters, dice, roomId);
 
+            if (preferredMap == "demomap")
+            {
+                var map = new DemoMap("map1");
+                var playableMap = map.GenerateMap();
+                SetOnStart(room, playableMap, roomId);// set all chars on start
+                ProceedGame(game, sb, playableMap, characters, dice, roomId);
+            }
+            else if (preferredMap == "firstmap")
+            {
+                var firstMap = new FirstMapFrontEnd();
+                var generatedFirstMap = firstMap.GenerateFirstMap();
+                SetOnStartFirstMap(room, generatedFirstMap, roomId);// set all chars on start
+                ProceedGameFirstMap(game, sb, generatedFirstMap, characters, dice, roomId);
+            }
 
         }
 
@@ -376,23 +389,8 @@
                                 sb.AppendLine($"{character.Name} wins the game by reaching the final first!");
 
                                 //add money, xp and winrate for winner
-                                var playerChar = context.GameCharacters.FirstOrDefault(gc => gc.GameId == roomId && gc.CharacterId == character.Id);
-                                var player = context.Players.FirstOrDefault(x => x.Id == playerChar.PlayerId);
-                                player.Money += game.Money;
-                                player.Wins++;
-                                player.Xp += game.Xp;
-
-                                var gameCharPlayers = context.GameCharacters.Where(gc => gc.GameId == roomId).ToList();
-                                var players = context.Players.ToList();
-
-                                foreach (var playerInGame in players)
-                                {
-                                    if (gameCharPlayers.Any(p => p.PlayerId == playerInGame.Id))
-                                    {
-                                        playerInGame.GamesPlayed++;
-                                    }
-                                }
-
+                                AddWinnerStats(roomId, character.Id, game);
+                                AddGamesPlayedForPlayers(roomId);
                                 UpdateCharacterPositionInDb(character, playableMap.Length - 1, playableMap.Length - 1, playableMap[i][j].Number, roomId);
 
                                 hasReachedFinalSpot = true;
@@ -433,6 +431,109 @@
             }
         }
 
+        private void ProceedGameFirstMap(Game game, StringBuilder sb, MapSection[][] firstMap, List<Character> characters, DiceDto dice, int roomId)
+        {
+            bool hasReachedFinalSpot = false;
+
+            var playerInTurn = 1;
+
+            while (!hasReachedFinalSpot)
+            {
+                Console.WriteLine($"Type R in order to roll the dice!");
+                var input = Console.ReadLine();
+                while (input != "R")
+                {
+                    Console.WriteLine("Invalid input, please try again:");
+                    input = Console.ReadLine();
+                }
+
+                var diceResult = dice.RollDice();
+
+                var character = characters[playerInTurn - 1];
+                var chNum = context.GameCharacters.FirstOrDefault(c => c.CharacterId == character.Id && c.GameId == roomId)
+                    .MapSectionNumber;
+                var chNewPos = chNum + diceResult;
+                var charMoved = false;
+
+                for (int i = 0; i < firstMap.Length; i++)
+                {
+                    for (int j = 0; j < firstMap[i].Length; j++)
+                    {
+                        if (firstMap[i][j].Number == chNewPos)
+                        {
+                            if (i == firstMap.Length - 1 && j == firstMap[i].Length - 1)
+                            {
+                                sb.AppendLine($"{character.Name} wins the game by reaching the final first!");
+
+                                //add money, xp and winrate for winner
+                                
+
+                                AddWinnerStats(roomId, character.Id, game);
+                                AddGamesPlayedForPlayers(roomId);
+                                UpdateCharacterPositionInDbFirstMap(character, firstMap[i][j].X, firstMap[i][j].Y, firstMap[i][j].Number, roomId);
+
+                                hasReachedFinalSpot = true;
+                                charMoved = true;
+                                break;
+                            }
+
+                            var positionNumber = firstMap[i][j].Number;
+                            UpdateCharacterPositionInDbFirstMap(character, firstMap[i][j].X, firstMap[i][j].Y, positionNumber, roomId);
+                            //TODO - add clauses to check if it is a special square and what actions should
+                            //be taken in that case
+
+                            Console.WriteLine($"{character.Name} successfully moved to square number {chNewPos}");
+                            charMoved = true;
+                        }
+                        else if (chNewPos > firstMap[firstMap.Length - 1][firstMap[0].Length - 1].Number)
+                        {
+                            Console.WriteLine("Better luck next time, you can't go further than the final :)");
+                            charMoved = true;
+                            break;
+                        }
+                    }
+
+                    if (charMoved)
+                    {
+                        break;
+                    }
+                }
+
+                if (playerInTurn != characters.Count)
+                {
+                    playerInTurn++;
+                }
+                else
+                {
+                    playerInTurn = 1;
+                }
+            }
+        }
+
+        private void AddGamesPlayedForPlayers(int roomId)
+        {
+            var gameCharPlayers = context.GameCharacters.Where(gc => gc.GameId == roomId).ToList();
+            var players = context.Players.ToList();
+
+            foreach (var playerInGame in players)
+            {
+                if (gameCharPlayers.Any(p => p.PlayerId == playerInGame.Id))
+                {
+                    playerInGame.GamesPlayed++;
+                }
+            }
+        }
+
+        private void AddWinnerStats(int roomId, int characterId, Game game)
+        {
+            var playerChar = context.GameCharacters.FirstOrDefault(gc => gc.GameId == roomId && gc.CharacterId == characterId);
+            var player = context.Players.FirstOrDefault(x => x.Id == playerChar.PlayerId);
+            player.Money += game.Money;
+            player.Wins++;
+            player.Xp += game.Xp;
+        }
+
+        #region DemoMap
         private void SetOnStart(Game room, MapSection[][] playableMap, int roomId)
         {
             var toBreak = false;
@@ -473,6 +574,52 @@
             dbChar.MapSectionNumber = positionNumber;
             context.GameCharacters.Update(dbChar);
             context.SaveChanges();
+        } 
+        #endregion
+
+        #region FirstMap
+        private void SetOnStartFirstMap(Game room, MapSection[][] firstMap, int roomId)
+        {
+            var toBreak = false;
+            for (int i = 0; i < firstMap.Length; i++)
+            {
+                for (int j = 0; j < firstMap[i].Length; j++)
+                {
+                    if (firstMap[i][j].Number == 1)
+                    {
+                        var positionNumber = firstMap[i][j].Number;
+                        foreach (var chare in room.Characters)
+                        {
+                            var character = chare.Character;
+                            UpdateCharacterPositionInDbFirstMap(character, firstMap[0][0].X, firstMap[0][0].Y, positionNumber, roomId);
+
+                            //sb.AppendLine($"Characters set on the Start");
+                            Console.WriteLine($"Characters set on the Start");
+                        }
+                        toBreak = true;
+                        break;
+                    }
+                }
+
+                if (toBreak)
+                {
+                    break;
+                }
+            }
+
         }
+
+
+        private void UpdateCharacterPositionInDbFirstMap(Character character, int X, int Y, int positionNumber, int roomId)
+        {
+            var dbChar = context.GameCharacters
+                .FirstOrDefault(c => c.CharacterId == character.Id && c.GameId == roomId);
+            dbChar.CharacterPositionX = X;
+            dbChar.CharacterPositionY = Y;
+            dbChar.MapSectionNumber = positionNumber;
+            context.GameCharacters.Update(dbChar);
+            context.SaveChanges();
+        } 
+        #endregion
     }
 }
