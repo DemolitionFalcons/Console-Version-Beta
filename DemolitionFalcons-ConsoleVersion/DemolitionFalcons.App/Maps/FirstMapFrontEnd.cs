@@ -1,4 +1,5 @@
 ﻿using DemolitionFalcons.App.MapSections;
+using System;
 
 namespace DemolitionFalcons.App.Maps
 {
@@ -59,15 +60,43 @@ namespace DemolitionFalcons.App.Maps
 
             var squareNumber = 1;
             var counter = 0;
+            var bonusCounter = 0;
 
             for (int i = 0; i < mapHeight; i++)
             {
                 map[i] = new MapSection[mapLength];
                 for (int j = 0; j < mapLength; j++)
                 {
-                    map[i][j] = new NormalSquare(i, j);
+                    if (bonusCounter > 6)
+                    {
+                        if ((counter / 2 + bonusCounter) % 2 == 0)
+                        {
+                            map[i][j] = new BonusSquare(i, j);
+                        }
+                        else
+                        {
+                            map[i][j] = new MysterySquare(i, j);
+                        }
+                        bonusCounter = 0;
+                    }
+                    else if (counter > 5 && (bonusCounter + 1) % 2 == 0)
+                    {
+                        map[i][j] = new GoForwardSquare(i, j);
+                        counter = 1;
+                    }
+                    else if (counter > 5)
+                    {
+                        map[i][j] = new GoBackSquare(i, j);
+                        counter = 1;
+                    }
+                    else
+                    {
+                        map[i][j] = new NormalSquare(i, j);
+                    }
+
                     map[i][j].Number = squareNumber; squareNumber++;
                     counter++;
+                    bonusCounter++;
 
                     if (squareNumber == 51)
                     {
