@@ -5,6 +5,13 @@
 
     public class DemoMap
     {
+        public string Name { get; set; }
+
+        public DemoMap(string name)
+        {
+            this.Name = name;
+        }
+
         public MapSection[][] GenerateMap()
         {
             //fill a basic level with different squares
@@ -12,8 +19,7 @@
             const int mapLength = mapHeight;
             var map = new MapSection[mapHeight][];
 
-
-            var squareNumber = 1;
+        var squareNumber = 1;
             //The start square and end square will be added right under the for's
             var counter = 0;
             for (int i = 0; i < mapHeight; i++)
