@@ -14,6 +14,7 @@
     using DemolitionFalcons.Data.Support;
     using DemolitionFalcons.App.Maps;
     using DemolitionFalcons.App.MapSections;
+    using DemolitionFalcons.App.Miscellaneous.SpecialSquares;
 
     public class GameManager : IManager
     {
@@ -507,6 +508,30 @@
             {
                 Console.WriteLine("Oops, it seems you stopped on a special square...");
                 Console.WriteLine($"{character.Name} is on a mystery square which logic is due to be implemented soon :)");
+
+                //Can be found in Miscellaneous/SpecialSquares/MysterySquareAction.cs
+                MysterySquareAction msa = new MysterySquareAction();
+                msa.PlayMiniGame();
+                if (msa.DemolitionFalcons)
+                {
+                    //All characters return to the first square
+                    var characters = context.GameCharacters.Where(g => g.GameId == roomId).ToList();
+                    foreach (var charche in characters)
+                    {
+                        context.GameCharacters.FirstOrDefault(c => c.CharacterId == charche.CharacterId).CharacterPositionX = 0;
+                        context.GameCharacters.FirstOrDefault(c => c.CharacterId == charche.CharacterId).CharacterPositionY = 0;
+                        context.GameCharacters.FirstOrDefault(c => c.CharacterId == charche.CharacterId).MapSectionNumber = 1;
+                        context.SaveChanges();
+                    }
+                }
+                else if (msa.GoBack)
+                {
+                    //ToDo
+                }
+                else if (msa.MoveForward)
+                {
+                    //ToDo
+                }
             }
             //ToDo
             else if (map[i][j].isBonusSquare)
@@ -514,6 +539,9 @@
 
                 Console.WriteLine("Oops, it seems you stopped on a special square...");
                 Console.WriteLine($"{character.Name} is on a bonus square which logic is due to be implemented soon :)");
+                BonusSquareAction bsa = new BonusSquareAction(context,roomId,character);
+                //Gets a random spell drawn with a special algorythm that allow the character to atack another character
+                bsa.GetSpell();
             }
         }
 

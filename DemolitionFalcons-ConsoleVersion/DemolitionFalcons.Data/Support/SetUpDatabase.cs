@@ -288,7 +288,7 @@ namespace DemolitionFalcons.Data.Support
                 var fireball = new Spell("Fireball", 50, 5);
                 fireball.Description = "A ball of fire flying towards any enemy and dealing huge damage";
                 var crucio = new Spell("Crucio", 150, 15);
-                crucio.Description = "A spells seen in the Harry Potter series for first time. One of the three Unforgivable Curses." +
+                crucio.Description = "A spells seen in the Harry Potter series for first time. One of the three Unforgivable Curses" +
                     " the Cruciatus curse causes agonising pain";
                 var avadaKedavra = new Spell("Avada Kedavra", 300, 20);
                 avadaKedavra.Description = "Powerful curse which instantly kills the victim";
