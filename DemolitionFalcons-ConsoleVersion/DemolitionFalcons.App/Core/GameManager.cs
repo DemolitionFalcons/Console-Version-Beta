@@ -456,11 +456,75 @@
                 }
                 else if (msa.GoBack)
                 {
-                    //ToDo
+                    var toGoBackWith = msa.GoBackWith;
+                    positionNumber -= toGoBackWith;
+                    if (j >= toGoBackWith)
+                    {
+                        if (j == toGoBackWith)
+                        {
+                            j = 0;
+                        }
+                        else
+                        {
+                            j -= toGoBackWith;
+                        }
+
+                    }
+                    else
+                    {
+                        var toTakeDown = toGoBackWith - j;
+                        if (i == 0)
+                        {
+                            throw new ArgumentException($"Cannot move back from {i}{j}");
+                        }
+                        else
+
+                        {
+                            i -= 1;
+                            j = map[i].Length - 1;
+                            toTakeDown--;
+                            j -= toTakeDown;
+                        }
+                    }
+                    positionNumber = map[i][j].Number;
+                    UpdateCharacterPositionInDbFirstMap(character, map[i][j].X, map[i][j].Y, positionNumber, roomId);
+                    Console.WriteLine($"{character.Name} moves back by 3 positions to square number {positionNumber} :)");
+                    CheckIfSpecialSquare(map, i, j, positionNumber, character, roomId);
                 }
                 else if (msa.MoveForward)
                 {
-                    //ToDo
+                    var toMoveForwardWith = msa.MoveForwardWith;
+
+                    positionNumber += toMoveForwardWith;
+                    if (j <= map[i].Length - toMoveForwardWith)
+                    {
+                        j += toMoveForwardWith;
+                    }
+                    else //if(j != 9)
+                    {
+                        var thisRowAdd = 9 - j;
+                        var nextRowAdd = toMoveForwardWith - thisRowAdd;
+                        if (i == map.Length - 1)
+                        {
+                            throw new ArgumentException($"Cannot move forward from {i}{j}");
+                        }
+                        else
+                        {
+                            i += 1;
+                            j = 0;
+                            if (j == 0)
+                            {
+                                nextRowAdd--;
+                            }
+                            j += nextRowAdd;
+                        }
+
+                    }
+                    positionNumber = map[i][j].Number;
+                    UpdateCharacterPositionInDbFirstMap(character, map[i][j].X, map[i][j].Y, positionNumber, roomId);
+                    Console.WriteLine($"{character.Name} moves forward with 3 positions to square number {positionNumber} ^.^");
+                    CheckIfSpecialSquare(map, i, j, positionNumber, character, roomId);
+
                 }
             }
             //ToDo
