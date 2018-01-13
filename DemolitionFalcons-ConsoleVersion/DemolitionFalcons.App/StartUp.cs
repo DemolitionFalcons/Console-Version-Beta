@@ -34,6 +34,9 @@ namespace DemolitionFalcons.App
             Console.WriteLine(jsonCharStatsOutput);
             //File.WriteAllText(exportDir + "DelayedTrains.json", jsonOutput);
 
+            var jsonChooseHeroOutput = Serializer.ExportChooseHeroStatistics(context);
+            Console.WriteLine(jsonChooseHeroOutput);
+
             engine.Run();
         }
     }

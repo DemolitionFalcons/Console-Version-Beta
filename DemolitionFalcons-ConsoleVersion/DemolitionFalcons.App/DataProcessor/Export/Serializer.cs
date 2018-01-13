@@ -38,6 +38,32 @@ namespace DemolitionFalcons.App.Commands.DataProcessor
         {
             var map = new DemoMap("map1");
 
+            var characters = context.Characters
+                .Select(c => new
+                {
+                    Id = c.Id,
+                    name = c.Name,
+                    c.Label,
+                    c.Description,
+                    c.Hp,
+                    c.Armour
+                })
+                .ToArray();
+
+            var json = JsonConvert.SerializeObject(characters, Formatting.None,
+            new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            }
+                );
+
+            return json;
+        }
+
+        public static string ExportChooseHeroStatistics(DemolitionFalconsDbContext context)
+        {
+            var map = new DemoMap("map1");
+
             var characters = context.GameCharacters
                 .Select(c => new
                 {
