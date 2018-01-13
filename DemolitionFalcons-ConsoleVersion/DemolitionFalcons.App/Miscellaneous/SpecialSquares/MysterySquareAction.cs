@@ -55,19 +55,19 @@ namespace DemolitionFalcons.App.Miscellaneous.SpecialSquares
                 DisplayPlayerNumbers(numbers);
                 if (!playerSuggestedCorrectly)
                 {
-                    if (counter == 2)
+                    if (counter == 1)
                     {
                         Console.WriteLine($"Sorry, you move 5 square backwards");
                         GoBack = true;
                         GoBackWith = 5;
                     }
-                    else if (counter == 3)
+                    else if (counter == 2)
                     {
                         Console.WriteLine($"Sorry, you move 2 square backwards");
                         GoBack = true;
                         GoBackWith = 2;
                     }
-                    else if (counter == 4)
+                    else if (counter == 3)
                     {
                         Console.WriteLine($"Welp, you ain't going anywhere!");
                     }

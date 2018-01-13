@@ -9,6 +9,7 @@
         public FinishSquare(int x, int y) 
             : base(x, y)
         {
+            base.Type = "FinishSquare";
         }
 
         public Character Winner { get; set; }

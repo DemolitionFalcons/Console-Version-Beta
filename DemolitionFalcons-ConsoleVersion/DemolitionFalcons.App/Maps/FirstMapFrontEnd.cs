@@ -43,7 +43,15 @@ namespace DemolitionFalcons.App.Maps
             {
                 for (int j = 0; j < mapLength; j++)
                 {
-                    if (bonusCounter > 6)
+                    if (i == 0 && j == 0)
+                    {
+                        map[i][j] = new StartSquare(i, j);
+                    }
+                    else if (i == map.Length - 1 && j == map[i].Length - 1)
+                    {
+                        map[i][j] = new FinishSquare(i, j);
+                    }
+                    else if (bonusCounter > 6)
                     {
                         if ((counter / 2 + bonusCounter) % 2 == 0)
                         {

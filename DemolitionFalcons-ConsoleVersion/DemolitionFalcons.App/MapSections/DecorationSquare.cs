@@ -7,6 +7,7 @@
         public DecorationSquare(int x, int y) 
             : base(x, y)
         {
+            base.Type = "DecorationSquare";
         }
 
         public override int Number { get; set; }
