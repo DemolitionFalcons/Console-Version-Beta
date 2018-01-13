@@ -99,9 +99,92 @@ namespace DemolitionFalcons.App.Maps
             return map;
         }
 
+        public static List<MapSection> GetMapPath()
+        {
+            //Used for the map path service
+
+            const int mapHeight = 5;
+            const int mapLength = 10;
+            var map = new MapSection[mapHeight][];
+
+            for (int i = 0; i < mapHeight; i++)
+            {
+                map[i] = new MapSection[mapLength];
+                for (int j = 0; j < mapLength; j++)
+                {
+                    map[i][j] = new NormalSquare(i, j);
+                }
+            }
+
+            AddCoordinates(map);
 
 
-        private void AddCoordinates(MapSection[][] map)
+
+            var mapSquares = new List<MapSection>();
+
+            var squareNumber = 1;
+            var counter = 0;
+            var bonusCounter = 0;
+
+            for (int i = 0; i < mapHeight; i++)
+            {
+                for (int j = 0; j < mapLength; j++)
+                {
+                    if (i == 0 && j == 0)
+                    {
+                        map[i][j] = new StartSquare(i, j);
+                    }
+                    else if (i == map.Length - 1 && j == map[i].Length - 1)
+                    {
+                        map[i][j] = new FinishSquare(i, j);
+                    }
+                    else if (bonusCounter > 6)
+                    {
+                        if ((counter / 2 + bonusCounter) % 2 == 0)
+                        {
+                            map[i][j] = new BonusSquare(i, j);
+                        }
+                        else
+                        {
+                            map[i][j] = new MysterySquare(i, j);
+                        }
+                        bonusCounter = 0;
+                    }
+                    else if (counter > 5 && (bonusCounter + 1) % 2 == 0)
+                    {
+                        map[i][j] = new GoForwardSquare(i, j);
+                        counter = 1;
+                    }
+                    else if (counter > 5)
+                    {
+                        map[i][j] = new GoBackSquare(i, j);
+                        counter = 1;
+                    }
+                    else
+                    {
+                        map[i][j] = new NormalSquare(i, j);
+                    }
+
+                    map[i][j].Number = squareNumber; squareNumber++;
+                    counter++;
+                    bonusCounter++;
+
+                    AddCoordinates(map);
+                    mapSquares.Add(map[i][j]);
+
+                    if (squareNumber == 51)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return mapSquares;
+        }
+
+
+
+        public static void AddCoordinates(MapSection[][] map)
         {
             map[0][0].X = 69; map[0][0].Y = 186; /*map[0][0].Number = 1;*/
             map[0][1].X = 69; map[0][1].Y = 272; /*map[0][1].Number = 2;*/
