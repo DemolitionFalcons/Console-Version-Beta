@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using DemolitionFalcons.Data;
+using DemolitionFalcons.Data.Support;
 
 namespace DemolitionFalcons.Service
 {
