@@ -9,6 +9,8 @@
         public GoBackSquare(int x, int y)
             : base(x, y)
         {
+            base.isGoBackSquare = true;
+            base.Type = "GoBackSquare";
         }
 
         public override int Number { get; set; }

@@ -1,5 +1,7 @@
 ﻿namespace DemolitionFalcons.Models
 {
+    using System.Collections.Generic;
+
     public class GameCharacter
     {
         public GameCharacter()
@@ -20,5 +22,10 @@
         public int? MapSectionNumber { get; set; }
 
         public int? PlayerId { get; set; }
+
+        public string Type { get; set; }
+
+
+        public IList<Spell> Spells { get; set; } = new List<Spell>();
     }
 }

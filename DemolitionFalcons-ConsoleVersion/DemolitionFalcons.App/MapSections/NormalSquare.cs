@@ -9,6 +9,7 @@
         public NormalSquare(int x, int y) 
             : base(x, y)
         {
+            base.Type = "NormalSquare";
         }
 
         public override int Number { get; set; }

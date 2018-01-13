@@ -8,6 +8,8 @@
         public BonusSquare(int x, int y) 
             : base(x, y)
         {
+            base.isBonusSquare = true;
+            base.Type = "BonusSquare";
         }
 
         public override int Number { get ; set ; }

@@ -9,7 +9,7 @@
         public StartSquare(int x, int y)
             :base(x, y)
         {
-
+            base.Type = "StartSquare";
         }
 
         public ICollection<Character> Characters { get; set; }

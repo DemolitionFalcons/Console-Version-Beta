@@ -21,15 +21,18 @@ namespace DemolitionFalcons.App
             IInputReader reader = new InputReader();
             IOutputWriter writer = new OutputWriter();
             SetUpDatabase.CreateDataBase(context);
-            IManager gameManager = new GameManager(context, writer, reader);        
+            IManager gameManager = new GameManager(context, writer, reader);
 
-           CommandEngine<ICommand> commandEngine = new CommandEngine<ICommand>();
+            CommandEngine<ICommand> commandEngine = new CommandEngine<ICommand>();
 
             Engine engine = new Engine(reader, writer, commandEngine, gameManager, context);
             //const string exportDir = "./ImportResults/";
 
-            var jsonOutput = Serializer.ExportCharacterStatistics(context);
-            Console.WriteLine(jsonOutput);
+            var jsonMapAndGameStatsOutput = Serializer.ExportGameAndMapStatistics(context);
+            Console.WriteLine(jsonMapAndGameStatsOutput);
+
+            var jsonCharStatsOutput = Serializer.ExportCharacterStatistics(context);
+            Console.WriteLine(jsonCharStatsOutput);
             //File.WriteAllText(exportDir + "DelayedTrains.json", jsonOutput);
 
             engine.Run();

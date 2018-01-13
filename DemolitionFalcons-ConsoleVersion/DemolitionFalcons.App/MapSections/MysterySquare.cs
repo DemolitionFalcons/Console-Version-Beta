@@ -10,6 +10,8 @@
         public MysterySquare(int x, int y) 
             : base(x, y)
         {
+            base.isMysterySquare = true;
+            base.Type = "MysterySquare";
         }
 
         public override int Number { get; set; }

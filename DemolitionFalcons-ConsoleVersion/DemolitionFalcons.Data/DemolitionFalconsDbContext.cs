@@ -21,6 +21,7 @@
         public DbSet<Game> Games { get; set; }
         public DbSet<Character> Characters { get; set; }
         public DbSet<GameCharacter> GameCharacters { get; set; }
+        public DbSet<Spell> Spells { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -38,6 +39,7 @@
             modelBuilder.ApplyConfiguration(new GameConfig());
             modelBuilder.ApplyConfiguration(new CharacterConfig());
             modelBuilder.ApplyConfiguration(new GameCharacterConfig());
+            modelBuilder.ApplyConfiguration(new SpellConfig());
         }
     }
 }
