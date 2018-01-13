@@ -1,5 +1,10 @@
-﻿using DemolitionFalcons.App.MapSections;
+﻿using DemolitionFalcons.App.Commands.DataProcessor;
+using DemolitionFalcons.App.DataProcessor.Export.Dto;
+using DemolitionFalcons.App.MapSections;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DemolitionFalcons.App.Maps
 {
@@ -8,55 +13,27 @@ namespace DemolitionFalcons.App.Maps
         public MapSection[][] GenerateFirstMap()
         {
             //map coordinates:
-            //69:186
-            //69:272
-            //144:315
-            //219:358
-            //294:315
-            //369:272
-            //444:315
-            //519:272
-            //594:229
-            //669:272
-            //669:358
-            //744:401
-            //744:487
-            //819:530
-            //894:573
-            //894:659
-            //819:702
-            //744:745
-            //669:702
-            //594:659
-            //519:702
-            //444:745
-            //369:788
-            //294:831
-            //219:874
-            //219:960
-            //144:1089
-            //69:1132
-            //69:1218
-            //144:1261
-            //219:1304
-            //294:1347
-            //369:1390
-            //444:1433
-            //519:1390
-            //594:1347
-            //669:1304
-            //744:1347
-            //744:1433
-            //819:1376
-            //894:1519
-            //894:1605
-            //969:1648
-            //1044:1605
+            
 
 
             const int mapHeight = 5;
             const int mapLength = 10;
             var map = new MapSection[mapHeight][];
+
+            for (int i = 0; i < mapHeight; i++)
+            {
+                map[i] = new MapSection[mapLength];
+                for (int j = 0; j < mapLength; j++)
+                {
+                    map[i][j] = new NormalSquare(i, j);
+                }
+            }
+
+            AddCoordinates(map);
+            
+
+
+            var mapSquares = new List<MapSection>();
 
             var squareNumber = 1;
             var counter = 0;
@@ -64,7 +41,6 @@ namespace DemolitionFalcons.App.Maps
 
             for (int i = 0; i < mapHeight; i++)
             {
-                map[i] = new MapSection[mapLength];
                 for (int j = 0; j < mapLength; j++)
                 {
                     if (bonusCounter > 6)
@@ -98,6 +74,9 @@ namespace DemolitionFalcons.App.Maps
                     counter++;
                     bonusCounter++;
 
+                    AddCoordinates(map);
+                    mapSquares.Add(map[i][j]);
+
                     if (squareNumber == 51)
                     {
                         break;
@@ -105,8 +84,19 @@ namespace DemolitionFalcons.App.Maps
                 }
             }
 
-            map[0][0].X = 69;  map[0][0].Y = 186; /*map[0][0].Number = 1;*/
-            map[0][1].X = 69;  map[0][1].Y = 272; /*map[0][1].Number = 2;*/
+
+            var json = Serializer.ExportFirstMapCoordinates(mapSquares);
+            Console.WriteLine(json);
+
+            return map;
+        }
+
+
+
+        private void AddCoordinates(MapSection[][] map)
+        {
+            map[0][0].X = 69; map[0][0].Y = 186; /*map[0][0].Number = 1;*/
+            map[0][1].X = 69; map[0][1].Y = 272; /*map[0][1].Number = 2;*/
             map[0][2].X = 144; map[0][2].Y = 315; /*map[0][2].Number = 3;*/
             map[0][3].X = 219; map[0][3].Y = 358; /*map[0][3].Number = 4;*/
             map[0][4].X = 294; map[0][4].Y = 315; /*map[0][4].Number = 5;*/
@@ -121,7 +111,7 @@ namespace DemolitionFalcons.App.Maps
             map[1][3].X = 819; map[1][3].Y = 530; /*map[1][3].Number = 14;*/
             map[1][4].X = 894; map[1][4].Y = 487; /*map[1][4].Number = 15;*/
             map[1][5].X = 969; map[1][5].Y = 444; /*map[1][5].Number = 16;*/
-            map[1][6].X = 1044;map[1][6].Y = 573; /*map[1][6].Number = 17;*/
+            map[1][6].X = 1044; map[1][6].Y = 573; /*map[1][6].Number = 17;*/
             map[1][7].X = 969; map[1][7].Y = 616; /*map[1][7].Number = 18;*/
             map[1][8].X = 894; map[1][8].Y = 573; /*map[1][8].Number = 19;*/
             map[1][9].X = 894; map[1][9].Y = 659; /*map[1][9].Number = 20;*/
@@ -136,8 +126,8 @@ namespace DemolitionFalcons.App.Maps
             map[2][8].X = 219; map[2][8].Y = 874; /*map[2][8].Number = 29;*/
             map[2][9].X = 219; map[2][9].Y = 960; /*map[2][9].Number = 30;*/
             map[3][0].X = 144; map[3][0].Y = 1089;/*map[3][0].Number = 31;*/
-            map[3][1].X = 69;  map[3][1].Y = 1132;/*map[3][1].Number = 32;*/
-            map[3][2].X = 69;  map[3][2].Y = 1218;/*map[3][2].Number = 33;*/
+            map[3][1].X = 69; map[3][1].Y = 1132;/*map[3][1].Number = 32;*/
+            map[3][2].X = 69; map[3][2].Y = 1218;/*map[3][2].Number = 33;*/
             map[3][3].X = 144; map[3][3].Y = 1261;/*map[3][3].Number = 34;*/
             map[3][4].X = 219; map[3][4].Y = 1304;/*map[3][4].Number = 35;*/
             map[3][5].X = 294; map[3][5].Y = 1347;/*map[3][5].Number = 36;*/
@@ -150,14 +140,11 @@ namespace DemolitionFalcons.App.Maps
             map[4][2].X = 819; map[4][2].Y = 1304;/*map[4][2].Number = 43;*/
             map[4][3].X = 894; map[4][3].Y = 1261;/*map[4][3].Number = 44;*/
             map[4][4].X = 969; map[4][4].Y = 1304;/*map[4][4].Number = 45;*/
-            map[4][5].X = 1044;map[4][5].Y = 1347;/*map[4][5].Number = 46;*/
-            map[4][6].X = 1044;map[4][6].Y = 1433;/*map[4][6].Number = 47;*/
+            map[4][5].X = 1044; map[4][5].Y = 1347;/*map[4][5].Number = 46;*/
+            map[4][6].X = 1044; map[4][6].Y = 1433;/*map[4][6].Number = 47;*/
             map[4][7].X = 969; map[4][7].Y = 1376;/*map[4][7].Number = 48;*/
             map[4][8].X = 969; map[4][8].Y = 1562;/*map[4][8].Number = 49;*/
             map[4][9].X = 969; map[4][9].Y = 1648;/*map[4][9].Number = 50;*/
-
-
-            return map;
         }
     }
 }

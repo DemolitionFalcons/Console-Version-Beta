@@ -9,6 +9,7 @@
             : base(x, y)
         {
             base.isBonusSquare = true;
+            base.Type = "BonusSquare";
         }
 
         public override int Number { get ; set ; }

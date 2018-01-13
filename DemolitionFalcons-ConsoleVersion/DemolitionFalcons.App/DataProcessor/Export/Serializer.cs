@@ -1,8 +1,10 @@
 ﻿using DemolitionFalcons.App.Commands.DataProcessor.Export.Dto;
+using DemolitionFalcons.App.DataProcessor.Export.Dto;
 using DemolitionFalcons.App.Maps;
 using DemolitionFalcons.Data;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DemolitionFalcons.App.Commands.DataProcessor
@@ -52,6 +54,27 @@ namespace DemolitionFalcons.App.Commands.DataProcessor
                 .FirstOrDefault();
 
             var json = JsonConvert.SerializeObject(characters, Formatting.None,
+            new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            }
+                );
+
+            return json;
+        }
+
+        public static string ExportFirstMapCoordinates(List<MapSection> mapSquares)
+        {
+            var squares = mapSquares.Select(sq => new FirstMapDto
+            {
+                X = sq.X,
+                Y = sq.Y,
+                Type = sq.Type
+            })
+           .ToArray();
+
+
+            var json = JsonConvert.SerializeObject(squares, Formatting.None,
             new JsonSerializerSettings()
             {
                 ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
