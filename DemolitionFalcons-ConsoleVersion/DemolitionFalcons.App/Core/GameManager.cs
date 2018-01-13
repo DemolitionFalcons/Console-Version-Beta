@@ -488,7 +488,7 @@
                     }
                     positionNumber = map[i][j].Number;
                     UpdateCharacterPositionInDbFirstMap(character, map[i][j].X, map[i][j].Y, positionNumber, roomId);
-                    Console.WriteLine($"{character.Name} moves back by 3 positions to square number {positionNumber} :)");
+                    Console.WriteLine($"{character.Name} moves back by {toGoBackWith} positions to square number {positionNumber} :)");
                     CheckIfSpecialSquare(map, i, j, positionNumber, character, roomId);
                 }
                 else if (msa.MoveForward)
@@ -522,7 +522,7 @@
                     }
                     positionNumber = map[i][j].Number;
                     UpdateCharacterPositionInDbFirstMap(character, map[i][j].X, map[i][j].Y, positionNumber, roomId);
-                    Console.WriteLine($"{character.Name} moves forward with 3 positions to square number {positionNumber} ^.^");
+                    Console.WriteLine($"{character.Name} moves forward with {toMoveForwardWith} positions to square number {positionNumber} ^.^");
                     CheckIfSpecialSquare(map, i, j, positionNumber, character, roomId);
 
                 }
