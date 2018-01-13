@@ -6,34 +6,40 @@ namespace DemolitionFalcons.Service.Controllers
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
     using DemolitionFalcons.App.Maps;
     using DemolitionFalcons.Data;
+    using DemolitionFalcons.Data.Support;
     using Front;
+    using Models;
 
-    [Route("api/[controller]")]
-    public class GamesController : Controller
+    public class GameController : BaseApiController
     {
-        // GET api/game 
         [HttpGet]
-        public CharacterFront Get()
-        {
-            DemolitionFalconsDbContext context = new DemolitionFalconsDbContext();
-
+        public IEnumerable<CharacterFront> Get()
+        {       
             var map = new DemoMap("map1");
 
-            var character = context.GameCharacters
+            var character = this.dbContext.GameCharacters
                 .Select(c => new CharacterFront(c.Game.Name, map.Name, c.Game.Characters.Count()))
-                .FirstOrDefault();
+                .ToArray();
 
             return character;
         }
 
         // GET api/game/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public GameFront Get(int id)
         {
-            return "value";
+            Mapper.Initialize(cfg => cfg.CreateMap<Game, GameFront>());
+
+            Game result = this.dbContext.Games
+                .Where(game => game.Id == id)
+                .ToArray()
+                .FirstOrDefault();
+
+            return Mapper.Map<GameFront>(result);
         }
 
         // POST api/game
