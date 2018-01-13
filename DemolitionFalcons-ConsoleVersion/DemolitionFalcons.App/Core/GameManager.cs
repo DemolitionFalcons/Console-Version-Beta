@@ -497,7 +497,7 @@
                     var toMoveForwardWith = msa.MoveForwardWith;
 
                     positionNumber += toMoveForwardWith;
-                    if (j <= map[i].Length - toMoveForwardWith)
+                    if (j < map[i].Length - toMoveForwardWith)
                     {
                         j += toMoveForwardWith;
                     }
