@@ -345,15 +345,15 @@
             {
                 var map = new DemoMap("map1");
                 var playableMap = map.GenerateMap();
-                SetOnStartFirstMap(room, playableMap, roomId);// set all chars on start
-                ProceedGameFirstMap(game, sb, playableMap, characters, dice, roomId);
+                SetOnStart(room, playableMap, roomId);// set all chars on start
+                ProceedGame(game, sb, playableMap, characters, dice, roomId);
             }
             else if (preferredMap == "firstmap")
             {
                 var firstMap = new FirstMapFrontEnd();
                 var generatedFirstMap = firstMap.GenerateFirstMap();
-                SetOnStartFirstMap(room, generatedFirstMap, roomId);// set all chars on start
-                ProceedGameFirstMap(game, sb, generatedFirstMap, characters, dice, roomId);
+                SetOnStart(room, generatedFirstMap, roomId);// set all chars on start
+                ProceedGame(game, sb, generatedFirstMap, characters, dice, roomId);
             }
 
         }
@@ -395,7 +395,7 @@
                     }
                 }
                 positionNumber = map[i][j].Number;
-                UpdateCharacterPositionInDbFirstMap(character, map[i][j].X, map[i][j].Y, positionNumber, roomId);
+                UpdateCharacterPositionInDb(character, map[i][j].X, map[i][j].Y, positionNumber, roomId);
                 Console.WriteLine($"{character.Name} moves back by 3 positions to square number {positionNumber} :)");
                 CheckIfSpecialSquare(map, i, j, positionNumber, character, roomId);
             }
@@ -430,7 +430,7 @@
 
                 }
                 positionNumber = map[i][j].Number;
-                UpdateCharacterPositionInDbFirstMap(character, map[i][j].X, map[i][j].Y, positionNumber, roomId);
+                UpdateCharacterPositionInDb(character, map[i][j].X, map[i][j].Y, positionNumber, roomId);
                 Console.WriteLine($"{character.Name} moves forward with 3 positions to square number {positionNumber} ^.^");
                 CheckIfSpecialSquare(map, i, j, positionNumber, character, roomId);
             }
@@ -488,7 +488,7 @@
                         }
                     }
                     positionNumber = map[i][j].Number;
-                    UpdateCharacterPositionInDbFirstMap(character, map[i][j].X, map[i][j].Y, positionNumber, roomId);
+                    UpdateCharacterPositionInDb(character, map[i][j].X, map[i][j].Y, positionNumber, roomId);
                     Console.WriteLine($"{character.Name} moves back by {toGoBackWith} positions to square number {positionNumber} :)");
                     CheckIfSpecialSquare(map, i, j, positionNumber, character, roomId);
                 }
@@ -522,7 +522,7 @@
 
                     }
                     positionNumber = map[i][j].Number;
-                    UpdateCharacterPositionInDbFirstMap(character, map[i][j].X, map[i][j].Y, positionNumber, roomId);
+                    UpdateCharacterPositionInDb(character, map[i][j].X, map[i][j].Y, positionNumber, roomId);
                     Console.WriteLine($"{character.Name} moves forward with {toMoveForwardWith} positions to square number {positionNumber} ^.^");
                     CheckIfSpecialSquare(map, i, j, positionNumber, character, roomId);
 
@@ -540,7 +540,7 @@
             }
         }
 
-        private void ProceedGameFirstMap(Game game, StringBuilder sb, MapSection[][] firstMap, List<Character> characters, DiceDto dice, int roomId)
+        private void ProceedGame(Game game, StringBuilder sb, MapSection[][] firstMap, List<Character> characters, DiceDto dice, int roomId)
         {
             bool hasReachedFinalSpot = false;
 
@@ -579,7 +579,7 @@
 
                                 AddWinnerStats(roomId, character.Id, game);
                                 AddGamesPlayedForPlayers(roomId);
-                                UpdateCharacterPositionInDbFirstMap(character, firstMap[i][j].X, firstMap[i][j].Y, firstMap[i][j].Number, roomId);
+                                UpdateCharacterPositionInDb(character, firstMap[i][j].X, firstMap[i][j].Y, firstMap[i][j].Number, roomId);
 
                                 hasReachedFinalSpot = true;
                                 charMoved = true;
@@ -587,7 +587,7 @@
                             }
 
                             var positionNumber = firstMap[i][j].Number;
-                            UpdateCharacterPositionInDbFirstMap(character, firstMap[i][j].X, firstMap[i][j].Y, positionNumber, roomId);
+                            UpdateCharacterPositionInDb(character, firstMap[i][j].X, firstMap[i][j].Y, positionNumber, roomId);
                             Console.WriteLine($"{character.Name} successfully moved to square number {chNewPos}");
                             //TODO - add clauses to check if it is a special square and what actions should
                             //be taken in that case
@@ -649,8 +649,7 @@
             player.Xp += game.Xp;
         }
 
-        #region FirstMap
-        private void SetOnStartFirstMap(Game room, MapSection[][] firstMap, int roomId)
+        private void SetOnStart(Game room, MapSection[][] firstMap, int roomId)
         {
             var toBreak = false;
             for (int i = 0; i < firstMap.Length; i++)
@@ -663,7 +662,7 @@
                         foreach (var chare in room.Characters)
                         {
                             var character = chare.Character;
-                            UpdateCharacterPositionInDbFirstMap(character, firstMap[0][0].X, firstMap[0][0].Y, positionNumber, roomId);
+                            UpdateCharacterPositionInDb(character, firstMap[0][0].X, firstMap[0][0].Y, positionNumber, roomId);
 
                             //sb.AppendLine($"Characters set on the Start");
                             Console.WriteLine($"Characters set on the Start");
@@ -681,8 +680,7 @@
 
         }
 
-
-        private void UpdateCharacterPositionInDbFirstMap(Character character, int X, int Y, int positionNumber, int roomId)
+        private void UpdateCharacterPositionInDb(Character character, int X, int Y, int positionNumber, int roomId)
         {
             var dbChar = context.GameCharacters
                 .FirstOrDefault(c => c.CharacterId == character.Id && c.GameId == roomId);
@@ -692,6 +690,5 @@
             context.GameCharacters.Update(dbChar);
             context.SaveChanges();
         } 
-        #endregion
     }
 }
