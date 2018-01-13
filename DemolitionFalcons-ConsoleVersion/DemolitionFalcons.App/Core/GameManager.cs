@@ -163,6 +163,7 @@
             sb.AppendLine(">AddRoom {Name} -> you will be send further to create a playing room");
             sb.AppendLine(">JoinRoom -> choose from a list of all currently available rooms");
             sb.AppendLine(">CreateCharacter {Name} -> adds a character");
+            sb.AppendLine(">StartGame -> choose a game from the list of currently available to start games");
             sb.AppendLine(">Inspect Character -> get overall info about your character");
             sb.AppendLine(">Delete Character -> delete a specified character ");
             sb.AppendLine(">Help -> you'll be shown the list with commands once again");
