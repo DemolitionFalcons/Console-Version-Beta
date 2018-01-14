@@ -1,12 +1,12 @@
-﻿using DemolitionFalcons.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DemolitionFalcons.App.Miscellaneous.SpecialSquares
+﻿namespace DemolitionFalcons.App.Miscellaneous.SpecialSquares
 {
+    using DemolitionFalcons.Data;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
     public class MysterySquareAction
     {
         private NumberGenerator numberGenerator;

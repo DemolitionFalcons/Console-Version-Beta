@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using DemolitionFalcons.Data.DataInterfaces;
-
-namespace DemolitionFalcons.App.Interfaces
+﻿namespace DemolitionFalcons.App.Interfaces
 {
+    using System.Collections.Generic;
+    using DemolitionFalcons.Data.DataInterfaces;
+
     public interface ICommand
     {
         

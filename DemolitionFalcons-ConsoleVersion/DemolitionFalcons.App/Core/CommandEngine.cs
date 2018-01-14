@@ -1,7 +1,6 @@
-﻿using System.Linq;
-
-namespace DemolitionFalcons.App.Core
+﻿namespace DemolitionFalcons.App.Core
 {
+    using System.Linq;
     using System;
     using System.Collections.Generic;
     using DemolitionFalcons.App.Interfaces;

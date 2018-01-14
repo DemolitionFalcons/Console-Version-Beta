@@ -1,6 +1,5 @@
 ﻿namespace DemolitionFalcons.App.MapSections
 {
-
     using Maps;
     using Models;
     using System.Collections.Generic;

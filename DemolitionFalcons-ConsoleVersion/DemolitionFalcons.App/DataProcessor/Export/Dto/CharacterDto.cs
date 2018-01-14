@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-
-namespace DemolitionFalcons.App.Commands.DataProcessor.Export.Dto
+﻿namespace DemolitionFalcons.App.Commands.DataProcessor.Export.Dto
 {
+    using Newtonsoft.Json;
+
     public class CharacterDto
     {
         [JsonProperty(PropertyName = "type")]

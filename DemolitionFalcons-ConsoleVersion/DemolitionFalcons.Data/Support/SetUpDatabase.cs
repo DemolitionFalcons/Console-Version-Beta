@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using DemolitionFalcons.Models;
-using Microsoft.EntityFrameworkCore;
-
-namespace DemolitionFalcons.Data.Support
+﻿namespace DemolitionFalcons.Data.Support
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using DemolitionFalcons.Models;
+    using Microsoft.EntityFrameworkCore;
+
     public static class SetUpDatabase
     {
 

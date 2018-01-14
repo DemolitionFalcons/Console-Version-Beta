@@ -1,13 +1,13 @@
-﻿using DemolitionFalcons.App.Commands.DataProcessor;
-using DemolitionFalcons.App.DataProcessor.Export.Dto;
-using DemolitionFalcons.App.MapSections;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace DemolitionFalcons.App.Maps
+﻿namespace DemolitionFalcons.App.Maps
 {
+    using DemolitionFalcons.App.Commands.DataProcessor;
+    using DemolitionFalcons.App.DataProcessor.Export.Dto;
+    using DemolitionFalcons.App.MapSections;
+    using Newtonsoft.Json;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class FirstMapFrontEnd
     {
         public MapSection[][] GenerateFirstMap()
