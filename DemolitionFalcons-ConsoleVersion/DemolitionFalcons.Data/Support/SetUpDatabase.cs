@@ -114,6 +114,16 @@ namespace DemolitionFalcons.Data.Support
 
                 players.Add(rango);
 
+                var yoner = new Player
+                {
+                    Username = "Yoner",
+                    Password = "Jezzy",
+                    GamesPlayed = 0,
+                    Wins = 0
+                };
+
+                players.Add(yoner);
+
                 context.Players.AddRange(players);
                 context.SaveChanges();
 
@@ -158,9 +168,9 @@ namespace DemolitionFalcons.Data.Support
                 {
                     Name = "Eagle",
                     Label = "The Flying Demon",
-                    Description = "It comes from a distant unknown land. It has a weak defence but is very weak and subtle.",
+                    Description = "It comes from a distant unknown land. It has a weak defence but is very fast and subtle.",
                     Hp = 100,
-                    Armour = 100,
+                    Armour = 20,
 
                 };
 
@@ -169,8 +179,8 @@ namespace DemolitionFalcons.Data.Support
                     Name = "Cloudy",
                     Label = "The Cloud Potato",
                     Description = "It comes from a Cloudysland, drives a skateboard and has a strange hairstyle.",
-                    Hp = 100,
-                    Armour = 100,
+                    Hp = 70,
+                    Armour = 65,
 
                 };
 
@@ -180,7 +190,7 @@ namespace DemolitionFalcons.Data.Support
                     Label = "The Raccoon's Special Troop",
                     Description = "Has developed great military skills over time. Has very strong defence but is usually unfortunate.",
                     Hp = 70,
-                    Armour = 0,
+                    Armour = 100,
 
                 };
 
@@ -189,18 +199,28 @@ namespace DemolitionFalcons.Data.Support
                     Name = "Stephano",
                     Label = "The Mad Scientist",
                     Description = "Has worked for different non-governmental projects with an unknown role. Notably known for his bloody scientific experiments on people.",
-                    Hp = 100,
-                    Armour = 25,
+                    Hp = 50,
+                    Armour = 90,
 
                 };
 
-                var botche = new Character
+                var leonardo = new Character
                 {
-                    Name = "botche",
-                    Label = "bottttt",
-                    Description = "bot kat si znae kvo mu e samo bot si znae kvo mi e",
+                    Name = "Leonardo",
+                    Label = "The King Of The Jungle",
+                    Description = "Has ruled over many kingdoms in all over the world and has now come to prove his strength and sageness.",
+                    Hp = 90,
+                    Armour = 90,
+
+                };
+
+                var darcus = new Character
+                {
+                    Name = "Darcus",
+                    Label = "The Ancient Firebreather",
+                    Description = "Uses his instincts and abilities to burn his enemies.",
                     Hp = 100,
-                    Armour = 50,
+                    Armour = 90,
 
                 };
 
@@ -208,7 +228,8 @@ namespace DemolitionFalcons.Data.Support
                 characters.Add(cloudy);
                 characters.Add(edward);
                 characters.Add(stephano);
-                characters.Add(botche);
+                characters.Add(leonardo);
+                characters.Add(darcus);
 
                 context.AddRange(characters);
                 context.SaveChanges();
@@ -275,6 +296,18 @@ namespace DemolitionFalcons.Data.Support
                 };
 
                 gameChars.Add(gameCharacterFive);
+
+                var gameCharacterSix = new GameCharacter
+                {
+                    Character = characters[5],
+                    CharacterId = characters[5].Id,
+                    Game = game,
+                    GameId = game.Id,
+                    PlayerId = 6,
+                    Type = "computer"
+                };
+
+                gameChars.Add(gameCharacterSix);
 
                 context.GameCharacters.AddRange(gameChars);
                 context.SaveChanges();
