@@ -38,7 +38,7 @@
                     throw new ArgumentException("Character's label must be between 3 and 12 symbols!");
                 }
 
-                this.name = value;
+                this.label = value;
             }
         }
 
@@ -47,12 +47,12 @@
             get => this.description;
             set
             {
-                if (value.Length < 3 || value.Length > 50)
+                if (value.Length < 15 || value.Length > 200)
                 {
-                    throw new ArgumentException("Character's description must be between 3 and 12 symbols!");
+                    throw new ArgumentException("Character's description must be between 15 and 200 symbols!");
                 }
 
-                this.name = value;
+                this.description = value;
             }
         }
 
@@ -65,6 +65,7 @@
                 {
                     throw new ArgumentException("Character's health must be at least 70 and not more than 150!");
                 }
+                this.health = value;
             }
         }
 
@@ -77,6 +78,7 @@
                 {
                     throw new ArgumentException("Character's armour must be at least 50 and not more than 100!");
                 }
+                this.armour = value;
             }
         }
     }

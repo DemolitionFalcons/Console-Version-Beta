@@ -42,16 +42,30 @@
 
             try
             {
+                Console.WriteLine($"Enter map's name:");
+                var map = Console.ReadLine();
+                Console.WriteLine($"Enter game's capacity:");
+                var capacity = int.Parse(Console.ReadLine());
+                Console.WriteLine($"Enter game's xp:");
+                var xp = int.Parse(Console.ReadLine());
+                Console.WriteLine($"Enter game's price pool(decimal):");
+                var price = decimal.Parse(Console.ReadLine());
                 var gameDto = new GameDto
                 {
                     Name = gameName,
+                    Capacity = capacity,
+                    XP = xp,
+                    Money = price,
+                    Map = map
                 };
 
                 var dbGame = new Game
                 {
                     Name = gameDto.Name,
-                    Xp = 50,
-                    Money = 200
+                    Xp = gameDto.XP,
+                    Money = gameDto.Money,
+                    Capacity = gameDto.Capacity,
+                    Map = gameDto.Map
                 };
 
                 context.Games.Add(dbGame);

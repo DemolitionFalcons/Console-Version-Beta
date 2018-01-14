@@ -26,6 +26,7 @@
 
         public TimeSpan? Time { get; set; }
 
+        [Range(2,6)]
         public int Capacity { get; set; }
 
         public string Map { get; set; }
