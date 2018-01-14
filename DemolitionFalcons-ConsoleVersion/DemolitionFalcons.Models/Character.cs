@@ -1,5 +1,6 @@
 ﻿namespace DemolitionFalcons.Models
 {
+    using DemolitionFalcons.Models.Utilities;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -8,8 +9,8 @@
         public Character()
         {
             this.Games = new List<GameCharacter>();
-            this.Hp = 100;
-            this.Armour = 100;
+            this.Hp = ModelConstants.CharacterDefaultHealth;
+            this.Armour = ModelConstants.CharacterDefaultArmour;
         }
 
         public Character(string name, string label, string description, int hp, int armour)
