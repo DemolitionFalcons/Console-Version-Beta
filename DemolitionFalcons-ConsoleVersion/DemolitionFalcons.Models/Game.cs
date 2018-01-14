@@ -26,6 +26,10 @@
 
         public TimeSpan? Time { get; set; }
 
+        public int Capacity { get; set; }
+
+        public string Map { get; set; }
+
         //public int MapId { get; set; }
         //public Map Map { get; set; }
 

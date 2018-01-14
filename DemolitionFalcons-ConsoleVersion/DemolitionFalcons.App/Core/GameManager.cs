@@ -75,7 +75,7 @@
                 writer.WriteLine($"Enter player's password");
                 player.Password = Console.ReadLine();
 
-                var pistol = context.Weapons.FirstOrDefault(w => w.Name == "Glock");
+                var wand = context.Weapons.FirstOrDefault(w => w.Name == "Metal Wand");
 
                 var dbPlayer = new Player
                 {
@@ -91,8 +91,8 @@
                 {
                     Player = dbPlayer,
                     PlayerId = dbPlayer.Id,
-                    Weapon = pistol,
-                    WeaponId = pistol.Id
+                    Weapon = wand,
+                    WeaponId = wand.Id
                 };
 
                 context.PlayerWeapons.Add(playerWeapon);
@@ -116,15 +116,47 @@
 
             try
             {
+                Console.WriteLine($"Please enter character's label:");
+                var label = Console.ReadLine();
+                Console.WriteLine($"Please enter character's description(at least 15characters):");
+                var description = Console.ReadLine();
+                Console.WriteLine($"Do you want to enter manually character's health and armour or use the default values?");
+                Console.WriteLine($"M => Manually ; D => Default values (In case of other input the default values would be choosen");
+                var decision = Console.ReadLine();
+                var hp = 0;
+                var armour = 0;
+                bool manual = false;
+                if (decision == "M")
+                {
+                    Console.WriteLine($"Health:");
+                    hp = int.Parse(Console.ReadLine());
+                    Console.WriteLine($"Armour:");
+                    armour = int.Parse(Console.ReadLine());
+                    manual = true;
+                }
+
                 var characterDto = new CharacterDto
                 {
-                    Name = characterName
+                    Name = characterName,
+                    Label = label,
+                    Description = description
                 };
 
                 var dbCharacter = new Character
                 {
-                    Name = characterDto.Name
+                    Name = characterDto.Name,
+                    Label = characterDto.Label,
+                    Description = characterDto.Description
                 };
+
+                if (manual)
+                {
+                    characterDto.Health = hp;
+                    characterDto.Armour = armour;
+                    dbCharacter.Hp = characterDto.Health;
+                    dbCharacter.Armour = characterDto.Armour;
+                }
+
 
                 context.Characters.Add(dbCharacter);
                 context.SaveChanges();

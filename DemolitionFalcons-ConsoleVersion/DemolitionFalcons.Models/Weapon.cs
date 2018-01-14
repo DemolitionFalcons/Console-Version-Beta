@@ -16,12 +16,8 @@
         public string Name { get; set; }
         
         public int Damage { get; set; }
-
-        [Range(0,50)]
-        public int ClipSize { get; set; }
-
-        [Range(0,250)]
-        public int TotalCapacity { get; set; }
+        
+        public string Core { get; set; }
 
         public ICollection<PlayerWeapon> Players { get; set; }
     }

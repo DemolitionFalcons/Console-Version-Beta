@@ -23,6 +23,8 @@
 
         public int? PlayerId { get; set; }
 
+        public int? WeaponId { get; set; }
+
         public string Type { get; set; }
 
 

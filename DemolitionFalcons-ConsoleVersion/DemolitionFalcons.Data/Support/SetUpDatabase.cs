@@ -23,35 +23,32 @@
             if (!context.Weapons.Any())
             {
                 var weapons = new List<Weapon>();
-                var akModel = new Weapon
+                var hollyWoodWand = new Weapon
                 {
-                    Name = "AK-47",
-                    ClipSize = 30,
-                    TotalCapacity = 150,
-                    Damage = 50
+                    Name = "Holly Wood Wand ",
+                    Core = "Phoenix feather",
+                    Damage = 25
                 };
 
-                weapons.Add(akModel);
+                weapons.Add(hollyWoodWand);
 
-                var m4a1s = new Weapon
+                var vineWand = new Weapon
                 {
-                    Name = "M4A1-S",
-                    ClipSize = 30,
-                    TotalCapacity = 150,
-                    Damage = 50
+                    Name = "Vine Wand",
+                    Core = "Dragon scale",
+                    Damage = 25
                 };
 
-                weapons.Add(m4a1s);
+                weapons.Add(vineWand);
 
-                var glock = new Weapon
+                var metalWand = new Weapon
                 {
-                    Name = "Glock",
-                    ClipSize = 15,
-                    TotalCapacity = 90,
+                    Name = "Metal Wand",
+                    Core = "Mystic tear",
                     Damage = 10
                 };
 
-                weapons.Add(glock);
+                weapons.Add(metalWand);
 
                 context.Weapons.AddRange(weapons);
                 context.SaveChanges();
@@ -129,8 +126,8 @@
 
                 var weapons = new List<Weapon>
                 {
-                    context.Weapons.Where(w => w.Name == "AK-47").FirstOrDefault(),
-                    context.Weapons.Where(w => w.Name == "M4A1-S").FirstOrDefault()
+                    context.Weapons.Where(w => w.Name == "Holly Wood Wand").FirstOrDefault(),
+                    context.Weapons.Where(w => w.Name == "Vine Wand").FirstOrDefault()
                 };
                 foreach (var weapon in weapons)
                 {
@@ -154,6 +151,8 @@
                     Name = "FirstGameEver",
                     Xp = 50,
                     Money = 250,
+                    Capacity = 6,
+                    Map = "FirstMapFrontEnd"
                 };
 
                 context.Games.Add(game);

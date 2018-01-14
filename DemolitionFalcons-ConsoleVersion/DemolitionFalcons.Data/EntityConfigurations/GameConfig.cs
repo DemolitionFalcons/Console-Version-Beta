@@ -15,6 +15,9 @@
             builder.Property(g => g.Name)
                 .HasMaxLength(30)
                 .IsRequired();
+
+            builder.Property(g => g.Map)
+                .IsRequired();
         }
     }
 }
