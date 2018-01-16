@@ -7,10 +7,10 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class MysterySquareAction
+    public class MiniGameAction
     {
         private NumberGenerator numberGenerator;
-        public MysterySquareAction()
+        public MiniGameAction()
         {
             MoveForward = false;
             GoBack = false;
@@ -35,7 +35,7 @@
             int counter = 0;
             var numbers = new List<int>() { 0, 0, 0, 0, 0 };
             Console.WriteLine($"So let the game begin");
-            var firstNumber = numberGenerator.GenerateNumber(2, 4);
+            var firstNumber = numberGenerator.GenerateNumber(2, 5);
             Console.WriteLine($"The first number generated was {firstNumber}");
             numbers[counter] = firstNumber;
             DisplayPlayerNumbers(numbers);
@@ -43,7 +43,7 @@
             counter++;
             while (counter != 4 && playerSuggestedCorrectly)
             {
-                var numGenerated = numberGenerator.GenerateNumber(1, 5);
+                var numGenerated = numberGenerator.GenerateNumber(1, 6);
 
                 var playersSuggestion = GetSuggestion();
                 while (numGenerated == numbers[counter - 1])
@@ -80,10 +80,10 @@
             
             if (playerSuggestedCorrectly)
             {
-                var finalNumber = numberGenerator.GenerateNumber(1, 5);
+                var finalNumber = numberGenerator.GenerateNumber(1, 6);
                 while (finalNumber == numbers[counter - 1])
                 {
-                    finalNumber = numberGenerator.GenerateNumber(1, 5);
+                    finalNumber = numberGenerator.GenerateNumber(1, 6);
                 }
 
                 var playerSuggestion = GetSuggestion();
