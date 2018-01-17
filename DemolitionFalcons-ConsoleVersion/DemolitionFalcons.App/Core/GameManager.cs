@@ -324,6 +324,7 @@
             try
             {
                 SetUpDatabase.ResetDB(context);
+                this.context = SetUpDatabase.ResetDB(context);
 
                 sb.AppendLine("Reset Database - successful");
             }

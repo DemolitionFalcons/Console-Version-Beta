@@ -336,13 +336,14 @@
             }
         }
 
-        public static void ResetDB(DemolitionFalconsDbContext context)
+        public static DemolitionFalconsDbContext ResetDB(DemolitionFalconsDbContext context)
         {
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
             //context.Database.Migrate();
             context = new DemolitionFalconsDbContext();
             Seed(context);
+            return context;
         }
     }
 }
