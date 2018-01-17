@@ -2,6 +2,7 @@
 {
     using DemolitionFalcons.App.Maps;
     using DemolitionFalcons.Data;
+    using DemolitionFalcons.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -24,7 +25,22 @@
 
         public void Atack()
         {
+            if (!context.GameCharacters.SingleOrDefault(ch => ch.CharacterId == characterId).Spells.Any())
+            {
+                throw new ArgumentException("You cannot make an atack due to lack of spells!");
+            }
 
+            var chNum = context.GameCharacters.FirstOrDefault(c => c.CharacterId == characterId && c.GameId == roomId)
+                    .MapSectionNumber;
+
+            var availableCharactersToAtack = new List<Character>();           
+            for (int i = 0; i < map.Length; i++)
+            {
+                for (int j = 0; j < map[i].Length; j++)
+                {
+                    
+                }
+            }
         }
     }
 }

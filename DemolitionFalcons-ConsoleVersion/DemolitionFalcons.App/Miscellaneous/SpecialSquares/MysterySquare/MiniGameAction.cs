@@ -48,7 +48,7 @@
                 var playersSuggestion = GetSuggestion();
                 while (numGenerated == numbers[counter - 1])
                 {
-                    numGenerated = numberGenerator.GenerateNumber(1, 5);
+                    numGenerated = numberGenerator.GenerateNumber(1, 6);
                 }
                 playerSuggestedCorrectly = CheckSuggestion(numGenerated, numbers, counter, playersSuggestion);
                 numbers[counter] = numGenerated;
