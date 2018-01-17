@@ -27,6 +27,10 @@
 
         public string Type { get; set; }
 
+        public int Health { get; set; }
+
+        public int Armour { get; set; }
+
 
         public IList<Spell> Spells { get; set; } = new List<Spell>();
     }

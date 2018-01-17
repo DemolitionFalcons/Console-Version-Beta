@@ -295,7 +295,9 @@
                     CharacterId = characters[characterNumber - 1].Id,
                     Game = rooms[roomNumber - 1],
                     GameId = rooms[roomNumber - 1].Id,
-                    PlayerId = player.Id
+                    PlayerId = player.Id,
+                    Health = characters[characterNumber - 1].Hp,
+                    Armour = characters[characterNumber - 1].Armour,
                 };
                 context.GameCharacters.Add(gc);
                 context.SaveChanges();

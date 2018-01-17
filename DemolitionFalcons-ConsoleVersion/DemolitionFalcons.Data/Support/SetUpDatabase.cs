@@ -243,7 +243,9 @@
                     Game = game,
                     GameId = game.Id,
                     PlayerId = 1,
-                    Type = "computer"
+                    Type = "computer",
+                    Health = characters[0].Hp,
+                    Armour = characters[0].Armour
                 };
 
                 gameChars.Add(gameCharacterOne);
@@ -255,7 +257,9 @@
                     Game = game,
                     GameId = game.Id,
                     PlayerId = 2,
-                    Type = "computer"
+                    Type = "computer",
+                    Health = characters[1].Hp,
+                    Armour = characters[1].Armour
                 };
 
                 gameChars.Add(gameCharacterTwo);
@@ -267,7 +271,9 @@
                     Game = game,
                     GameId = game.Id,
                     PlayerId = 3,
-                    Type = "computer"
+                    Type = "computer",
+                    Health = characters[2].Hp,
+                    Armour = characters[2].Armour
                 };
 
                 gameChars.Add(gameCharacterThree);
@@ -279,7 +285,9 @@
                     Game = game,
                     GameId = game.Id,
                     PlayerId = 4,
-                    Type = "computer"
+                    Type = "computer",
+                    Health = characters[3].Hp,
+                    Armour = characters[3].Armour
                 };
 
                 gameChars.Add(gameCharacterFour);
@@ -291,7 +299,9 @@
                     Game = game,
                     GameId = game.Id,
                     PlayerId = 5,
-                    Type = "computer"
+                    Type = "computer",
+                    Health = characters[4].Hp,
+                    Armour = characters[4].Armour
                 };
 
                 gameChars.Add(gameCharacterFive);
@@ -303,7 +313,10 @@
                     Game = game,
                     GameId = game.Id,
                     PlayerId = 6,
-                    Type = "computer"
+                    Type = "computer",
+                    Health = characters[5].Hp,
+                    Armour = characters[5].Armour,
+
                 };
 
                 gameChars.Add(gameCharacterSix);
