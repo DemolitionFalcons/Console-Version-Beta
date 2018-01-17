@@ -77,11 +77,11 @@
                 num = int.Parse(Console.ReadLine());
             }
             var chosenCharacter = availableCharactersToAtack[num - 1];
-            Atack(chosenSpell, chosenCharacter);
+            AtackCharacter(chosenSpell, chosenCharacter);
 
         }
 
-        private void Atack(Spell chosenSpell, GameCharacter chosenCharacter)
+        private void AtackCharacter(Spell chosenSpell, GameCharacter chosenCharacter)
         {
             #region AddDamageFromWeapon
             //Cannot use it currently because GC doesn't have a weapon yet because we havent made the logic for the currently logged in user
