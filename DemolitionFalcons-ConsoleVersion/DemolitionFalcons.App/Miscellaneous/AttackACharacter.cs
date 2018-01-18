@@ -66,7 +66,7 @@
             {
                 var character = context.Characters.SingleOrDefault(c => c.Id == availableCharacter.CharacterId);
                 var player = context.Players.SingleOrDefault(p => p.Id == availableCharacter.PlayerId);
-                Console.WriteLine($"{characterCounter}.{character.Name}[{player.Username}] - currently has {availableCharacter.Health}hp and {availableCharacter.Armour}armour");
+                Console.WriteLine($"{characterCounter}.{character.Name}[{player.Username}] - currently has {availableCharacter.Health}hp and {availableCharacter.Armour}armour. Current possition - {context.GameCharacters.SingleOrDefault(gc => gc.CharacterId == character.Id && gc.GameId == roomId).MapSectionNumber}");
                 characterCounter++;
             }
             Console.WriteLine($"Please select the number of the character you want to attack:");
@@ -118,7 +118,7 @@
             }
             else if (armour < dmg && health <= dmg - armour)
             {
-                Console.WriteLine($"Sadly, {victim.Name} has been killed. Hi returns to the Start square and has his health and armour reset");
+                Console.WriteLine($"Sadly, {victim.Name} has been killed. He returns to the Start square and has his health and armour reset");
 
                 dbGameCharacter.Armour = victim.Armour;
                 dbGameCharacter.Health = victim.Hp;
