@@ -66,7 +66,7 @@
             {
                 var character = context.Characters.SingleOrDefault(c => c.Id == availableCharacter.CharacterId);
                 var player = context.Players.SingleOrDefault(p => p.Id == availableCharacter.PlayerId);
-                Console.WriteLine($"{counter}.{character.Name}[{player.Username}] - currently has {availableCharacter.Health}hp and {availableCharacter.Armour}armour");
+                Console.WriteLine($"{characterCounter}.{character.Name}[{player.Username}] - currently has {availableCharacter.Health}hp and {availableCharacter.Armour}armour");
                 characterCounter++;
             }
             Console.WriteLine($"Please select the number of the character you want to attack:");
@@ -76,7 +76,7 @@
                 Console.WriteLine("Invalid number! Please select a new one:");
                 num = int.Parse(Console.ReadLine());
             }
-            var chosenCharacter = availableCharactersToAttack[num - 1];
+            var chosenCharacter = availableCharactersToAttack[charNum - 1];
             AttackCharacter(chosenSpell, chosenCharacter);
 
         }
@@ -142,7 +142,7 @@
             List<GameCharacter> availableCharactersToAttack = new List<GameCharacter>();
             foreach (var gc in gameCharacters)
             {
-                if (positions.Any(p => p == gc.MapSectionNumber))
+                if (positions.Any(p => p == gc.MapSectionNumber) && gc.CharacterId != characterId)
                 {
                     availableCharactersToAttack.Add(gc);
                 }

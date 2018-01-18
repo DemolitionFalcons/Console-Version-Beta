@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
     using DemolitionFalcons.App.Core.DTOs;
     using DemolitionFalcons.App.Maps;
@@ -19,6 +20,8 @@
         private IInputReader reader;
         private IOutputWriter writer;
         private NumberGenerator numberGenerator;
+        private Timer timer;
+        private KeyboardInput keyboardInput;
 
         public PlayGame(DemolitionFalconsDbContext context, IInputReader reader, IOutputWriter writer, NumberGenerator numberGenerator)
         {
@@ -26,6 +29,8 @@
             this.reader = reader;
             this.writer = writer;
             this.numberGenerator = numberGenerator;
+            this.keyboardInput = new KeyboardInput();
+            //this.timer = new Timer(1000);
         }
 
         public void HaveFun(Game room, StringBuilder sb, string preferredMap)
@@ -384,6 +389,28 @@
                             catch (Exception ex)
                             {
                                 Console.WriteLine(ex.Message);
+                            }
+                            if (context.GameCharacters.SingleOrDefault(ch => ch.CharacterId == character.Id && ch.GameId == roomId).Spells.Any())
+                            {
+                                Console.WriteLine("You can make an atack now. If you want to atack press spacebar, if you want to continue without atacking press any key");
+                                if (keyboardInput.ReadInput())
+                                {
+                                    AttackACharacter characterAttack = new AttackACharacter(context, firstMap, roomId, character.Id);
+                                    bool isInGame = true;
+                                    while (isInGame)
+                                    {
+                                        try
+                                        {
+                                            characterAttack.Attack();
+                                            isInGame = false;
+                                        }
+                                        catch (Exception)
+                                        {
+                                            Console.WriteLine($"Well, you didn't pay much attention, didn't you? Try again now...");
+                                        }
+                                    }
+                                }
+
                             }
                             charMoved = true;
                         }
