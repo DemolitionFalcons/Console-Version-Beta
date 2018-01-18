@@ -118,7 +118,7 @@
             }
             else if (armour < dmg && health <= dmg - armour)
             {
-                Console.WriteLine($"Sadly, {victim.Name} has been killed. Hi returns to the Start square and has his health and armour reset");
+                Console.WriteLine($"Sadly, {victim.Name} has been killed. He returns to the Start square and has his health and armour reset");
 
                 dbGameCharacter.Armour = victim.Armour;
                 dbGameCharacter.Health = victim.Hp;
