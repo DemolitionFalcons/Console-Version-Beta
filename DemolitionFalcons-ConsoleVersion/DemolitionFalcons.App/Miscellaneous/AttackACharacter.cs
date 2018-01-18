@@ -39,6 +39,7 @@
                 Console.WriteLine($"Description: {spell.Description}");
                 Console.WriteLine($"Damage: {spell.DamageBonus} + your weapon's dmg");
                 Console.WriteLine($"Range: {spell.SpellRange}");
+                counter++;
             }
             Console.WriteLine($"Please select the number of your desired spell:");
             var num = int.Parse(Console.ReadLine());

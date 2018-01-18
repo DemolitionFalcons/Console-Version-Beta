@@ -330,12 +330,12 @@
             {
                 var spells = new List<Spell>();
 
-                var fireball = new Spell("Fireball", 50, 5);
+                var fireball = new Spell("Fireball", 50, 15);
                 fireball.Description = "A ball of fire flying towards any enemy and dealing huge damage";
-                var crucio = new Spell("Crucio", 150, 15);
+                var crucio = new Spell("Crucio", 150, 12);
                 crucio.Description = "A spells seen in the Harry Potter series for first time. One of the three Unforgivable Curses" +
                     " the Cruciatus curse causes agonising pain";
-                var avadaKedavra = new Spell("Avada Kedavra", 300, 20);
+                var avadaKedavra = new Spell("Avada Kedavra", 300, 6);
                 avadaKedavra.Description = "Powerful curse which instantly kills the victim";
                 var expectoPatronum = new Spell("Expecto Patronum", 100, 10);
                 expectoPatronum.Description = "A mytic spell that is useful against demolitional monsters";
