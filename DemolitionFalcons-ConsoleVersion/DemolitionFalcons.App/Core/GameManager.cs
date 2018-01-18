@@ -289,6 +289,8 @@
                     characterNumber = int.Parse(Console.ReadLine());
                 }
                 var player = context.Players.LastOrDefault();
+                var weaponTaker = new TakeMostPowerfulWeapon();
+
                 GameCharacter gc = new GameCharacter
                 {
                     Character = characters[characterNumber - 1],
@@ -298,6 +300,7 @@
                     PlayerId = player.Id,
                     Health = characters[characterNumber - 1].Hp,
                     Armour = characters[characterNumber - 1].Armour,
+                    WeaponId = weaponTaker.GetMostPowerfulWeapon(context, player.Id).Id
                 };
                 context.GameCharacters.Add(gc);
                 context.SaveChanges();

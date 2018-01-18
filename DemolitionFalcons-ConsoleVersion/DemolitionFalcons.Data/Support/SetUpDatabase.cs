@@ -1,9 +1,11 @@
 ﻿namespace DemolitionFalcons.Data.Support
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using DemolitionFalcons.Models;
     using Microsoft.EntityFrameworkCore;
+    using DemolitionFalcons.App.Miscellaneous;
 
     public static class SetUpDatabase
     {
@@ -142,6 +144,62 @@
                     context.SaveChanges();
                 }
 
+                var vineWand = weapons.FirstOrDefault(w => w.Id == 2);
+                var playersWeapons = new List<PlayerWeapon>();
+
+                var playerWeaponSecond = new PlayerWeapon
+                {
+                    Player = yoner,
+                    PlayerId = yoner.Id,
+                    Weapon = vineWand,
+                    WeaponId = vineWand.Id
+                };
+
+                playersWeapons.Add(playerWeaponSecond);
+
+                var playerWeaponThird = new PlayerWeapon
+                {
+                    Player = rango,
+                    PlayerId = rango.Id,
+                    Weapon = vineWand,
+                    WeaponId = vineWand.Id
+                };
+
+                playersWeapons.Add(playerWeaponThird);
+
+                var playerWeaponFourth = new PlayerWeapon
+                {
+                    Player = claire,
+                    PlayerId = claire.Id,
+                    Weapon = vineWand,
+                    WeaponId = vineWand.Id
+                };
+
+                playersWeapons.Add(playerWeaponFourth);
+
+                var playerWeaponFifth = new PlayerWeapon
+                {
+                    Player = ricardo,
+                    PlayerId = ricardo.Id,
+                    Weapon = vineWand,
+                    WeaponId = vineWand.Id
+                };
+
+                playersWeapons.Add(playerWeaponFifth);
+
+                var playerWeaponSixth = new PlayerWeapon
+                {
+                    Player = kellyane,
+                    PlayerId = kellyane.Id,
+                    Weapon = vineWand,
+                    WeaponId = vineWand.Id
+                };
+
+                playersWeapons.Add(playerWeaponSixth);
+
+                context.PlayerWeapons.AddRange(playersWeapons);
+                context.SaveChanges();
+
             }
 
             if (!context.Games.Any())
@@ -236,6 +294,8 @@
                 var game = context.Games.FirstOrDefault(x => x.Name == "FirstGameEver");
                 var gameChars = new List<GameCharacter>();
 
+                var weaponTaker = new TakeMostPowerfulWeapon();
+
                 var gameCharacterOne = new GameCharacter
                 {
                     Character = characters[0],
@@ -245,7 +305,8 @@
                     PlayerId = 1,
                     Type = "computer",
                     Health = characters[0].Hp,
-                    Armour = characters[0].Armour
+                    Armour = characters[0].Armour,
+                    WeaponId = weaponTaker.GetMostPowerfulWeapon(context, 1).Id
                 };
 
                 gameChars.Add(gameCharacterOne);
@@ -259,7 +320,8 @@
                     PlayerId = 2,
                     Type = "computer",
                     Health = characters[1].Hp,
-                    Armour = characters[1].Armour
+                    Armour = characters[1].Armour,
+                    WeaponId = weaponTaker.GetMostPowerfulWeapon(context, 2).Id
                 };
 
                 gameChars.Add(gameCharacterTwo);
@@ -273,7 +335,8 @@
                     PlayerId = 3,
                     Type = "computer",
                     Health = characters[2].Hp,
-                    Armour = characters[2].Armour
+                    Armour = characters[2].Armour,
+                    WeaponId = weaponTaker.GetMostPowerfulWeapon(context, 3).Id
                 };
 
                 gameChars.Add(gameCharacterThree);
@@ -287,7 +350,8 @@
                     PlayerId = 4,
                     Type = "computer",
                     Health = characters[3].Hp,
-                    Armour = characters[3].Armour
+                    Armour = characters[3].Armour,
+                    WeaponId = weaponTaker.GetMostPowerfulWeapon(context, 4).Id
                 };
 
                 gameChars.Add(gameCharacterFour);
@@ -301,7 +365,8 @@
                     PlayerId = 5,
                     Type = "computer",
                     Health = characters[4].Hp,
-                    Armour = characters[4].Armour
+                    Armour = characters[4].Armour,
+                    WeaponId = weaponTaker.GetMostPowerfulWeapon(context, 5).Id
                 };
 
                 gameChars.Add(gameCharacterFive);
@@ -316,7 +381,7 @@
                     Type = "computer",
                     Health = characters[5].Hp,
                     Armour = characters[5].Armour,
-
+                    WeaponId = weaponTaker.GetMostPowerfulWeapon(context, 6).Id
                 };
 
                 gameChars.Add(gameCharacterSix);

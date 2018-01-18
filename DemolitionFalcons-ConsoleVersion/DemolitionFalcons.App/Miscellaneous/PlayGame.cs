@@ -404,8 +404,14 @@
                                             characterAttack.Attack();
                                             isInGame = false;
                                         }
-                                        catch (Exception)
+                                        catch (Exception ex)
                                         {
+
+                                            if (ex.Message == "Sorry, there ain't any characters in your range...")
+                                            {
+                                                Console.WriteLine(ex.Message);
+                                                break;
+                                            }
                                             Console.WriteLine($"Well, you didn't pay much attention, didn't you? Try again now...");
                                         }
                                     }
