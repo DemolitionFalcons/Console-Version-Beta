@@ -86,11 +86,11 @@
             #region AddDamageFromWeapon
             //Cannot use it currently because GC doesn't have a weapon yet because we havent made the logic for the currently logged in user
             //and yet you cannot choose a weapon when creating gc
-            //var gameCharacter = context.GameCharacters.SingleOrDefault(gc => gc.CharacterId == characterId && gc.GameId == roomId);
-            //var weaponDmg = context.Weapons.SingleOrDefault(w => w.Id == gameCharacter.WeaponId).Damage; 
+            var gameCharacter = context.GameCharacters.SingleOrDefault(gc => gc.CharacterId == characterId && gc.GameId == roomId);
+            var weaponDmg = context.Weapons.SingleOrDefault(w => w.Id == gameCharacter.WeaponId).Damage;
             #endregion
 
-            var dmg = chosenSpell.DamageBonus; // + weaponDmg
+            var dmg = chosenSpell.DamageBonus + weaponDmg; // + weaponDmg
             Character attacker = context.Characters.SingleOrDefault(c => c.Id == characterId);
             Character victim = context.Characters.SingleOrDefault(c => c.Id == chosenCharacter.CharacterId);
             Console.WriteLine($"{attacker.Name} uses {chosenSpell.Name} on {victim.Name}. He deals {dmg} damage.");
