@@ -132,6 +132,7 @@
 
             var gaChar = context.GameCharacters.SingleOrDefault(gc => gc.GameId == roomId && gc.CharacterId == characterId);
             gaChar.Spells.Remove(chosenSpell);
+            gaChar.SpellsCount--;
             context.GameCharacters.Update(gaChar);
             context.SaveChanges();
 

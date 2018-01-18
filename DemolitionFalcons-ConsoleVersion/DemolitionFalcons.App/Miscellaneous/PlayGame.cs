@@ -160,9 +160,9 @@
                         var characters = context.GameCharacters.Where(g => g.GameId == roomId).ToList();
                         foreach (var charche in characters)
                         {
-                            context.GameCharacters.FirstOrDefault(c => c.CharacterId == charche.CharacterId).CharacterPositionX = 0;
-                            context.GameCharacters.FirstOrDefault(c => c.CharacterId == charche.CharacterId).CharacterPositionY = 0;
-                            context.GameCharacters.FirstOrDefault(c => c.CharacterId == charche.CharacterId).MapSectionNumber = 1;
+                            context.GameCharacters.FirstOrDefault(c => c.CharacterId == charche.CharacterId).CharacterPositionX = map[0][0].X;
+                            context.GameCharacters.FirstOrDefault(c => c.CharacterId == charche.CharacterId).CharacterPositionY = map[0][0].Y;
+                            context.GameCharacters.FirstOrDefault(c => c.CharacterId == charche.CharacterId).MapSectionNumber = map[0][0].Number;
                             context.SaveChanges();
                         }
                     }
@@ -392,7 +392,7 @@
                             }
                             if (context.GameCharacters.SingleOrDefault(ch => ch.CharacterId == character.Id && ch.GameId == roomId).Spells.Any())
                             {
-                                Console.WriteLine("You can make an atack now. If you want to atack press spacebar, if you want to continue without atacking press any key");
+                                Console.WriteLine("You can make an atack now. If you want to attack press spacebar, if you want to continue without attacking press any key");
                                 if (keyboardInput.ReadInput())
                                 {
                                     AttackACharacter characterAttack = new AttackACharacter(context, firstMap, roomId, character.Id);

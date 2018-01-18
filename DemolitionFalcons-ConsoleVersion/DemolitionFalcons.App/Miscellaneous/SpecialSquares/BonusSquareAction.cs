@@ -80,15 +80,17 @@
 
                 Console.WriteLine($"Congratulation, you discovered {spell.Name}. It allows you to provide an atack over anyone within the spell's range. After that your spell will disappear.");
                 context.GameCharacters.FirstOrDefault(gc => gc.CharacterId == charId && gc.GameId == roomId).Spells.Add(spell);
+                context.GameCharacters.FirstOrDefault(gc => gc.CharacterId == charId && gc.GameId == roomId).SpellsCount++;
                 context.SaveChanges();
 
                 return;
             }
 
-            spell = context.Spells.SingleOrDefault(s => s.Name == spellName);
+            spell = context.Spells.FirstOrDefault(s => s.Name == spellName);
 
             Console.WriteLine($"Congratulation, you discovered {spell.Name}. It allows you to provide an atack over anyone within the spell's range. After that your spell will disappear.");
             context.GameCharacters.FirstOrDefault(gc => gc.CharacterId == charId && gc.GameId == roomId).Spells.Add(spell);
+            context.GameCharacters.FirstOrDefault(gc => gc.CharacterId == charId && gc.GameId == roomId).SpellsCount++;
             context.SaveChanges();
         }
     }

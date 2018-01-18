@@ -9,6 +9,7 @@
             CharacterPositionX = 0;
             CharacterPositionY = 0;
             MapSectionNumber = 0;
+            this.SpellsCount = 0;
         }
         public int GameId { get; set; }
         public Game Game { get; set; }
@@ -30,6 +31,8 @@
         public int Health { get; set; }
 
         public int Armour { get; set; }
+
+        public int SpellsCount { get; set; }
 
 
         public IList<Spell> Spells { get; set; } = new List<Spell>();
