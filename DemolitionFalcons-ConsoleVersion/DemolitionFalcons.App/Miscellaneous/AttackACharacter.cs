@@ -23,21 +23,21 @@
             this.characterId = characterId;
         }
 
-        public void Atack()
+        public void Attack()
         {
             if (!context.GameCharacters.SingleOrDefault(ch => ch.CharacterId == characterId ).Spells.Any())
             {
-                throw new ArgumentException("You cannot make an atack due to lack of spells!");
+                throw new ArgumentException("You cannot make an attack due to lack of spells!");
             }
 
             var spells = context.GameCharacters.SingleOrDefault(ch => ch.CharacterId == characterId && ch.GameId == roomId).Spells.ToList();
-            Console.WriteLine("You can use one of the following spells to atack...");
+            Console.WriteLine("You can use one of the following spells to attack...");
             var counter = 1;
             foreach (var spell in spells)
             {
                 Console.WriteLine($"{counter}. {spell.Name}");
                 Console.WriteLine($"Description: {spell.Description}");
-                Console.WriteLine($"Damage: { spell.DamageBonus} + your weapon's dmg");
+                Console.WriteLine($"Damage: {spell.DamageBonus} + your weapon's dmg");
                 Console.WriteLine($"Range: {spell.SpellRange}");
             }
             Console.WriteLine($"Please select the number of your desired spell:");
@@ -55,33 +55,33 @@
 
             List<int> positions = PositionsInRange(chNum, spellRange);
 
-            var availableCharactersToAtack = SeeAvaialableCharacters(positions);
-            if (availableCharactersToAtack.Count == 0)
+            var availableCharactersToAttack = SeeAvailableCharacters(positions);
+            if (availableCharactersToAttack.Count == 0)
             {
                 throw new ArgumentException("Sorry, there ain't any character in your range...");
             }
-            Console.WriteLine($"You can atack the following characters:");
+            Console.WriteLine($"You can attack the following characters:");
             int characterCounter = 1;
-            foreach (var availableCharacter in availableCharactersToAtack)
+            foreach (var availableCharacter in availableCharactersToAttack)
             {
                 var character = context.Characters.SingleOrDefault(c => c.Id == availableCharacter.CharacterId);
                 var player = context.Players.SingleOrDefault(p => p.Id == availableCharacter.PlayerId);
                 Console.WriteLine($"{counter}.{character.Name}[{player.Username}] - currently has {availableCharacter.Health}hp and {availableCharacter.Armour}armour");
                 characterCounter++;
             }
-            Console.WriteLine($"Please select the number of the character you want to atack:");
+            Console.WriteLine($"Please select the number of the character you want to attack:");
             var charNum = int.Parse(Console.ReadLine());
             while (charNum <= 0 && charNum > spells.Count)
             {
                 Console.WriteLine("Invalid number! Please select a new one:");
                 num = int.Parse(Console.ReadLine());
             }
-            var chosenCharacter = availableCharactersToAtack[num - 1];
-            AtackCharacter(chosenSpell, chosenCharacter);
+            var chosenCharacter = availableCharactersToAttack[num - 1];
+            AttackCharacter(chosenSpell, chosenCharacter);
 
         }
 
-        private void AtackCharacter(Spell chosenSpell, GameCharacter chosenCharacter)
+        private void AttackCharacter(Spell chosenSpell, GameCharacter chosenCharacter)
         {
             #region AddDamageFromWeapon
             //Cannot use it currently because GC doesn't have a weapon yet because we havent made the logic for the currently logged in user
@@ -91,9 +91,9 @@
             #endregion
 
             var dmg = chosenSpell.DamageBonus; // + weaponDmg
-            Character atacker = context.Characters.SingleOrDefault(c => c.Id == characterId);
+            Character attacker = context.Characters.SingleOrDefault(c => c.Id == characterId);
             Character victim = context.Characters.SingleOrDefault(c => c.Id == chosenCharacter.CharacterId);
-            Console.WriteLine($"{atacker.Name} uses {chosenSpell.Name} on {victim.Name}. He deals {dmg} damage.");
+            Console.WriteLine($"{attacker.Name} uses {chosenSpell.Name} on {victim.Name}. He deals {dmg} damage.");
             var dbGameCharacter = context.GameCharacters.SingleOrDefault(gc => gc.CharacterId == victim.Id && gc.GameId == roomId);
             var armour = chosenCharacter.Armour;
             var health = chosenCharacter.Health;
@@ -103,7 +103,7 @@
                 context.GameCharacters.Update(dbGameCharacter);
                 context.SaveChanges();
 
-                Console.WriteLine($"{victim.Name} {armour - dmg}armour left after the atack. His armour protected his Health.");
+                Console.WriteLine($"{victim.Name} {armour - dmg}armour left after the attack. His armour protected his Health.");
             }
             else if (armour < dmg && health > dmg - armour )
             {
@@ -122,9 +122,9 @@
 
                 dbGameCharacter.Armour = victim.Armour;
                 dbGameCharacter.Health = victim.Hp;
-                dbGameCharacter.CharacterPositionX = 0;
-                dbGameCharacter.CharacterPositionY = 0;
-                dbGameCharacter.MapSectionNumber = 1;
+                dbGameCharacter.CharacterPositionX = map[0][0].X;
+                dbGameCharacter.CharacterPositionY = map[0][0].Y;
+                dbGameCharacter.MapSectionNumber = map[0][0].Number;
                 context.GameCharacters.Update(dbGameCharacter);
                 context.SaveChanges();
             }
@@ -136,19 +136,19 @@
 
         }
 
-        private List<GameCharacter> SeeAvaialableCharacters(List<int> positions)
+        private List<GameCharacter> SeeAvailableCharacters(List<int> positions)
         {
             var gameCharacters = context.GameCharacters.Where(gc => gc.GameId == roomId).ToList();
-            List<GameCharacter> availableCharactersToAtack = new List<GameCharacter>();
+            List<GameCharacter> availableCharactersToAttack = new List<GameCharacter>();
             foreach (var gc in gameCharacters)
             {
                 if (positions.Any(p => p == gc.MapSectionNumber))
                 {
-                    availableCharactersToAtack.Add(gc);
+                    availableCharactersToAttack.Add(gc);
                 }
             }
 
-            return availableCharactersToAtack;
+            return availableCharactersToAttack;
         }
 
         private List<int> PositionsInRange(int? chNum, int spellRange)
