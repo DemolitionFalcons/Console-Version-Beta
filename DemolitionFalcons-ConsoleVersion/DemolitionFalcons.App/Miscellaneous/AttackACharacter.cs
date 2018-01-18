@@ -25,7 +25,7 @@
 
         public void Attack()
         {
-            if (!context.GameCharacters.SingleOrDefault(ch => ch.CharacterId == characterId ).Spells.Any())
+            if (!context.GameCharacters.SingleOrDefault(ch => ch.CharacterId == characterId).Spells.Any())
             {
                 throw new ArgumentException("You cannot make an attack due to lack of spells!");
             }
@@ -58,7 +58,7 @@
             var availableCharactersToAttack = SeeAvailableCharacters(positions);
             if (availableCharactersToAttack.Count == 0)
             {
-                throw new ArgumentException("Sorry, there ain't any character in your range...");
+                throw new ArgumentException("Sorry, there ain't any characters in your range...");
             }
             Console.WriteLine($"You can attack the following characters:");
             int characterCounter = 1;
