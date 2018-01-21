@@ -28,7 +28,7 @@
         public bool DemolitionFalcons { get; set; }
         #endregion
 
-        public void PlayMiniGame()
+        public void PlayMiniGame(bool isSingle)
         {
             ExplainMiniGame();
 
@@ -45,7 +45,7 @@
             {
                 var numGenerated = numberGenerator.GenerateNumber(1, 6);
 
-                var playersSuggestion = GetSuggestion();
+                var playersSuggestion = GetSuggestion(isSingle);
                 while (numGenerated == numbers[counter - 1])
                 {
                     numGenerated = numberGenerator.GenerateNumber(1, 6);
@@ -86,7 +86,7 @@
                     finalNumber = numberGenerator.GenerateNumber(1, 6);
                 }
 
-                var playerSuggestion = GetSuggestion();
+                var playerSuggestion = GetSuggestion(isSingle);
                 numbers[counter] = finalNumber;
                 bool isCorrect = CheckSuggestion(finalNumber, numbers, counter, playerSuggestion);
                 DisplayPlayerNumbers(numbers);
@@ -133,27 +133,44 @@
 
         }
 
-        private string GetSuggestion()
+        private string GetSuggestion(bool isSingle)
         {
             Console.WriteLine($"What the following number will be? Type:");
             Console.WriteLine("B -> bigger");
             Console.WriteLine("S -> smaller");
-            var playerSuggestion = Console.ReadLine();
-            bool isTrue = false;
-            if (playerSuggestion == "B" || playerSuggestion == "S")
+
+            string playerSuggestion;
+            if (isSingle)
             {
-                isTrue = true;
+                var num = numberGenerator.GenerateNumber(1, 3);
+                if (num == 1)
+                {
+                    playerSuggestion = "B";
+                }
+                else
+                {
+                    playerSuggestion = "S";
+                }
             }
-            while (!isTrue)
+            else
             {
-                Console.WriteLine($"Please type either 'B' or 'S'");
                 playerSuggestion = Console.ReadLine();
+                bool isTrue = false;
                 if (playerSuggestion == "B" || playerSuggestion == "S")
                 {
                     isTrue = true;
                 }
+                while (!isTrue)
+                {
+                    Console.WriteLine($"Please type either 'B' or 'S'");
+                    playerSuggestion = Console.ReadLine();
+                    if (playerSuggestion == "B" || playerSuggestion == "S")
+                    {
+                        isTrue = true;
+                    }
+                }
             }
-
+            
             return playerSuggestion;
         }
 

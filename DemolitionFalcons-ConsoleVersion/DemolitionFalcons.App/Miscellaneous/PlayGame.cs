@@ -22,18 +22,17 @@
         private NumberGenerator numberGenerator;
         private Timer timer;
         private KeyboardInput keyboardInput;
+        private bool isSingle = false;
 
-        public PlayGame(DemolitionFalconsDbContext context, IInputReader reader, IOutputWriter writer, NumberGenerator numberGenerator)
+        public PlayGame(DemolitionFalconsDbContext context, NumberGenerator numberGenerator)
         {
             this.context = context;
-            this.reader = reader;
-            this.writer = writer;
             this.numberGenerator = numberGenerator;
             this.keyboardInput = new KeyboardInput();
             //this.timer = new Timer(1000);
         }
 
-        public void HaveFun(Game room, StringBuilder sb, string preferredMap)
+        public void HaveFun(Game room, StringBuilder sb, string preferredMap, bool isSingle, int singleCharId)
         {
             int roomId = room.Id;
 
@@ -55,14 +54,33 @@
                 var map = new DemoMap("map1");
                 var playableMap = map.GenerateMap();
                 SetOnStart(room, playableMap, roomId);// set all chars on start
-                ProceedGame(game, sb, playableMap, characters, dice, roomId);
+                if (!isSingle)
+                {
+                    ProceedGame(game, sb, playableMap, characters, dice, roomId);
+                }
+                else
+                {
+                    var gaChar = context.GameCharacters.FirstOrDefault(gc => gc.CharacterId == singleCharId && gc.GameId == roomId);
+                    var singlePlayer = new SinglePlayer(context, reader, writer, numberGenerator);
+                    singlePlayer.StartSinglePlayer(dice, gaChar, playableMap, characters, sb, roomId, game);
+                }
+                
             }
             else if (preferredMap == "firstmap")
             {
                 var firstMap = new FirstMapFrontEnd();
                 var generatedFirstMap = firstMap.GenerateFirstMap();
                 SetOnStart(room, generatedFirstMap, roomId);// set all chars on start
-                ProceedGame(game, sb, generatedFirstMap, characters, dice, roomId);
+                if (!isSingle)
+                {
+                    ProceedGame(game, sb, generatedFirstMap, characters, dice, roomId);
+                }
+                else
+                {
+                    var gaChar = context.GameCharacters.FirstOrDefault(gc => gc.CharacterId == singleCharId && gc.GameId == roomId);
+                    var singlePlayer = new SinglePlayer(context, reader, writer, numberGenerator);
+                    singlePlayer.StartSinglePlayer(dice, gaChar, generatedFirstMap, characters, sb, roomId, game);
+                }
             }
 
         }
@@ -153,7 +171,8 @@
                     //play mini game
                     //Can be found in Miscellaneous/SpecialSquares/MysterySquare/MiniGameAction.cs
                     MiniGameAction msa = new MiniGameAction();
-                    msa.PlayMiniGame();
+                    isSingle = false;
+                    msa.PlayMiniGame(isSingle);
                     if (msa.DemolitionFalcons)
                     {
                         //All characters return to the first square
@@ -242,7 +261,8 @@
                 else
                 {
                     var doubleChance = new DoubleChance();
-                    doubleChance.StartDoubleChance(context, roomId, character, positionNumber, map, i, j);
+                    isSingle = false;
+                    doubleChance.StartDoubleChance(context, roomId, character, positionNumber, map, i, j, isSingle);
                 }
 
 

@@ -9,8 +9,6 @@
 
     public class DoubleChance
     {
-        private IInputReader reader;
-        private IOutputWriter writer;
         const char spellLetter = 'S';
         const char goBackLetter = 'B';
         const char goForwardLetter = 'F';
@@ -25,7 +23,7 @@
             this.numberGenerator = new NumberGenerator();
         }
 
-        public void StartDoubleChance(DemolitionFalconsDbContext context, int roomId, Character character, int positionNumber, MapSection[][] map, int i, int j)
+        public void StartDoubleChance(DemolitionFalconsDbContext context, int roomId, Character character, int positionNumber, MapSection[][] map, int i, int j, bool isSingle)
         {
             var demoMatrixRows = 3;
             var demoMatrixCols = 3;
@@ -33,7 +31,7 @@
             char[][] demoMatrix = new char[3][];
             var isSecondChance = false;
             int num;
-            var playGame = new PlayGame(context, reader, writer, numberGenerator);
+            var playGame = new PlayGame(context, numberGenerator);
 
             var counter = 1;
 
@@ -54,7 +52,19 @@
             var matrix = doubleChanceGame.LoadDoubleChance();
 
             Start:
-            var isNumeric = int.TryParse(Console.ReadLine(), out int numTyped);
+            int numTyped;
+            if (isSingle)
+            {
+                numTyped = numberGenerator.GenerateNumber(1, 10);
+                while (numTyped == firstNumTyped)
+                {
+                    numTyped = numberGenerator.GenerateNumber(1, 10);
+                }
+                
+                goto SinglePlayer;
+            }
+
+            var isNumeric = int.TryParse(Console.ReadLine(), out numTyped);
             while (numTyped < 1 || numTyped > 9 || numTyped == firstNumTyped || !isNumeric)
             {
                 if (firstNumTyped != 0)
@@ -65,6 +75,7 @@
                 isNumeric = int.TryParse(Console.ReadLine(), out numTyped);
             }
 
+            SinglePlayer:
             char letter;
 
             if (numTyped >= 1 && numTyped <= 3)
@@ -100,12 +111,21 @@
 
                     Console.WriteLine($"Congrats you have received a new spell -> {spell.Name}. If you want to keep it type 'Y' and if you want a second chance type 'N'");
 
-                    var response = Console.ReadLine();
-                    while (response != "Y" && response != "N")
+                    string response;
+                    if (isSingle)
                     {
-                        Console.WriteLine("Type 'Y' or 'N'");
-                        response = Console.ReadLine();
+                        response = TakeOrNot();
                     }
+                    else
+                    {
+                        response = Console.ReadLine();
+                        while (response != "Y" && response != "N")
+                        {
+                            Console.WriteLine("Type 'Y' or 'N'");
+                            response = Console.ReadLine();
+                        }
+                    }
+
 
                     if (response == "N")
                     {
@@ -142,12 +162,21 @@
 
                     Console.WriteLine($"Congrats you can move {toMoveForwardWith} spaces forward if you wish. If so type 'Y' and if you want a second chance type 'N'");
 
-                    var response = Console.ReadLine();
-                    while (response != "Y" && response != "N")
+                    string response;
+                    if (isSingle)
                     {
-                        Console.WriteLine("Type 'Y' or 'N'");
-                        response = Console.ReadLine();
+                        response = TakeOrNot();
                     }
+                    else
+                    {
+                        response = Console.ReadLine();
+                        while (response != "Y" && response != "N")
+                        {
+                            Console.WriteLine("Type 'Y' or 'N'");
+                            response = Console.ReadLine();
+                        }
+                    }
+                    
 
                     if (response == "N")
                     {
@@ -185,12 +214,21 @@
                 {
                     Console.WriteLine($"Sadly you have to move {toGoBackWith} places backwards if possible. You still have a second chance. If you want to go back type 'Y' or type 'N' for a second shot.");
 
-                    var response = Console.ReadLine();
-                    while (response != "Y" && response != "N")
+                    string response;
+                    if (isSingle)
                     {
-                        Console.WriteLine("Type 'Y' if you want to go back and 'N' for a second try.");
-                        response = Console.ReadLine();
+                        response = TakeOrNot();
                     }
+                    else
+                    {
+                        response = Console.ReadLine();
+                        while (response != "Y" && response != "N")
+                        {
+                            Console.WriteLine("Type 'Y' if you want to go back and 'N' for a second try.");
+                            response = Console.ReadLine();
+                        }
+                    }
+
 
                     if (response == "Y")
                     {
@@ -220,6 +258,16 @@
                 }
 
             }
+        }
+
+        private string TakeOrNot()
+        {
+            var num = numberGenerator.GenerateNumber(1, 3);
+            if (num == 1)
+            {
+                return "Y";
+            }
+            return "N";
         }
 
         public char[][] LoadDoubleChance()

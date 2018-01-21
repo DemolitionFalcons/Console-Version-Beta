@@ -23,6 +23,55 @@
             this.characterId = characterId;
         }
 
+        public void SinglePlayerAttack(NumberGenerator numberGenerator)
+        {
+            if (!context.GameCharacters.SingleOrDefault(ch => ch.CharacterId == characterId).Spells.Any())
+            {
+                throw new ArgumentException("You cannot make an attack due to lack of spells!");
+            }
+
+            var spells = context.GameCharacters.SingleOrDefault(ch => ch.CharacterId == characterId && ch.GameId == roomId).Spells.ToList();
+            Console.WriteLine("You can use one of the following spells to attack...");
+            var counter = 1;
+            foreach (var spell in spells)
+            {
+                Console.WriteLine($"{counter}. {spell.Name}");
+                Console.WriteLine($"Description: {spell.Description}");
+                Console.WriteLine($"Damage: {spell.DamageBonus} + your weapon's dmg");
+                Console.WriteLine($"Range: {spell.SpellRange}");
+                counter++;
+            }
+            Console.WriteLine($"Please select the number of your desired spell:");
+            var num = numberGenerator.GenerateNumber(1, counter);
+            var chosenSpell = spells[num - 1];
+
+            var chNum = context.GameCharacters.FirstOrDefault(c => c.CharacterId == characterId && c.GameId == roomId)
+                    .MapSectionNumber;
+            var spellRange = chosenSpell.SpellRange;
+
+            List<int> positions = PositionsInRange(chNum, spellRange);
+
+            var availableCharactersToAttack = SeeAvailableCharacters(positions);
+            if (availableCharactersToAttack.Count == 0)
+            {
+                throw new ArgumentException("Sorry, there ain't any characters in your range...");
+            }
+            Console.WriteLine($"You can attack the following characters:");
+            int characterCounter = 1;
+            foreach (var availableCharacter in availableCharactersToAttack)
+            {
+                var character = context.Characters.SingleOrDefault(c => c.Id == availableCharacter.CharacterId);
+                var player = context.Players.SingleOrDefault(p => p.Id == availableCharacter.PlayerId);
+                Console.WriteLine($"{characterCounter}.{character.Name}[{player.Username}] - currently has {availableCharacter.Health}hp and {availableCharacter.Armour}armour. Current possition - {context.GameCharacters.SingleOrDefault(gc => gc.CharacterId == character.Id && gc.GameId == roomId).MapSectionNumber}");
+                characterCounter++;
+            }
+            Console.WriteLine($"Please select the number of the character you want to attack:");
+            var charNum = numberGenerator.GenerateNumber(1, characterCounter);
+            var chosenCharacter = availableCharactersToAttack[charNum - 1];
+            AttackCharacter(chosenSpell, chosenCharacter);
+
+        }
+
         public void Attack()
         {
             if (!context.GameCharacters.SingleOrDefault(ch => ch.CharacterId == characterId).Spells.Any())

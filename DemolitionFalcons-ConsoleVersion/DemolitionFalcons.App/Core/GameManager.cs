@@ -368,9 +368,43 @@
                     preferredMap = Console.ReadLine().ToLower();
                 }
 
-                PlayGame game = new PlayGame(context,reader,writer,numberGenerator);
-                game.HaveFun(room, sb, preferredMap);
-                //HaveFun(room, sb, preferredMap);
+                Console.WriteLine("'Single' - 1 or 'Multyplayer' - 2");
+                var singleOrMulty = Console.ReadLine();
+                while (singleOrMulty != "1" && singleOrMulty != "2")
+                {
+                    Console.WriteLine("1 or 2");
+                    singleOrMulty = Console.ReadLine();
+                }
+
+                PlayGame game = new PlayGame(context, numberGenerator);
+                var isSingle = true;
+
+                if (singleOrMulty == "1")
+                {
+                    var counter = 1;
+                    foreach (var chare in context.GameCharacters.Where(gc => gc.GameId == room.Id))
+                    {
+                        Console.WriteLine($"{counter}. {chare.Character.Name} - {chare.Character.Hp} hp and {chare.Character.Armour}");
+                        counter++;
+                    }
+                    Console.WriteLine("Choose a character");
+                    var n = int.TryParse(Console.ReadLine(), out int charId);
+
+                    while (charId < 1 || charId > context.GameCharacters.Where(gc => gc.GameId == room.Id).Count())
+                    {
+                        Console.WriteLine("Enter a valid number");
+                        int.TryParse(Console.ReadLine(), out charId);
+                    }
+
+                    game.HaveFun(room, sb, preferredMap, isSingle, charId);
+                }
+                else
+                {
+                    isSingle = false;
+                    var charId = 0;
+                    game.HaveFun(room, sb, preferredMap, isSingle, charId);
+                    //HaveFun(room, sb, preferredMap);
+                }
 
             }
             catch (Exception ex)
