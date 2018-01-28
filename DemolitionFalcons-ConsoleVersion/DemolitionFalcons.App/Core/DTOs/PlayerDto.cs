@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace DemolitionFalcons.App.Core.DTOs
+﻿namespace DemolitionFalcons.App.Core.DTOs
 {
+    using System;
+    using System.Collections.Generic;
+
     public class PlayerDto
     {
         private string username;

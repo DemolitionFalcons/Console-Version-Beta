@@ -15,6 +15,14 @@
             builder.Property(ch => ch.Name)
                 .HasMaxLength(12)
                 .IsRequired();
+
+            builder.Property(ch => ch.Label)
+                .HasMaxLength(50)
+                .IsRequired();
+
+            builder.Property(ch => ch.Description)
+                .HasMaxLength(200)
+                .IsRequired();
         }
     }
 }

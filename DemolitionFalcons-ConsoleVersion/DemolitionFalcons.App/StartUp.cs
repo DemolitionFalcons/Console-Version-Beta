@@ -8,6 +8,7 @@ namespace DemolitionFalcons.App
 {
     using DemolitionFalcons.App.Commands.DataProcessor;
     using DemolitionFalcons.App.Core;
+    using DemolitionFalcons.App.DataProcessor.Export;
     using System;
     using System.IO;
 
@@ -16,28 +17,15 @@ namespace DemolitionFalcons.App
         public static void Main()
         {
             DemolitionFalconsDbContext context = new DemolitionFalconsDbContext();
-
-            IInputReader reader = new InputReader();
-            IOutputWriter writer = new OutputWriter();
             SetUpDatabase.CreateDataBase(context);
-            IManager gameManager = new GameManager(context, writer, reader);
 
-            CommandEngine<ICommand> commandEngine = new CommandEngine<ICommand>();
+            Engine engine = new Engine(context);
 
-            Engine engine = new Engine(reader, writer, commandEngine, gameManager, context);
-            //const string exportDir = "./ImportResults/";
-
-            var jsonMapAndGameStatsOutput = Serializer.ExportGameAndMapStatistics(context);
-            Console.WriteLine(jsonMapAndGameStatsOutput);
-
-            var jsonCharStatsOutput = Serializer.ExportCharacterStatistics(context);
-            Console.WriteLine(jsonCharStatsOutput);
-            //File.WriteAllText(exportDir + "DelayedTrains.json", jsonOutput);
-
-            var jsonChooseHeroOutput = Serializer.ExportChooseHeroStatistics(context);
-            Console.WriteLine(jsonChooseHeroOutput);
+            JsonExport jsonExporter = new JsonExport();
+            jsonExporter.Export(context);
 
             engine.Run();
         }
+
     }
 }

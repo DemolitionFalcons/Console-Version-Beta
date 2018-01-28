@@ -1,6 +1,5 @@
 ﻿namespace DemolitionFalcons.App.Core
 {
-
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -9,6 +8,7 @@
     using DemolitionFalcons.Data.DataInterfaces;
     using DemolitionFalcons.App.Interfaces;
     using DemolitionFalcons.Data;
+    using DemolitionFalcons.Data.IO;
 
     public class Engine : IEngine
     {
@@ -19,14 +19,14 @@
         private readonly IOutputWriter writer;
 
 
-        public Engine(IInputReader reader, IOutputWriter writer, ICommandEngine<ICommand> commandEngine, IManager gameManager, DemolitionFalconsDbContext context)
+        public Engine(DemolitionFalconsDbContext context)
         {
 
             this.context = context;
-            this.gameManager = gameManager;
-            this.commandEngine = commandEngine;
-            this.reader = reader;
-            this.writer = writer;
+            this.commandEngine = new CommandEngine<ICommand>();
+            this.reader = new InputReader();
+            this.writer = new OutputWriter();
+            this.gameManager = new GameManager(context, writer, reader); ;
         }
 
 

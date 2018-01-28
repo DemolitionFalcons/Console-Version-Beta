@@ -1,16 +1,16 @@
-﻿using DemolitionFalcons.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DemolitionFalcons.App.Miscellaneous.SpecialSquares
+﻿namespace DemolitionFalcons.App.Miscellaneous.SpecialSquares
 {
-    public class MysterySquareAction
+    using DemolitionFalcons.Data;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    public class MiniGameAction
     {
         private NumberGenerator numberGenerator;
-        public MysterySquareAction()
+        public MiniGameAction()
         {
             MoveForward = false;
             GoBack = false;
@@ -28,14 +28,14 @@ namespace DemolitionFalcons.App.Miscellaneous.SpecialSquares
         public bool DemolitionFalcons { get; set; }
         #endregion
 
-        public void PlayMiniGame()
+        public void PlayMiniGame(bool isSingle)
         {
             ExplainMiniGame();
 
             int counter = 0;
             var numbers = new List<int>() { 0, 0, 0, 0, 0 };
             Console.WriteLine($"So let the game begin");
-            var firstNumber = numberGenerator.GenerateNumber(2, 4);
+            var firstNumber = numberGenerator.GenerateNumber(2, 5);
             Console.WriteLine($"The first number generated was {firstNumber}");
             numbers[counter] = firstNumber;
             DisplayPlayerNumbers(numbers);
@@ -43,12 +43,12 @@ namespace DemolitionFalcons.App.Miscellaneous.SpecialSquares
             counter++;
             while (counter != 4 && playerSuggestedCorrectly)
             {
-                var numGenerated = numberGenerator.GenerateNumber(1, 5);
+                var numGenerated = numberGenerator.GenerateNumber(1, 6);
 
-                var playersSuggestion = GetSuggestion();
+                var playersSuggestion = GetSuggestion(isSingle);
                 while (numGenerated == numbers[counter - 1])
                 {
-                    numGenerated = numberGenerator.GenerateNumber(1, 5);
+                    numGenerated = numberGenerator.GenerateNumber(1, 6);
                 }
                 playerSuggestedCorrectly = CheckSuggestion(numGenerated, numbers, counter, playersSuggestion);
                 numbers[counter] = numGenerated;
@@ -80,13 +80,13 @@ namespace DemolitionFalcons.App.Miscellaneous.SpecialSquares
             
             if (playerSuggestedCorrectly)
             {
-                var finalNumber = numberGenerator.GenerateNumber(1, 5);
+                var finalNumber = numberGenerator.GenerateNumber(1, 6);
                 while (finalNumber == numbers[counter - 1])
                 {
-                    finalNumber = numberGenerator.GenerateNumber(1, 5);
+                    finalNumber = numberGenerator.GenerateNumber(1, 6);
                 }
 
-                var playerSuggestion = GetSuggestion();
+                var playerSuggestion = GetSuggestion(isSingle);
                 numbers[counter] = finalNumber;
                 bool isCorrect = CheckSuggestion(finalNumber, numbers, counter, playerSuggestion);
                 DisplayPlayerNumbers(numbers);
@@ -133,27 +133,44 @@ namespace DemolitionFalcons.App.Miscellaneous.SpecialSquares
 
         }
 
-        private string GetSuggestion()
+        private string GetSuggestion(bool isSingle)
         {
             Console.WriteLine($"What the following number will be? Type:");
             Console.WriteLine("B -> bigger");
             Console.WriteLine("S -> smaller");
-            var playerSuggestion = Console.ReadLine();
-            bool isTrue = false;
-            if (playerSuggestion == "B" || playerSuggestion == "S")
+
+            string playerSuggestion;
+            if (isSingle)
             {
-                isTrue = true;
+                var num = numberGenerator.GenerateNumber(1, 3);
+                if (num == 1)
+                {
+                    playerSuggestion = "B";
+                }
+                else
+                {
+                    playerSuggestion = "S";
+                }
             }
-            while (!isTrue)
+            else
             {
-                Console.WriteLine($"Please type either 'B' or 'S'");
                 playerSuggestion = Console.ReadLine();
+                bool isTrue = false;
                 if (playerSuggestion == "B" || playerSuggestion == "S")
                 {
                     isTrue = true;
                 }
+                while (!isTrue)
+                {
+                    Console.WriteLine($"Please type either 'B' or 'S'");
+                    playerSuggestion = Console.ReadLine();
+                    if (playerSuggestion == "B" || playerSuggestion == "S")
+                    {
+                        isTrue = true;
+                    }
+                }
             }
-
+            
             return playerSuggestion;
         }
 

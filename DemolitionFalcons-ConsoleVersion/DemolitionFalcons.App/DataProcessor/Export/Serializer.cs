@@ -1,14 +1,14 @@
-﻿using DemolitionFalcons.App.Commands.DataProcessor.Export.Dto;
-using DemolitionFalcons.App.DataProcessor.Export.Dto;
-using DemolitionFalcons.App.Maps;
-using DemolitionFalcons.Data;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace DemolitionFalcons.App.Commands.DataProcessor
+﻿namespace DemolitionFalcons.App.Commands.DataProcessor
 {
+    using DemolitionFalcons.App.Commands.DataProcessor.Export.Dto;
+    using DemolitionFalcons.App.DataProcessor.Export.Dto;
+    using DemolitionFalcons.App.Maps;
+    using DemolitionFalcons.Data;
+    using Newtonsoft.Json;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class Serializer
     {
         public static string ExportGameAndMapStatistics(DemolitionFalconsDbContext context)

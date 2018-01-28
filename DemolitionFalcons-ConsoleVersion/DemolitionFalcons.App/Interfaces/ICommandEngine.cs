@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace DemolitionFalcons.App.Interfaces
+﻿namespace DemolitionFalcons.App.Interfaces
 {
+    using System.Collections.Generic;
+
     public interface ICommandEngine<out T>
         where T : class
     {
